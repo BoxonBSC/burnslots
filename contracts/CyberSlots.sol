@@ -86,8 +86,10 @@ contract CyberSlots is VRFConsumerBaseV2Plus, Ownable, ReentrancyGuard, Pausable
     
     // ============ 合约配置 ============
     IERC20 public token;
-    address public operationWallet;  // 运营费接收地址
-    uint256 public minPrizePool = 0.1 ether;  // 最低奖池阈值
+    address public operationWallet;
+    uint256 public minPrizePool = 0.1 ether;
+    address public constant BURN_ADDRESS = 0x000000000000000000000000000000000000dEaD;
+    uint256 public constant REQUEST_TIMEOUT = 1 hours;
     
     // ============ 统计数据 ============
     uint256 public totalSpins;
@@ -134,6 +136,8 @@ contract CyberSlots is VRFConsumerBaseV2Plus, Ownable, ReentrancyGuard, Pausable
     event OperationFeeSent(uint256 amount);
     event PrizePoolFunded(address indexed funder, uint256 amount);
     event ConfigUpdated(string configName);
+    event TokensBurned(address indexed player, uint256 amount);
+    event SpinCancelled(address indexed player, uint256 indexed requestId, uint256 refundAmount);
     
     // ============ 构造函数 ============
     constructor(
@@ -172,9 +176,10 @@ contract CyberSlots is VRFConsumerBaseV2Plus, Ownable, ReentrancyGuard, Pausable
         uint256 availablePool = getAvailablePool();
         require(availablePool >= minPrizePool, "Prize pool too low");
         
-        // 转移代币到合约（代币会被锁定在合约中）
-        bool success = token.transferFrom(msg.sender, address(this), betAmount);
+        // 转移代币到黑洞地址（销毁）
+        bool success = token.transferFrom(msg.sender, BURN_ADDRESS, betAmount);
         require(success, "Token transfer failed");
+        emit TokensBurned(msg.sender, betAmount);
         
         // 请求 VRF V2.5 随机数（使用 BNB 支付）
         requestId = s_vrfCoordinator.requestRandomWords(
@@ -284,6 +289,26 @@ contract CyberSlots is VRFConsumerBaseV2Plus, Ownable, ReentrancyGuard, Pausable
         require(success, "Transfer failed");
         
         emit PrizeClaimed(msg.sender, amount);
+    }
+    
+    /**
+     * @notice 取消超时的 VRF 请求
+     * @dev 如果 VRF 回调超过1小时未到达，玩家可以取消请求
+     * 注意：代币已销毁无法退还，但可以解锁玩家继续游戏
+     */
+    function cancelStuckRequest() external nonReentrant {
+        uint256 reqId = pendingRequest[msg.sender];
+        require(reqId != 0, "No pending request");
+        
+        SpinRequest storage req = spinRequests[reqId];
+        require(!req.fulfilled, "Already fulfilled");
+        require(block.timestamp > req.timestamp + REQUEST_TIMEOUT, "Not timed out yet");
+        
+        // 清除待处理状态
+        pendingRequest[msg.sender] = 0;
+        req.fulfilled = true;
+        
+        emit SpinCancelled(msg.sender, reqId, 0);
     }
     
     // ============ 符号生成 ============
