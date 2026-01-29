@@ -281,6 +281,13 @@ const Rules = () => {
                     <ArrowRight className="w-4 h-4 text-muted-foreground" />
                     <span className="text-neon-green font-display">奖池0.5%</span>
                   </div>
+                  <div className="flex items-center gap-2 p-2 rounded bg-neon-cyan/10">
+                    <span>🎁</span>
+                    <span className="text-neon-cyan font-display flex-1">安慰奖</span>
+                    <span className="text-muted-foreground">任意2个相同</span>
+                    <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-neon-green font-display">奖池0.1%</span>
+                  </div>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
                   * 单次最大派奖不超过奖池的50%
