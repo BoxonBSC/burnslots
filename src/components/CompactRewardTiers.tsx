@@ -78,22 +78,25 @@ export function CompactRewardTiers() {
           <span className="text-neon-green font-display text-xs lg:text-sm">100% 返还玩家</span>
           <span className="text-neon-yellow text-xs px-1.5 py-0.5 rounded bg-neon-yellow/10">零抽成</span>
         </div>
+        <p className="text-xs text-muted-foreground mb-1.5">
+          平台不抽取任何费用，所有资金100%服务于玩家：
+        </p>
         <div className="text-xs text-muted-foreground space-y-1">
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1">
-              <span className="text-neon-green">●</span> 奖池资金
+              <span className="text-neon-green">●</span> 进入奖池（玩家中奖分配）
             </span>
             <span className="text-neon-green font-display">95%</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1">
-              <span className="text-neon-cyan">●</span> VRF Gas费
+              <span className="text-neon-cyan">●</span> VRF预言机Gas费
             </span>
             <span className="text-neon-cyan font-display">5%</span>
           </div>
         </div>
-        <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed hidden lg:block">
-          5% 用于 Chainlink VRF 2.5 预言机充值，保障随机数服务
+        <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+          💡 5%用于Chainlink VRF预言机，保障每次游戏随机数公平生成
         </p>
       </div>
 
