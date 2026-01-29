@@ -182,6 +182,11 @@ export function CompactRewardTiers() {
                 <span className="text-muted-foreground text-[10px]">
                   {(bet / 1000).toFixed(0)}K
                 </span>
+                {multiplier > 1 && (
+                  <span className="text-neon-green text-[10px] mt-0.5">
+                    ↑{((multiplier - 1) * 100).toFixed(0)}%
+                  </span>
+                )}
               </div>
             );
           })}
