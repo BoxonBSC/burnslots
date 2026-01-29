@@ -69,7 +69,7 @@ const Rules = () => {
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  💡 5% 用于 Chainlink VRF 2.5 预言机服务，保障每次游戏的随机数生成，支持BNB原生支付
+                  💡 5% 用于 Chainlink VRF 2.5 预言机服务，保障每次游戏的随机数生成
                 </p>
               </div>
             </div>
