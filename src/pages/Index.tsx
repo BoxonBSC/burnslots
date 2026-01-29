@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { AdvancedSlotMachine } from '@/components/AdvancedSlotMachine';
 import { WalletConnect } from '@/components/WalletConnect';
-import { AdvancedRewardTiers } from '@/components/AdvancedRewardTiers';
-import { GameHistory } from '@/components/GameHistory';
+import { CompactRewardTiers } from '@/components/CompactRewardTiers';
+import { CompactGameHistory } from '@/components/CompactGameHistory';
 import { Navbar } from '@/components/Navbar';
 import { Sparkles } from 'lucide-react';
 
@@ -33,24 +33,16 @@ const Index = () => {
           transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
           className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neon-blue/10 rounded-full blur-[100px]"
         />
-        <motion.div
-          animate={{
-            x: [0, 50, 0],
-            y: [0, 100, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-          className="absolute top-1/2 right-1/3 w-64 h-64 bg-neon-pink/10 rounded-full blur-[80px]"
-        />
       </div>
       
       <Navbar />
       
       <main className="container mx-auto px-4 pt-20 pb-8 relative z-10">
-        {/* Hero Section */}
+        {/* Hero Section - 更紧凑 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="text-center mb-6"
         >
           <motion.div
             animate={{ 
@@ -62,17 +54,17 @@ const Index = () => {
             }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <h1 className="text-4xl md:text-6xl font-display neon-text-blue mb-2 glitch flex items-center justify-center gap-4">
-              <Sparkles className="w-10 h-10 text-neon-yellow animate-pulse" />
+            <h1 className="text-3xl md:text-5xl font-display neon-text-blue mb-2 glitch flex items-center justify-center gap-3">
+              <Sparkles className="w-8 h-8 text-neon-yellow animate-pulse" />
               CYBER SLOTS
-              <Sparkles className="w-10 h-10 text-neon-yellow animate-pulse" />
+              <Sparkles className="w-8 h-8 text-neon-yellow animate-pulse" />
             </h1>
           </motion.div>
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            className="text-sm text-muted-foreground max-w-2xl mx-auto"
           >
             <span className="text-neon-purple">5轮 × 3行</span> • 
             <span className="text-neon-cyan"> 15条赔付线</span> • 
@@ -81,59 +73,52 @@ const Index = () => {
           </motion.p>
         </motion.div>
 
-        {/* 主游戏区域 */}
-        <div className="grid xl:grid-cols-4 lg:grid-cols-3 gap-6">
-          {/* 左侧 - 钱包 */}
+        {/* 主游戏区域 - 三栏等高布局 */}
+        <div className="grid xl:grid-cols-[280px_1fr_300px] lg:grid-cols-[240px_1fr_260px] gap-4 items-stretch">
+          {/* 左侧 - 钱包 + 历史记录 */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="lg:col-span-1 space-y-6"
+            className="flex flex-col gap-4 order-2 lg:order-1"
           >
             <WalletConnect />
+            <div className="flex-1">
+              <CompactGameHistory />
+            </div>
           </motion.div>
 
-          {/* 中间 - 老虎机 (占2列) */}
+          {/* 中间 - 老虎机 */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="xl:col-span-2 lg:col-span-2"
+            className="order-1 lg:order-2"
           >
             <AdvancedSlotMachine />
           </motion.div>
 
-          {/* 右侧 - 赔付表 */}
+          {/* 右侧 - 赔付表 (紧凑版) */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="xl:col-span-1 lg:col-span-3 xl:block"
+            className="order-3"
           >
-            <AdvancedRewardTiers />
+            <CompactRewardTiers />
           </motion.div>
         </div>
-
-        {/* 历史记录 */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mt-6"
-        >
-          <GameHistory />
-        </motion.div>
 
         {/* Footer */}
         <motion.footer
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-12 text-center text-sm text-muted-foreground"
+          className="mt-8 text-center text-sm text-muted-foreground"
         >
-          <div className="neon-border-purple inline-block px-6 py-3 rounded-lg bg-muted/20">
-            <p>⚠️ 本游戏为演示版本 | 智能合约需单独部署</p>
-            <p className="mt-1">Powered by BNB Chain & Chainlink VRF</p>
+          <div className="neon-border-purple inline-block px-4 py-2 rounded-lg bg-muted/20">
+            <p>⚠️ 演示版本 | 智能合约需单独部署</p>
+            <p className="mt-0.5 text-xs">Powered by BNB Chain & Chainlink VRF</p>
           </div>
         </motion.footer>
       </main>
