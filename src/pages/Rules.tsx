@@ -477,21 +477,12 @@ const Rules = () => {
                 <li>• 没有人能预测或操控结果</li>
                 <li>• 每个随机数都可以在链上验证</li>
                 <li>• 完全透明，任何人都能审计</li>
-                <li className="text-neon-cyan">• 支持 BNB 原生支付（无需 LINK）</li>
               </ul>
               <div className="mt-3 p-2 rounded bg-neon-cyan/10 border border-neon-cyan/30">
                 <p className="text-xs text-neon-cyan">
                   💡 奖池的 5% 会自动用于 VRF 预言机 Gas 费充值，确保服务持续运行
                 </p>
               </div>
-              <a 
-                href="https://chain.link/vrf" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-sm text-neon-blue hover:underline mt-2"
-              >
-                了解 Chainlink VRF <ExternalLink className="w-3 h-3" />
-              </a>
             </div>
             <div className="neon-border-purple rounded-lg p-4 bg-muted/20">
               <h3 className="font-display text-neon-purple mb-2">📜 智能合约自动执行</h3>
