@@ -385,28 +385,54 @@ export function useCyberSlots(): UseCyberSlotsReturn {
   }, [getContractAddress, refreshData]);
 
   const depositCredits = useCallback(async (amount: number): Promise<boolean> => {
-    if (!signerContractRef.current || !tokenContractRef.current) return false;
+    console.log('[CyberSlots] depositCredits called', {
+      amount,
+      hasSignerContract: !!signerContractRef.current,
+      hasTokenContract: !!tokenContractRef.current,
+      address,
+    });
+    
+    if (!signerContractRef.current || !tokenContractRef.current) {
+      console.error('[CyberSlots] depositCredits failed: contracts not initialized');
+      
+      // 尝试重新初始化签名合约
+      await initSignerContracts();
+      
+      if (!signerContractRef.current || !tokenContractRef.current) {
+        console.error('[CyberSlots] depositCredits failed: contracts still not initialized after retry');
+        return false;
+      }
+    }
 
     try {
       const amountWei = parseUnits(amount.toString(), 18);
+      console.log('[CyberSlots] Amount in wei:', amountWei.toString());
       
       // 先检查授权
       const allowance = await tokenContractRef.current.allowance(address, getContractAddress());
+      console.log('[CyberSlots] Current allowance:', allowance.toString());
+      
       if (allowance < amountWei) {
+        console.log('[CyberSlots] Need to approve, requesting...');
         const approveTx = await tokenContractRef.current.approve(getContractAddress(), amountWei);
+        console.log('[CyberSlots] Approve tx submitted:', approveTx.hash);
         await approveTx.wait();
+        console.log('[CyberSlots] Approve tx confirmed');
       }
       
       // 调用 depositCredits
+      console.log('[CyberSlots] Calling depositCredits on contract...');
       const tx = await signerContractRef.current.depositCredits(amountWei);
+      console.log('[CyberSlots] depositCredits tx submitted:', tx.hash);
       await tx.wait();
+      console.log('[CyberSlots] depositCredits tx confirmed');
       await refreshData();
       return true;
     } catch (err) {
-      console.error('Deposit credits failed:', err);
+      console.error('[CyberSlots] Deposit credits failed:', err);
       return false;
     }
-  }, [address, getContractAddress, refreshData]);
+  }, [address, getContractAddress, refreshData, initSignerContracts]);
 
   const cancelStuckRequest = useCallback(async (): Promise<boolean> => {
     if (!signerContractRef.current) return false;
