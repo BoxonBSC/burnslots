@@ -86,9 +86,25 @@ const Rules = () => {
                     1. 连接钱包
                     <span className="text-xs px-2 py-0.5 rounded bg-neon-blue/20 text-neon-blue">必须</span>
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    使用 MetaMask 钱包连接到 BNB Smart Chain 网络。
-                    <span className="text-neon-cyan">（没有钱包？先去下载 MetaMask）</span>
+                  <div className="text-sm text-muted-foreground space-y-2">
+                    <p>选择你常用的钱包连接到 BNB Smart Chain 网络：</p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#E2761B]/10 border border-[#E2761B]/30 text-xs">
+                        🦊 MetaMask
+                      </span>
+                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-white/10 border border-white/30 text-xs">
+                        ⬛ OKX Wallet
+                      </span>
+                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#F3BA2F]/10 border border-[#F3BA2F]/30 text-xs">
+                        🟡 币安钱包
+                      </span>
+                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#2980FE]/10 border border-[#2980FE]/30 text-xs">
+                        🔵 TokenPocket
+                      </span>
+                    </div>
+                    <p className="text-neon-cyan text-xs">
+                      💡 没有钱包？推荐下载 MetaMask 或 TokenPocket
+                    </p>
                   </div>
                 </div>
               </div>
