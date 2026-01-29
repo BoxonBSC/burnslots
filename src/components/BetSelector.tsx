@@ -1,8 +1,17 @@
 import { motion } from 'framer-motion';
-import { Ticket, Minus, Plus } from 'lucide-react';
+import { Ticket, Minus, Plus, TrendingUp } from 'lucide-react';
 
 // 最低20000凭证起投
 const BET_AMOUNTS = [20000, 50000, 100000, 200000, 500000];
+
+// 投注对应的概率加成倍数
+const BET_MULTIPLIERS: Record<number, number> = {
+  20000: 1,
+  50000: 2.5,
+  100000: 5,
+  200000: 10,
+  500000: 20,
+};
 
 interface BetSelectorProps {
   currentBet: number;
@@ -43,8 +52,55 @@ export function BetSelector({
     return amount.toLocaleString();
   };
 
+  const currentMultiplier = BET_MULTIPLIERS[currentBet] || 1;
+
   return (
     <div className="space-y-3">
+      {/* 概率加成显示 */}
+      <motion.div
+        key={currentMultiplier}
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        className="flex items-center justify-center gap-2"
+      >
+        <div className={`
+          px-4 py-2 rounded-xl flex items-center gap-2
+          ${currentMultiplier >= 10 
+            ? 'bg-gradient-to-r from-neon-yellow/20 to-neon-orange/20 border border-neon-yellow/50' 
+            : currentMultiplier >= 5
+            ? 'bg-gradient-to-r from-neon-purple/20 to-neon-pink/20 border border-neon-purple/50'
+            : currentMultiplier > 1
+            ? 'bg-gradient-to-r from-neon-cyan/20 to-neon-blue/20 border border-neon-cyan/50'
+            : 'bg-muted/30 border border-border/50'
+          }
+        `}>
+          <TrendingUp className={`w-4 h-4 ${
+            currentMultiplier >= 10 ? 'text-neon-yellow' : 
+            currentMultiplier >= 5 ? 'text-neon-purple' : 
+            currentMultiplier > 1 ? 'text-neon-cyan' : 
+            'text-muted-foreground'
+          }`} />
+          <span className={`font-display text-lg ${
+            currentMultiplier >= 10 ? 'text-neon-yellow' : 
+            currentMultiplier >= 5 ? 'text-neon-purple' : 
+            currentMultiplier > 1 ? 'text-neon-cyan' : 
+            'text-foreground'
+          }`}>
+            {currentMultiplier}x
+          </span>
+          <span className="text-xs text-muted-foreground">中奖概率</span>
+        </div>
+        {currentMultiplier > 1 && (
+          <motion.span
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-xs text-neon-green"
+          >
+            ↑ 提升 {((currentMultiplier - 1) * 100).toFixed(0)}%
+          </motion.span>
+        )}
+      </motion.div>
+
       {/* 主选择器 */}
       <div className="flex items-center justify-center gap-3">
         <motion.button
