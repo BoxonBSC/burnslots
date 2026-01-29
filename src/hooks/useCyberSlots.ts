@@ -498,32 +498,55 @@ export function useCyberSlots(): UseCyberSlotsReturn {
       });
 
       const amountWei = parseUnits(amount.toString(), 18);
+      console.log('[CyberSlots] amountWei:', amountWei.toString());
 
       // 先检查授权
       const spender = slotsAddress;
+      console.log('[CyberSlots] checking allowance, spender:', spender);
       const allowance = await token.allowance(address, spender);
       console.log('[CyberSlots] allowance before:', allowance.toString());
 
       if (allowance < amountWei) {
+        console.log('[CyberSlots] Need to approve, allowance < amountWei');
+        
         // 兼容部分代币：非 0 -> 非 0 授权可能会 revert（先置 0 再授权）
         if (allowance > 0n) {
-          const resetTx = await token.approve(spender, 0n);
-          console.log('[CyberSlots] approve reset tx:', resetTx.hash);
-          await resetTx.wait();
+          console.log('[CyberSlots] Resetting allowance to 0 first...');
+          try {
+            const resetTx = await token.approve(spender, 0n);
+            console.log('[CyberSlots] approve reset tx:', resetTx.hash);
+            await resetTx.wait();
+          } catch (resetErr) {
+            console.error('[CyberSlots] Reset approve failed:', resetErr);
+          }
         }
 
-        const approveTx = await token.approve(spender, amountWei);
-        console.log('[CyberSlots] approve tx:', approveTx.hash);
-        await approveTx.wait();
+        console.log('[CyberSlots] Calling token.approve...');
+        try {
+          const approveTx = await token.approve(spender, amountWei);
+          console.log('[CyberSlots] approve tx:', approveTx.hash);
+          await approveTx.wait();
+          console.log('[CyberSlots] approve tx confirmed');
+        } catch (approveErr: unknown) {
+          console.error('[CyberSlots] Approve failed:', approveErr);
+          const ae = approveErr as { code?: string; shortMessage?: string; message?: string };
+          if (ae?.code === 'ACTION_REJECTED') {
+            return { ok: false, error: '你在钱包里取消了授权' };
+          }
+          const approveMsg = ae?.shortMessage || ae?.message || '授权失败';
+          return { ok: false, error: `授权失败: ${approveMsg}` };
+        }
 
-        // 二次校验：部分钱包/代币在“无限授权”或失败时 allowance 不会如预期更新
+        // 二次校验
         const allowanceAfter = await token.allowance(address, spender);
         console.log('[CyberSlots] allowance after:', allowanceAfter.toString());
         if (allowanceAfter < amountWei) {
-          const msg = '授权未生效：请确认授权对象是“游戏合约地址”，并重试（可尝试先取消授权/设为0再授权）';
+          const msg = '授权未生效：请确认授权对象是"游戏合约地址"，并重试';
           setState(prev => ({ ...prev, error: msg }));
           return { ok: false, error: msg };
         }
+      } else {
+        console.log('[CyberSlots] Already approved, skipping approve step');
       }
 
       console.log('[CyberSlots] calling slots.depositCredits...');
