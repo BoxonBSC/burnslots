@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWallet, WalletType, WalletInfo } from '@/contexts/WalletContext';
+import { useCyberSlots } from '@/hooks/useCyberSlots';
 import { Wallet, LogOut, Copy, ExternalLink, Ticket, ChevronDown, X, Smartphone, QrCode } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { useState } from 'react';
@@ -24,8 +25,6 @@ export function WalletConnect() {
     address, 
     isConnected, 
     balance, 
-    tokenBalance, 
-    gameCredits, 
     connect, 
     connectWalletConnect,
     disconnect, 
@@ -35,7 +34,14 @@ export function WalletConnect() {
     connectedWallet,
   } = useWallet();
   
+  // 从链上读取代币余额和游戏凭证
+  const { tokenBalance: chainTokenBalance, gameCredits: chainGameCredits } = useCyberSlots();
+  
   const [showWalletSelector, setShowWalletSelector] = useState(false);
+  
+  // 使用链上数据
+  const tokenBalance = parseFloat(chainTokenBalance);
+  const gameCredits = parseFloat(chainGameCredits);
 
   const shortenAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
@@ -257,11 +263,11 @@ export function WalletConnect() {
               <div className="neon-border-purple rounded-lg p-2.5 bg-muted/30">
                 <div className="text-xs text-muted-foreground mb-1">代币余额</div>
                 <div className="font-display text-neon-purple text-sm">
-                  {Number(tokenBalance) >= 1000000 
-                    ? `${(Number(tokenBalance) / 1000000).toFixed(1)}M`
-                    : Number(tokenBalance) >= 1000
-                    ? `${(Number(tokenBalance) / 1000).toFixed(0)}K`
-                    : Number(tokenBalance).toLocaleString()
+                  {tokenBalance >= 1000000 
+                    ? `${(tokenBalance / 1000000).toFixed(1)}M`
+                    : tokenBalance >= 1000
+                    ? `${(tokenBalance / 1000).toFixed(0)}K`
+                    : tokenBalance.toLocaleString()
                   }
                 </div>
               </div>
@@ -281,7 +287,7 @@ export function WalletConnect() {
                   ? `${(gameCredits / 1000000).toFixed(2)}M`
                   : gameCredits >= 1000
                   ? `${(gameCredits / 1000).toFixed(1)}K`
-                  : gameCredits.toLocaleString()
+                  : Math.floor(gameCredits).toLocaleString()
                 }
               </div>
               <div className="text-xs text-muted-foreground mt-1">

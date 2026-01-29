@@ -261,7 +261,9 @@ export function AdvancedSlotMachine() {
           <div className="neon-border-pink rounded-lg px-4 py-2 bg-muted/50 flex items-center gap-2">
             <Coins className="w-4 h-4 text-neon-yellow" />
             <span className="text-xs text-muted-foreground">奖池</span>
-            <span className="text-lg font-display neon-text-pink">{prizePool.toFixed(2)}</span>
+            <span className="text-lg font-display neon-text-pink">
+              {prizePool >= 1 ? prizePool.toFixed(2) : prizePool >= 0.01 ? prizePool.toFixed(4) : prizePool.toFixed(6)}
+            </span>
             <span className="text-xs text-neon-pink">BNB</span>
           </div>
           
