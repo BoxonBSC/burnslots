@@ -87,7 +87,7 @@ contract CyberSlots is VRFConsumerBaseV2Plus, Ownable, ReentrancyGuard, Pausable
     // ============ 合约配置 ============
     IERC20 public token;
     address public operationWallet;
-    uint256 public minPrizePool = 0.1 ether;
+    uint256 public minPrizePool = 0.001 ether;  // 最低奖池：0.001 BNB
     address public constant BURN_ADDRESS = 0x000000000000000000000000000000000000dEaD;
     uint256 public constant REQUEST_TIMEOUT = 1 hours;
     
