@@ -24,8 +24,8 @@ export function AdvancedSlotMachine() {
   } = useAudioContext();
   const [showPaylines, setShowPaylines] = useState(false);
   
-  // 投注金额状态 (游戏凭证)
-  const [currentBetCredits, setCurrentBetCredits] = useState(BET_AMOUNTS[2]); // 默认 20K 凭证
+  // 投注金额状态 (游戏凭证) - 默认20000
+  const [currentBetCredits, setCurrentBetCredits] = useState(BET_AMOUNTS[0]); // 默认 20000 凭证
   
   // 自动旋转状态
   const [isAutoSpinning, setIsAutoSpinning] = useState(false);

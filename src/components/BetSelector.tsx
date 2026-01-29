@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
-import { Coins, Minus, Plus } from 'lucide-react';
+import { Ticket, Minus, Plus } from 'lucide-react';
 
-const BET_AMOUNTS = [5000, 10000, 20000, 50000, 100000];
+// 最低20000凭证起投
+const BET_AMOUNTS = [20000, 50000, 100000, 200000, 500000];
 
 interface BetSelectorProps {
   currentBet: number;
@@ -37,11 +38,9 @@ export function BetSelector({
     onBetChange(bet);
   };
 
+  // 使用完整数字显示，不用K/M缩写
   const formatBet = (amount: number) => {
-    if (amount >= 1000) {
-      return `${(amount / 1000).toFixed(0)}K`;
-    }
-    return amount.toString();
+    return amount.toLocaleString();
   };
 
   return (
@@ -65,14 +64,14 @@ export function BetSelector({
           <Minus className="w-5 h-5" />
         </motion.button>
         
-        <div className="neon-border-purple rounded-xl px-6 py-3 bg-muted/50 min-w-[140px] text-center">
+        <div className="neon-border-purple rounded-xl px-4 py-3 bg-muted/50 min-w-[160px] text-center">
           <div className="flex items-center justify-center gap-2">
-            <Coins className="w-5 h-5 text-neon-yellow" />
-            <span className="text-2xl font-display neon-text-purple">
+            <Ticket className="w-5 h-5 text-neon-cyan" />
+            <span className="text-xl font-display neon-text-purple">
               {formatBet(currentBet)}
             </span>
           </div>
-          <span className="text-xs text-muted-foreground">代币/次</span>
+          <span className="text-xs text-muted-foreground">凭证/次</span>
         </div>
         
         <motion.button
