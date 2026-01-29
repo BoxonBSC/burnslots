@@ -80,6 +80,7 @@ export const PRIZE_TYPE_MAP: Record<string, { name: string; emoji: string }> = {
   second: { name: '二等奖', emoji: '🔔' },
   third: { name: '三等奖', emoji: '⭐' },
   small: { name: '小奖', emoji: '🍀' },
+  consolation: { name: '安慰奖', emoji: '🎁' },
   none: { name: '未中奖', emoji: '' },
 };
 

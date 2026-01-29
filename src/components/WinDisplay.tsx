@@ -56,6 +56,13 @@ const PRIZE_DISPLAY: Record<PrizeType, {
     glowClass: '',
     animate: false,
   },
+  consolation: {
+    title: '🎁 安慰奖 🎁',
+    icon: <Sparkles className="w-4 h-4 text-muted-foreground" />,
+    colorClass: 'text-muted-foreground',
+    glowClass: '',
+    animate: false,
+  },
   none: {
     title: '',
     icon: null,

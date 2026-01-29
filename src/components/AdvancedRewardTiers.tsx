@@ -219,7 +219,7 @@ export function AdvancedRewardTiers() {
         </h4>
         <div className="text-xs text-muted-foreground space-y-1.5">
           <p className="text-neon-yellow/90 bg-neon-yellow/5 p-1.5 rounded">
-            ℹ️ 中奖根据5个符号中<strong>相同符号的数量</strong>判定
+            ℹ️ 中奖根据5个符号中<strong>相同符号的数量</strong>判定（慷慨版：约60%中奖率）
           </p>
           <p><span className="text-neon-yellow">🎰 超级头奖:</span> 5个全是 7️⃣</p>
           <p><span className="text-neon-purple">💎 头奖:</span> 5个全是 💎，或4个 7️⃣</p>
@@ -227,6 +227,7 @@ export function AdvancedRewardTiers() {
           <p><span className="text-neon-pink">🔔 二等奖:</span> 4个相同的稀有符号 (7️⃣💎👑🔔⭐)</p>
           <p><span className="text-neon-cyan">⭐ 三等奖:</span> 4个相同的普通符号 (🍒🍋🍊🍇🍀)</p>
           <p><span className="text-neon-green">🍀 小奖:</span> 任意3个相同符号</p>
+          <p><span className="text-muted-foreground">🎁 安慰奖:</span> 任意2个相同符号 <span className="text-neon-cyan">(~45%概率)</span></p>
         </div>
       </div>
 

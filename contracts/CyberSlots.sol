@@ -69,6 +69,7 @@ contract CyberSlots is VRFConsumerBaseV2Plus, Ownable, ReentrancyGuard, Pausable
     uint256 public constant SECOND_PRIZE_PERCENT = 500;    // 5% - 二等奖（4个传奇/史诗）
     uint256 public constant THIRD_PRIZE_PERCENT = 170;     // 1.7% - 三等奖（4个普通）
     uint256 public constant SMALL_PRIZE_PERCENT = 50;      // 0.5% - 小奖（3连线）
+    uint256 public constant CONSOLATION_PRIZE_PERCENT = 10; // 0.1% - 安慰奖（2连线）
     
     // ============ 奖池保护常量 ============
     uint256 public constant MAX_SINGLE_PAYOUT_PERCENT = 5000;  // 单次最大派奖：奖池的 50%
@@ -336,22 +337,22 @@ contract CyberSlots is VRFConsumerBaseV2Plus, Ownable, ReentrancyGuard, Pausable
             // 每个转轮使用不同的随机数片段
             uint256 rand = uint256(keccak256(abi.encode(randomness, i))) % 10000;
             
-            // 基础概率（乘以投注倍数提升稀有符号概率）：
-            // 7️⃣: 1% * boost
-            // 💎: 2% * boost
-            // 👑: 3% * boost
-            // 🔔: 4% * boost
-            // ⭐: 5% * boost
-            // 🍒🍋🍊🍇🍀: 各 17%（调整后）
+            // 慷慨版基础概率（乘以投注倍数提升稀有符号概率）：
+            // 7️⃣: 4% * boost (原1%)
+            // 💎: 5% * boost (原2%)
+            // 👑: 6% * boost (原3%)
+            // 🔔: 7% * boost (原4%)
+            // ⭐: 8% * boost (原5%)
+            // 🍒🍋🍊🍇🍀: 各 14%（调整后）
             
-            uint256 t7 = 100 * probabilityBoost / 100;
-            uint256 tDiamond = t7 + (200 * probabilityBoost / 100);
-            uint256 tCrown = tDiamond + (300 * probabilityBoost / 100);
-            uint256 tBell = tCrown + (400 * probabilityBoost / 100);
-            uint256 tStar = tBell + (500 * probabilityBoost / 100);
+            uint256 t7 = 400 * probabilityBoost / 100;
+            uint256 tDiamond = t7 + (500 * probabilityBoost / 100);
+            uint256 tCrown = tDiamond + (600 * probabilityBoost / 100);
+            uint256 tBell = tCrown + (700 * probabilityBoost / 100);
+            uint256 tStar = tBell + (800 * probabilityBoost / 100);
             
-            // 限制稀有符号总概率不超过 50%
-            if (tStar > 5000) tStar = 5000;
+            // 限制稀有符号总概率不超过 70%（慷慨版提高上限）
+            if (tStar > 7000) tStar = 7000;
             
             // 剩余概率平均分配给普通符号
             uint256 commonProb = (10000 - tStar) / 5;
@@ -434,6 +435,11 @@ contract CyberSlots is VRFConsumerBaseV2Plus, Ownable, ReentrancyGuard, Pausable
         else if (_hasCount(counts, 3)) {
             prize = (availablePool * SMALL_PRIZE_PERCENT) / 10000;
             prizeType = "small";
+        }
+        // 安慰奖：任意 2 个相同符号
+        else if (_hasCount(counts, 2)) {
+            prize = (availablePool * CONSOLATION_PRIZE_PERCENT) / 10000;
+            prizeType = "consolation";
         }
         else {
             return (0, "none");

@@ -57,7 +57,7 @@ export interface WinLine {
   positions: [number, number][]; // [reel, row]
 }
 
-// 6级奖励系统 - 基于奖池百分比
+// 7级奖励系统 - 基于奖池百分比（慷慨版）
 export type PrizeType = 
   | 'mega_jackpot'  // 超级头奖: 5个7
   | 'jackpot'       // 头奖: 5个钻石 或 4个7
@@ -65,6 +65,7 @@ export type PrizeType =
   | 'second'        // 二等奖: 4个相同 (高级符号)
   | 'third'         // 三等奖: 4个相同 (普通符号)
   | 'small'         // 小奖: 3个相同
+  | 'consolation'   // 安慰奖: 2个相同
   | 'none';
 
 // 奖励配置 - 基于奖池百分比
@@ -89,6 +90,7 @@ export const PRIZE_TIERS: PrizeConfig[] = [
   { type: 'second', name: '二等奖', emoji: '🔔', description: '4连高级符号', poolPercent: 0.05 },
   { type: 'third', name: '三等奖', emoji: '⭐', description: '4连普通符号', poolPercent: 0.017 },
   { type: 'small', name: '小奖', emoji: '🍀', description: '3连任意符号', poolPercent: 0.005 },
+  { type: 'consolation', name: '安慰奖', emoji: '🎁', description: '2连任意符号', poolPercent: 0.001 },
 ];
 
 export interface SpinResult {
