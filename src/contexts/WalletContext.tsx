@@ -211,8 +211,8 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         isConnected: true,
         chainId,
         balance: '0',
-        tokenBalance: '1000000',
-        gameCredits: 500000,
+        tokenBalance: '0', // 真实余额将从合约读取
+        gameCredits: 0,    // 真实凭证将从合约读取
         connectedWallet: walletType,
       });
 
@@ -309,8 +309,8 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         address: wcAddress,
         isConnected: true,
         chainId: wcChainId || 56,
-        tokenBalance: '1000000',
-        gameCredits: 500000,
+        tokenBalance: '0',  // 真实余额将从合约读取
+        gameCredits: 0,     // 真实凭证将从合约读取
         connectedWallet: 'walletconnect',
       }));
 
