@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Contract, BrowserProvider, formatEther, parseUnits, JsonRpcProvider } from 'ethers';
 import { useWeb3ModalProvider, useWeb3ModalAccount } from '@web3modal/ethers/react';
+import { useWallet } from '@/contexts/WalletContext';
 import { 
   CYBER_SLOTS_ADDRESS, 
   CYBER_TOKEN_ADDRESS,
@@ -59,8 +60,15 @@ const USE_TESTNET = false; // 使用主网
 const BSC_RPC_URL = 'https://bsc.publicnode.com';
 
 export function useCyberSlots(): UseCyberSlotsReturn {
-  const { walletProvider } = useWeb3ModalProvider();
-  const { address, isConnected, chainId } = useWeb3ModalAccount();
+  const { walletProvider: web3ModalProvider } = useWeb3ModalProvider();
+  const { address: web3ModalAddress, isConnected: web3ModalConnected } = useWeb3ModalAccount();
+  
+  // 同时从 WalletContext 获取地址（支持原生钱包连接）
+  const { address: walletContextAddress, isConnected: walletContextConnected } = useWallet();
+  
+  // 优先使用 WalletContext 的地址（原生钱包），其次是 Web3Modal 的地址（WalletConnect）
+  const address = walletContextAddress || web3ModalAddress;
+  const isConnected = walletContextConnected || web3ModalConnected;
   
   const [state, setState] = useState<ContractState>({
     prizePool: '0',
@@ -115,7 +123,7 @@ export function useCyberSlots(): UseCyberSlotsReturn {
 
   // 初始化签名合约（需要钱包连接）
   const initSignerContracts = useCallback(async () => {
-    if (!walletProvider || !isConnected) {
+    if (!web3ModalProvider || !isConnected) {
       signerContractRef.current = null;
       tokenContractRef.current = null;
       providerRef.current = null;
@@ -123,7 +131,7 @@ export function useCyberSlots(): UseCyberSlotsReturn {
     }
 
     try {
-      const provider = new BrowserProvider(walletProvider);
+      const provider = new BrowserProvider(web3ModalProvider);
       const signer = await provider.getSigner();
       
       const slotsAddress = getContractAddress();
@@ -141,7 +149,7 @@ export function useCyberSlots(): UseCyberSlotsReturn {
     } catch (err) {
       console.error('Failed to init signer contracts:', err);
     }
-  }, [walletProvider, isConnected, getContractAddress, getTokenAddress]);
+  }, [web3ModalProvider, isConnected, getContractAddress, getTokenAddress]);
 
   // 刷新公共数据（无需钱包连接）
   const refreshPublicData = useCallback(async () => {
