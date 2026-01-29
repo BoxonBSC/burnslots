@@ -1,68 +1,128 @@
 import { motion } from 'framer-motion';
-import { SlotMachine } from '@/components/SlotMachine';
+import { AdvancedSlotMachine } from '@/components/AdvancedSlotMachine';
 import { WalletConnect } from '@/components/WalletConnect';
-import { RewardTiers } from '@/components/RewardTiers';
+import { AdvancedRewardTiers } from '@/components/AdvancedRewardTiers';
 import { GameHistory } from '@/components/GameHistory';
 import { Navbar } from '@/components/Navbar';
+import { Sparkles } from 'lucide-react';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background cyber-grid relative">
-      {/* Scanline overlay */}
-      <div className="fixed inset-0 pointer-events-none scanlines opacity-50" />
+    <div className="min-h-screen bg-background cyber-grid relative overflow-x-hidden">
+      {/* 扫描线效果 */}
+      <div className="fixed inset-0 pointer-events-none scanlines opacity-30" />
       
-      {/* Background gradient */}
+      {/* 背景渐变 */}
       <div className="fixed inset-0 bg-gradient-to-b from-neon-purple/5 via-transparent to-neon-blue/5 pointer-events-none" />
+      
+      {/* 动态光晕背景 */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          animate={{
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-purple/10 rounded-full blur-[100px]"
+        />
+        <motion.div
+          animate={{
+            x: [0, -100, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neon-blue/10 rounded-full blur-[100px]"
+        />
+        <motion.div
+          animate={{
+            x: [0, 50, 0],
+            y: [0, 100, 0],
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+          className="absolute top-1/2 right-1/3 w-64 h-64 bg-neon-pink/10 rounded-full blur-[80px]"
+        />
+      </div>
       
       <Navbar />
       
-      <main className="container mx-auto px-4 pt-20 pb-8">
+      <main className="container mx-auto px-4 pt-20 pb-8 relative z-10">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl md:text-6xl font-display neon-text-blue mb-4 glitch">
-            CYBER SLOTS
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            赛博朋克链上老虎机 | 公平透明 | Chainlink VRF 随机数 | BNB Chain
-          </p>
+          <motion.div
+            animate={{ 
+              textShadow: [
+                '0 0 20px hsl(195 100% 50% / 0.5)',
+                '0 0 40px hsl(195 100% 50% / 0.8)',
+                '0 0 20px hsl(195 100% 50% / 0.5)',
+              ]
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            <h1 className="text-4xl md:text-6xl font-display neon-text-blue mb-2 glitch flex items-center justify-center gap-4">
+              <Sparkles className="w-10 h-10 text-neon-yellow animate-pulse" />
+              CYBER SLOTS
+              <Sparkles className="w-10 h-10 text-neon-yellow animate-pulse" />
+            </h1>
+          </motion.div>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+          >
+            <span className="text-neon-purple">5轮 × 3行</span> • 
+            <span className="text-neon-cyan"> 15条赔付线</span> • 
+            <span className="text-neon-pink"> 10种符号</span> • 
+            <span className="text-neon-green"> Chainlink VRF</span>
+          </motion.p>
         </motion.div>
 
-        {/* Main Grid */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Left Column - Wallet & Rewards */}
+        {/* 主游戏区域 */}
+        <div className="grid xl:grid-cols-4 lg:grid-cols-3 gap-6">
+          {/* 左侧 - 钱包 */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="space-y-6"
+            className="lg:col-span-1 space-y-6"
           >
             <WalletConnect />
-            <RewardTiers />
           </motion.div>
 
-          {/* Center Column - Slot Machine */}
+          {/* 中间 - 老虎机 (占2列) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="lg:col-span-1"
+            className="xl:col-span-2 lg:col-span-2"
           >
-            <SlotMachine />
+            <AdvancedSlotMachine />
           </motion.div>
 
-          {/* Right Column - History */}
+          {/* 右侧 - 赔付表 */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
+            className="xl:col-span-1 lg:col-span-3 xl:block"
           >
-            <GameHistory />
+            <AdvancedRewardTiers />
           </motion.div>
         </div>
+
+        {/* 历史记录 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mt-6"
+        >
+          <GameHistory />
+        </motion.div>
 
         {/* Footer */}
         <motion.footer
