@@ -220,13 +220,25 @@ export function WalletConnect() {
               </span>
             )}
           </div>
-          <button
-            onClick={disconnect}
-            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-destructive transition-colors"
-          >
-            <LogOut className="w-4 h-4" />
-            断开
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                disconnect();
+                setTimeout(() => setShowWalletSelector(true), 100);
+              }}
+              className="flex items-center gap-1 text-xs px-2 py-1 rounded bg-muted/50 text-muted-foreground hover:text-neon-cyan hover:bg-muted transition-colors"
+            >
+              <Wallet className="w-3 h-3" />
+              切换
+            </button>
+            <button
+              onClick={disconnect}
+              className="flex items-center gap-1 text-xs px-2 py-1 rounded bg-muted/50 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+            >
+              <LogOut className="w-3 h-3" />
+              断开
+            </button>
+          </div>
         </div>
 
         <div className="space-y-3">
