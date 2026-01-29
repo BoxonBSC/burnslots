@@ -53,7 +53,7 @@ export interface UseCyberSlotsReturn extends ContractState {
   currentSpinRequest: bigint | null;
 }
 
-const USE_TESTNET = true;
+const USE_TESTNET = false; // 使用主网
 
 export function useCyberSlots(): UseCyberSlotsReturn {
   const { walletProvider } = useWeb3ModalProvider();
