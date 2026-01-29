@@ -53,10 +53,25 @@ const Rules = () => {
               简单来说：<span className="text-neon-cyan">用代币换凭证</span> → <span className="text-neon-purple">用凭证玩老虎机</span> → <span className="text-neon-green">中奖赢 BNB</span>
             </p>
             <div className="neon-border-green rounded-lg p-4 bg-neon-green/5">
-              <p className="text-neon-green font-display mb-2">💰 核心亮点：100% 资金返还，零抽成！</p>
-              <p className="text-sm">
-                你投入的每一分钱都会进入奖池，平台不抽取任何费用。中奖后直接从奖池获得 BNB 奖励！
-              </p>
+              <p className="text-neon-green font-display mb-2">💰 核心亮点：100% 资金返还玩家，零平台抽成！</p>
+              <div className="text-sm space-y-2">
+                <p>你投入的代币会通过交易税自动转化为奖池资金，资金分配如下：</p>
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  <div className="p-2 rounded bg-neon-green/10 border border-neon-green/30 text-center">
+                    <div className="text-neon-green font-display text-lg">95%</div>
+                    <div className="text-xs text-muted-foreground">进入奖池</div>
+                    <div className="text-xs text-neon-green">玩家中奖分配</div>
+                  </div>
+                  <div className="p-2 rounded bg-neon-cyan/10 border border-neon-cyan/30 text-center">
+                    <div className="text-neon-cyan font-display text-lg">5%</div>
+                    <div className="text-xs text-muted-foreground">VRF Gas费</div>
+                    <div className="text-xs text-neon-cyan">Chainlink预言机</div>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  💡 5% 用于 Chainlink VRF 2.5 预言机服务，保障每次游戏的随机数生成，支持BNB原生支付
+                </p>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -331,16 +346,22 @@ const Rules = () => {
 
           <div className="grid md:grid-cols-2 gap-4">
             <div className="neon-border rounded-lg p-4 bg-muted/20">
-              <h3 className="font-display text-neon-cyan mb-2">🔗 Chainlink VRF 随机数</h3>
+              <h3 className="font-display text-neon-cyan mb-2">🔗 Chainlink VRF 2.5 随机数</h3>
               <p className="text-sm text-muted-foreground">
-                我们使用区块链行业标准的 Chainlink VRF（可验证随机函数）生成每次游戏的随机结果。
+                我们使用最新的 Chainlink VRF 2.5（可验证随机函数）生成每次游戏的随机结果。
                 <span className="text-neon-yellow">这意味着：</span>
               </p>
               <ul className="text-sm text-muted-foreground mt-2 space-y-1">
                 <li>• 没有人能预测或操控结果</li>
                 <li>• 每个随机数都可以在链上验证</li>
                 <li>• 完全透明，任何人都能审计</li>
+                <li className="text-neon-cyan">• 支持 BNB 原生支付（无需 LINK）</li>
               </ul>
+              <div className="mt-3 p-2 rounded bg-neon-cyan/10 border border-neon-cyan/30">
+                <p className="text-xs text-neon-cyan">
+                  💡 奖池的 5% 会自动用于 VRF 预言机 Gas 费充值，确保服务持续运行
+                </p>
+              </div>
               <a 
                 href="https://chain.link/vrf" 
                 target="_blank" 

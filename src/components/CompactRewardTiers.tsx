@@ -71,15 +71,29 @@ export function CompactRewardTiers() {
         奖励与赔付
       </h3>
       
-      {/* 100% 返还说明 - 移动端更紧凑 */}
+      {/* 资金分配说明 */}
       <div className="rounded-xl p-2.5 lg:p-3 bg-gradient-to-r from-neon-green/10 to-neon-cyan/5 border border-neon-green/20 mb-2 lg:mb-3">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mb-1.5">
           <Shield className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-neon-green flex-shrink-0" />
-          <span className="text-neon-green font-display text-xs lg:text-sm">100% 返还</span>
+          <span className="text-neon-green font-display text-xs lg:text-sm">100% 返还玩家</span>
           <span className="text-neon-yellow text-xs px-1.5 py-0.5 rounded bg-neon-yellow/10">零抽成</span>
         </div>
-        <p className="text-xs text-muted-foreground mt-1 leading-relaxed hidden lg:block">
-          所有投注 100% 进入奖池，无平台抽成
+        <div className="text-xs text-muted-foreground space-y-1">
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-1">
+              <span className="text-neon-green">●</span> 奖池资金
+            </span>
+            <span className="text-neon-green font-display">95%</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-1">
+              <span className="text-neon-cyan">●</span> VRF Gas费
+            </span>
+            <span className="text-neon-cyan font-display">5%</span>
+          </div>
+        </div>
+        <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed hidden lg:block">
+          5% 用于 Chainlink VRF 2.5 预言机充值，保障随机数服务
         </p>
       </div>
 
@@ -339,11 +353,14 @@ export function CompactRewardTiers() {
         </div>
         
         <div className="p-2 lg:p-2.5 rounded-xl bg-gradient-to-r from-neon-green/10 to-neon-cyan/5 border border-neon-green/20">
-          <div className="flex items-center gap-1.5 text-xs text-neon-green font-display">
-            🔗 Chainlink VRF
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xs text-neon-green font-display">
+              🔗 Chainlink VRF 2.5
+            </div>
+            <span className="text-xs text-neon-cyan">BNB原生支付</span>
           </div>
           <p className="text-xs text-muted-foreground mt-0.5 lg:mt-1 hidden lg:block">
-            真随机数，公平不可预测
+            真随机数，5%资金自动充值Gas
           </p>
         </div>
       </div>
