@@ -183,7 +183,18 @@ export function useCyberSlots(): UseCyberSlotsReturn {
   const refreshUserData = useCallback(async () => {
     const contract = readOnlyContractRef.current;
     const tokenContract = readOnlyTokenContractRef.current;
-    if (!contract || !address) return;
+    
+    console.log('[CyberSlots] refreshUserData called', {
+      hasContract: !!contract,
+      hasTokenContract: !!tokenContract,
+      address,
+      tokenAddress: getTokenAddress(),
+    });
+    
+    if (!contract || !address) {
+      console.log('[CyberSlots] Skipping user data refresh - no contract or address');
+      return;
+    }
     
     try {
       const [playerStats, gameCredits, pendingRequest, unclaimedPrize] = await Promise.all([
@@ -193,16 +204,34 @@ export function useCyberSlots(): UseCyberSlotsReturn {
         contract.unclaimedPrizes(address),
       ]);
 
+      console.log('[CyberSlots] User game data:', {
+        gameCredits: gameCredits.toString(),
+        pendingRequest: pendingRequest.toString(),
+        unclaimedPrize: unclaimedPrize.toString(),
+      });
+
       let tokenBalance = '0';
       let tokenAllowance = '0';
       
       if (tokenContract) {
-        const [balance, allowance] = await Promise.all([
-          tokenContract.balanceOf(address),
-          tokenContract.allowance(address, getContractAddress()),
-        ]);
-        tokenBalance = formatEther(balance);
-        tokenAllowance = formatEther(allowance);
+        try {
+          const [balance, allowance] = await Promise.all([
+            tokenContract.balanceOf(address),
+            tokenContract.allowance(address, getContractAddress()),
+          ]);
+          tokenBalance = formatEther(balance);
+          tokenAllowance = formatEther(allowance);
+          
+          console.log('[CyberSlots] Token data:', {
+            rawBalance: balance.toString(),
+            formattedBalance: tokenBalance,
+            allowance: tokenAllowance,
+          });
+        } catch (tokenErr) {
+          console.error('[CyberSlots] Failed to read token data:', tokenErr);
+        }
+      } else {
+        console.log('[CyberSlots] No token contract available');
       }
 
       setState(prev => ({
@@ -220,9 +249,9 @@ export function useCyberSlots(): UseCyberSlotsReturn {
         unclaimedPrize: formatEther(unclaimedPrize),
       }));
     } catch (err) {
-      console.error('Failed to refresh user data:', err);
+      console.error('[CyberSlots] Failed to refresh user data:', err);
     }
-  }, [address, getContractAddress]);
+  }, [address, getContractAddress, getTokenAddress]);
 
   // 刷新所有数据
   const refreshData = useCallback(async () => {
