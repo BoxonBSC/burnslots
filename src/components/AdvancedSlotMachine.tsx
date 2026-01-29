@@ -74,6 +74,8 @@ export function AdvancedSlotMachine() {
   // 追踪我们自己的等待状态（独立于 hook 的 isSpinning）
   const [isWaitingForResult, setIsWaitingForResult] = useState(false);
   const lastProcessedRequestIdRef = useRef<string | null>(null);
+  // 记录本次 spin 开始的时间，只处理这个时间之后的结果
+  const spinStartTimeRef = useRef<number>(0);
   
   // 中奖弹窗状态
   const [showWinOverlay, setShowWinOverlay] = useState(false);
@@ -97,11 +99,13 @@ export function AdvancedSlotMachine() {
   const totalWinsDisplay = playerStats ? Number(playerStats.totalWins) : 0;
   const creditsDisplay = parseFloat(gameCredits);
 
-  // 监听中奖结果 - 使用 requestId 去重，避免重复处理
+  // 监听中奖结果 - 使用 requestId 去重，并只处理 spin 开始后收到的结果
   useEffect(() => {
-    if (recentWins.length > 0 && address && isWaitingForResult) {
+    if (recentWins.length > 0 && address && isWaitingForResult && spinStartTimeRef.current > 0) {
+      // 只查找本次 spin 开始之后收到的结果
       const myResult = recentWins.find(
-        w => w.player.toLowerCase() === address.toLowerCase() && w.timestamp > Date.now() - 60000
+        w => w.player.toLowerCase() === address.toLowerCase() && 
+             w.timestamp > spinStartTimeRef.current
       );
       
       if (myResult) {
@@ -110,6 +114,8 @@ export function AdvancedSlotMachine() {
         if (lastProcessedRequestIdRef.current === resultId) {
           return; // 已经处理过，跳过
         }
+        
+        console.log('[SlotMachine] Processing result:', resultId, 'spinStartTime:', spinStartTimeRef.current, 'resultTime:', myResult.timestamp);
         
         // 标记为已处理
         lastProcessedRequestIdRef.current = resultId;
@@ -209,6 +215,10 @@ export function AdvancedSlotMachine() {
     }
 
     lastActionRef.current = 'spin';
+    
+    // 在调用 spin 之前记录时间，确保只处理之后的结果
+    spinStartTimeRef.current = Date.now();
+    
     const txHash = await contractSpin(currentBetCredits);
     if (txHash) {
       // 设置等待结果状态
@@ -220,6 +230,9 @@ export function AdvancedSlotMachine() {
       playSpinSound();
       return { submitted: true };
     }
+    
+    // 如果 spin 失败，重置时间戳
+    spinStartTimeRef.current = 0;
     return null;
   }, [isConnected, creditsDisplay, currentBetCredits, contractSpin, playSpinSound]);
 
