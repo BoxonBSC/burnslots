@@ -180,7 +180,7 @@ export function SlotMachine() {
           </motion.button>
         ) : (
           <motion.button
-            onClick={connect}
+            onClick={() => connect()}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="cyber-button w-full text-lg rounded-lg"
