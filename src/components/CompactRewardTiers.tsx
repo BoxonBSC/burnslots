@@ -353,11 +353,8 @@ export function CompactRewardTiers() {
         </div>
         
         <div className="p-2 lg:p-2.5 rounded-xl bg-gradient-to-r from-neon-green/10 to-neon-cyan/5 border border-neon-green/20">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-xs text-neon-green font-display">
-              🔗 Chainlink VRF 2.5
-            </div>
-            <span className="text-xs text-neon-cyan">BNB原生支付</span>
+          <div className="flex items-center gap-1.5 text-xs text-neon-green font-display">
+            🔗 Chainlink VRF 2.5
           </div>
           <p className="text-xs text-muted-foreground mt-0.5 lg:mt-1 hidden lg:block">
             真随机数，5%资金自动充值Gas
