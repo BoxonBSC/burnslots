@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { AdvancedSlotReel } from './AdvancedSlotReel';
-import { PaylineLines } from './PaylineLines';
 import { AutoSpinControls } from './AutoSpinControls';
 import { BetSelector, BET_AMOUNTS } from './BetSelector';
 import { WinRevealOverlay } from './WinRevealOverlay';
@@ -59,7 +58,6 @@ export function AdvancedSlotMachine() {
     playJackpotSound,
     playClickSound,
   } = useAudioContext();
-  const [showPaylines, setShowPaylines] = useState(false);
   const [currentBetCredits, setCurrentBetCredits] = useState(BET_AMOUNTS[0]);
   const [isAutoSpinning, setIsAutoSpinning] = useState(false);
   const [autoSpinCount, setAutoSpinCount] = useState(0);
@@ -332,11 +330,6 @@ export function AdvancedSlotMachine() {
     toast({ title: "自动旋转已停止" });
   };
 
-  const handlePaylineToggle = () => {
-    playClickSound();
-    setShowPaylines(!showPaylines);
-  };
-
   return (
     <div className="relative">
       <div className="absolute -inset-4 bg-gradient-to-r from-neon-purple/10 via-neon-blue/10 to-neon-pink/10 blur-3xl rounded-3xl" />
@@ -363,7 +356,7 @@ export function AdvancedSlotMachine() {
           </motion.h2>
           <div className="flex items-center justify-center gap-2 mt-1">
             <p className="text-sm text-muted-foreground">
-              5轮 × 3行 × 15条赔付线 | 💯 100%返还
+              5轮符号匹配 | 💯 100%返还
             </p>
             <span className="text-xs px-2 py-0.5 rounded bg-neon-green/20 text-neon-green border border-neon-green/30">
               🔗 链上模式
@@ -433,27 +426,17 @@ export function AdvancedSlotMachine() {
             <span className="text-lg font-display text-neon-cyan">{creditsDisplay.toLocaleString()}</span>
           </div>
           
-          <button
-            onClick={handlePaylineToggle}
-            className={`px-3 py-2 rounded-lg text-xs font-display transition-colors ${
-              showPaylines 
-                ? 'bg-neon-cyan/20 text-neon-cyan neon-border' 
-                : 'bg-muted/50 text-muted-foreground hover:text-foreground'
-            }`}
-          >
-            赔付线
-          </button>
+          <div className="neon-border-cyan rounded-lg px-4 py-2 bg-muted/50 flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-neon-green" />
+            <span className="text-xs text-muted-foreground">胜率</span>
+            <span className="text-lg font-display text-neon-green">
+              {totalSpinsDisplay > 0 ? ((totalWinsDisplay / totalSpinsDisplay) * 100).toFixed(1) : '0.0'}%
+            </span>
+          </div>
         </div>
 
         <div className="relative p-4 rounded-2xl bg-gradient-to-b from-muted/30 to-muted/10 border border-border/50">
           <div className="relative">
-            {showPaylines && (
-              <PaylineLines 
-                activeLines={[]}
-                showAll={true}
-              />
-            )}
-            
             <div className="flex justify-center items-center gap-2 relative z-10">
               {displayGrid.map((column, reelIndex) => (
                 <AdvancedSlotReel
