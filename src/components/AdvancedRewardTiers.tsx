@@ -79,7 +79,7 @@ export function AdvancedRewardTiers() {
         </h4>
         <div className="text-xs text-muted-foreground space-y-1">
           <p>• 单次最大派奖: 奖池的 <span className="text-neon-yellow">{(POOL_PROTECTION.maxSinglePayout * 100).toFixed(0)}%</span></p>
-          <p>• 储备金保留: <span className="text-neon-green">{(POOL_PROTECTION.reservePercent * 100).toFixed(0)}%</span> 用于持续运营</p>
+          <p>• 奖池资金 <span className="text-neon-green">100%</span> 用于派奖，零储备金</p>
         </div>
       </div>
 
