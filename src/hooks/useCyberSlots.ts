@@ -146,15 +146,26 @@ export function useCyberSlots(): UseCyberSlotsReturn {
   // 刷新公共数据（无需钱包连接）
   const refreshPublicData = useCallback(async () => {
     const contract = readOnlyContractRef.current;
-    if (!contract) return;
+    if (!contract) {
+      console.log('[CyberSlots] No read-only contract available');
+      return;
+    }
     
     try {
+      console.log('[CyberSlots] Fetching public data from contract...');
       const [prizePool, availablePool, totalSpins, totalPaidOut] = await Promise.all([
         contract.getPrizePool(),
         contract.getAvailablePool(),
         contract.totalSpins(),
         contract.totalPaidOut(),
       ]);
+
+      console.log('[CyberSlots] Raw contract data:', {
+        prizePool: prizePool.toString(),
+        availablePool: availablePool.toString(),
+        totalSpins: totalSpins.toString(),
+        totalPaidOut: totalPaidOut.toString(),
+      });
 
       setState(prev => ({
         ...prev,
@@ -164,7 +175,7 @@ export function useCyberSlots(): UseCyberSlotsReturn {
         totalPaidOut: formatEther(totalPaidOut),
       }));
     } catch (err) {
-      console.error('Failed to refresh public data:', err);
+      console.error('[CyberSlots] Failed to refresh public data:', err);
     }
   }, []);
 
