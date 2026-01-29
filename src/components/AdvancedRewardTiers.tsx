@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { SYMBOLS, PAYLINES, PRIZE_TIERS, POOL_PROTECTION } from '@/hooks/useAdvancedSlotMachine';
+import { SYMBOLS, PRIZE_TIERS, POOL_PROTECTION } from '@/hooks/useAdvancedSlotMachine';
 import { Trophy, Medal, Award, Star, Gem, Crown, Info, Shield, TrendingUp } from 'lucide-react';
 import { BET_AMOUNTS } from './BetSelector';
 
@@ -211,30 +211,34 @@ export function AdvancedRewardTiers() {
         </div>
       </div>
 
-      {/* 中奖条件 */}
+      {/* 中奖条件 - 与合约逻辑完全一致 */}
       <div className="neon-border rounded-lg p-3 bg-muted/20 mb-4">
         <h4 className="text-sm font-display text-neon-cyan mb-2 flex items-center gap-2">
           <Info className="w-4 h-4" />
-          中奖条件
+          中奖条件 (5符号匹配)
         </h4>
-        <div className="text-xs text-muted-foreground space-y-1">
-          <p><span className="text-neon-yellow">🎰 超级头奖:</span> 5个7连线</p>
-          <p><span className="text-neon-purple">💎 头奖:</span> 5个💎 或 4个7</p>
-          <p><span className="text-neon-orange">👑 一等奖:</span> 任意5连线</p>
-          <p><span className="text-neon-pink">🔔 二等奖:</span> 4个传奇/史诗符号</p>
-          <p><span className="text-neon-cyan">⭐ 三等奖:</span> 4连普通符号</p>
-          <p><span className="text-neon-green">🍀 小奖:</span> 任意3连线</p>
+        <div className="text-xs text-muted-foreground space-y-1.5">
+          <p className="text-neon-yellow/90 bg-neon-yellow/5 p-1.5 rounded">
+            ℹ️ 中奖根据5个符号中<strong>相同符号的数量</strong>判定
+          </p>
+          <p><span className="text-neon-yellow">🎰 超级头奖:</span> 5个全是 7️⃣</p>
+          <p><span className="text-neon-purple">💎 头奖:</span> 5个全是 💎，或4个 7️⃣</p>
+          <p><span className="text-neon-orange">👑 一等奖:</span> 任意5个相同符号</p>
+          <p><span className="text-neon-pink">🔔 二等奖:</span> 4个相同的稀有符号 (7️⃣💎👑🔔⭐)</p>
+          <p><span className="text-neon-cyan">⭐ 三等奖:</span> 4个相同的普通符号 (🍒🍋🍊🍇🍀)</p>
+          <p><span className="text-neon-green">🍀 小奖:</span> 任意3个相同符号</p>
         </div>
       </div>
 
-      {/* 赔付线信息 */}
-      <div className="neon-border rounded-lg p-3 bg-muted/20 mb-4">
-        <h4 className="text-sm font-display text-neon-purple mb-2 flex items-center gap-2">
+      {/* 中间行说明 */}
+      <div className="neon-border-cyan rounded-lg p-3 bg-neon-cyan/5 mb-4">
+        <h4 className="text-sm font-display text-neon-cyan mb-2 flex items-center gap-2">
           <Medal className="w-4 h-4" />
-          赔付线 ({PAYLINES.length}条)
+          结果显示说明
         </h4>
         <div className="text-xs text-muted-foreground">
-          <p>15条赔付线同时检测，取最高奖励等级派奖</p>
+          <p>老虎机显示3行符号，但只有<span className="text-neon-cyan font-bold">中间行（高亮行）</span>是实际开奖结果。</p>
+          <p className="mt-1">上下两行为装饰符号，不参与中奖判定。</p>
         </div>
       </div>
 
