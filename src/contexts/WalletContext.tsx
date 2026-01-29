@@ -237,6 +237,8 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  // 本地模拟的销毁代币换凭证（演示模式用）
+  // 实际链上交互请使用 useCyberSlots 的 depositCredits
   const burnTokensForCredits = useCallback(async (amount: number): Promise<boolean> => {
     if (Number(state.tokenBalance) < amount) {
       setError('代币余额不足');

@@ -28,7 +28,8 @@ export function AdvancedSlotMachine() {
     refreshData,
     error: contractError,
   } = useCyberSlots();
-  const { isConnected, gameCredits, useCredits, connect, address } = useWallet();
+  const { isConnected, gameCredits: walletCredits, useCredits, connect, address } = useWallet();
+  const { gameCredits: contractCredits } = useCyberSlots();
   const { 
     playSpinSound, 
     playReelStopSound, 
@@ -138,7 +139,9 @@ export function AdvancedSlotMachine() {
       }
       return null;
     } else {
-      if (gameCredits < currentBetCredits) {
+      // 演示模式：优先使用链上凭证，否则使用本地模拟凭证
+      const currentCredits = useRealContract ? Number(contractCredits) : walletCredits;
+      if (currentCredits < currentBetCredits) {
         toast({
           title: "凭证不足",
           description: `需要 ${currentBetCredits.toLocaleString()} 游戏凭证。请先销毁代币兑换凭证。`,
@@ -164,7 +167,7 @@ export function AdvancedSlotMachine() {
       
       return result;
     }
-  }, [isConnected, useRealContract, contractSpin, currentBetCredits, gameCredits, useCredits, localSpin, playSpinSound]);
+  }, [isConnected, useRealContract, contractSpin, currentBetCredits, walletCredits, contractCredits, useCredits, localSpin, playSpinSound]);
 
   const handleSpin = async () => {
     playClickSound();
