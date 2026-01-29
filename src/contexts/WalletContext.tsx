@@ -1,9 +1,37 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import { BrowserProvider, formatEther } from 'ethers';
 
+// 钱包类型定义
+export type WalletType = 'metamask' | 'okx' | 'binance' | 'tokenpocket' | 'unknown';
+
+export interface WalletInfo {
+  id: WalletType;
+  name: string;
+  icon: string;
+  detected: boolean;
+  provider?: unknown;
+}
+
 declare global {
   interface Window {
     ethereum?: {
+      request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+      on: (event: string, callback: (...args: unknown[]) => void) => void;
+      removeListener: (event: string, callback: (...args: unknown[]) => void) => void;
+      isMetaMask?: boolean;
+      isTrust?: boolean;
+    };
+    okxwallet?: {
+      request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+      on: (event: string, callback: (...args: unknown[]) => void) => void;
+      removeListener: (event: string, callback: (...args: unknown[]) => void) => void;
+    };
+    BinanceChain?: {
+      request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+      on: (event: string, callback: (...args: unknown[]) => void) => void;
+      removeListener: (event: string, callback: (...args: unknown[]) => void) => void;
+    };
+    tokenpocket?: {
       request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
       on: (event: string, callback: (...args: unknown[]) => void) => void;
       removeListener: (event: string, callback: (...args: unknown[]) => void) => void;
@@ -17,23 +45,76 @@ interface WalletState {
   chainId: number | null;
   balance: string;
   tokenBalance: string;
-  gameCredits: number; // 游戏凭证 - 不可转让，绑定钱包
+  gameCredits: number;
+  connectedWallet: WalletType | null;
 }
 
 interface WalletContextType extends WalletState {
-  connect: () => Promise<void>;
+  connect: (walletType?: WalletType) => Promise<void>;
   disconnect: () => void;
   isConnecting: boolean;
   error: string | null;
-  // 凭证相关
+  availableWallets: WalletInfo[];
   burnTokensForCredits: (amount: number) => Promise<boolean>;
   useCredits: (amount: number) => boolean;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
 
-const BNB_CHAIN_ID = 56; // BSC Mainnet
-const BNB_TESTNET_CHAIN_ID = 97; // BSC Testnet
+const BNB_CHAIN_ID = 56;
+const BNB_TESTNET_CHAIN_ID = 97;
+
+// 检测可用钱包
+function detectWallets(): WalletInfo[] {
+  const wallets: WalletInfo[] = [
+    {
+      id: 'metamask',
+      name: 'MetaMask (小狐狸)',
+      icon: '🦊',
+      detected: typeof window !== 'undefined' && !!window.ethereum?.isMetaMask,
+      provider: typeof window !== 'undefined' ? window.ethereum : undefined,
+    },
+    {
+      id: 'okx',
+      name: 'OKX Wallet',
+      icon: '⭕',
+      detected: typeof window !== 'undefined' && !!window.okxwallet,
+      provider: typeof window !== 'undefined' ? window.okxwallet : undefined,
+    },
+    {
+      id: 'binance',
+      name: 'Binance Wallet (币安)',
+      icon: '🟡',
+      detected: typeof window !== 'undefined' && !!window.BinanceChain,
+      provider: typeof window !== 'undefined' ? window.BinanceChain : undefined,
+    },
+    {
+      id: 'tokenpocket',
+      name: 'TokenPocket (TP)',
+      icon: '🔵',
+      detected: typeof window !== 'undefined' && !!window.tokenpocket,
+      provider: typeof window !== 'undefined' ? window.tokenpocket : undefined,
+    },
+  ];
+
+  return wallets;
+}
+
+// 获取钱包Provider
+function getWalletProvider(walletType: WalletType): unknown | null {
+  switch (walletType) {
+    case 'metamask':
+      return window.ethereum;
+    case 'okx':
+      return window.okxwallet || window.ethereum;
+    case 'binance':
+      return window.BinanceChain || window.ethereum;
+    case 'tokenpocket':
+      return window.tokenpocket || window.ethereum;
+    default:
+      return window.ethereum;
+  }
+}
 
 export function WalletProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<WalletState>({
@@ -43,9 +124,29 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     balance: '0',
     tokenBalance: '0',
     gameCredits: 0,
+    connectedWallet: null,
   });
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [availableWallets, setAvailableWallets] = useState<WalletInfo[]>([]);
+
+  // 检测可用钱包
+  useEffect(() => {
+    const checkWallets = () => {
+      setAvailableWallets(detectWallets());
+    };
+    
+    // 延迟检测，确保钱包插件已加载
+    const timer = setTimeout(checkWallets, 100);
+    
+    // 监听钱包注入
+    window.addEventListener('load', checkWallets);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('load', checkWallets);
+    };
+  }, []);
 
   const updateBalance = useCallback(async (address: string, provider: BrowserProvider) => {
     try {
@@ -59,9 +160,18 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const connect = useCallback(async () => {
-    if (typeof window.ethereum === 'undefined') {
-      setError('Please install MetaMask to connect your wallet');
+  const connect = useCallback(async (walletType: WalletType = 'metamask') => {
+    const walletProvider = getWalletProvider(walletType);
+    
+    if (!walletProvider) {
+      const walletNames: Record<WalletType, string> = {
+        metamask: 'MetaMask',
+        okx: 'OKX Wallet',
+        binance: 'Binance Wallet',
+        tokenpocket: 'TokenPocket',
+        unknown: '钱包',
+      };
+      setError(`请先安装 ${walletNames[walletType]} 钱包`);
       return;
     }
 
@@ -69,23 +179,22 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     setError(null);
 
     try {
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(walletProvider as { request: (args: { method: string; params?: unknown[] }) => Promise<unknown> });
       const accounts = await provider.send('eth_requestAccounts', []);
       const network = await provider.getNetwork();
       const chainId = Number(network.chainId);
 
-      // Check if on BSC
+      // 切换到BSC网络
       if (chainId !== BNB_CHAIN_ID && chainId !== BNB_TESTNET_CHAIN_ID) {
         try {
-          await window.ethereum.request({
+          await (walletProvider as { request: (args: { method: string; params?: unknown[] }) => Promise<unknown> }).request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0x38' }], // BSC Mainnet
+            params: [{ chainId: '0x38' }],
           });
         } catch (switchError: unknown) {
-          // Chain not added, try to add it
           const err = switchError as { code?: number };
           if (err.code === 4902) {
-            await window.ethereum.request({
+            await (walletProvider as { request: (args: { method: string; params?: unknown[] }) => Promise<unknown> }).request({
               method: 'wallet_addEthereumChain',
               params: [{
                 chainId: '0x38',
@@ -105,14 +214,15 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         isConnected: true,
         chainId,
         balance: '0',
-        tokenBalance: '1000000', // Mock token balance for demo
-        gameCredits: 500000, // 初始赠送50万凭证供测试
+        tokenBalance: '1000000',
+        gameCredits: 500000,
+        connectedWallet: walletType,
       });
 
       await updateBalance(address, provider);
     } catch (err: unknown) {
       const error = err as Error;
-      setError(error.message || 'Failed to connect wallet');
+      setError(error.message || '连接钱包失败');
     } finally {
       setIsConnecting(false);
     }
@@ -126,19 +236,16 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       balance: '0',
       tokenBalance: '0',
       gameCredits: 0,
+      connectedWallet: null,
     });
   }, []);
 
-  // 销毁代币换取游戏凭证 (1:1兑换，永久有效，不可转让)
   const burnTokensForCredits = useCallback(async (amount: number): Promise<boolean> => {
     if (Number(state.tokenBalance) < amount) {
       setError('代币余额不足');
       return false;
     }
 
-    // 模拟链上销毁交易 (实际需要调用智能合约)
-    // await contract.burnForCredits(amount);
-    
     setState(prev => ({
       ...prev,
       tokenBalance: String(Number(prev.tokenBalance) - amount),
@@ -148,7 +255,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     return true;
   }, [state.tokenBalance]);
 
-  // 使用凭证进行游戏
   const useCredits = useCallback((amount: number): boolean => {
     if (state.gameCredits < amount) {
       return false;
@@ -162,9 +268,10 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     return true;
   }, [state.gameCredits]);
 
-  // Listen for account changes
+  // 监听账户变化
   useEffect(() => {
-    if (typeof window.ethereum === 'undefined') return;
+    const provider = state.connectedWallet ? getWalletProvider(state.connectedWallet) : window.ethereum;
+    if (!provider) return;
 
     const handleAccountsChanged = (accounts: unknown) => {
       const accountList = accounts as string[];
@@ -179,14 +286,15 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       window.location.reload();
     };
 
-    window.ethereum.on('accountsChanged', handleAccountsChanged);
-    window.ethereum.on('chainChanged', handleChainChanged);
+    const p = provider as { on: (event: string, callback: (...args: unknown[]) => void) => void; removeListener: (event: string, callback: (...args: unknown[]) => void) => void };
+    p.on('accountsChanged', handleAccountsChanged);
+    p.on('chainChanged', handleChainChanged);
 
     return () => {
-      window.ethereum?.removeListener('accountsChanged', handleAccountsChanged);
-      window.ethereum?.removeListener('chainChanged', handleChainChanged);
+      p.removeListener('accountsChanged', handleAccountsChanged);
+      p.removeListener('chainChanged', handleChainChanged);
     };
-  }, [disconnect]);
+  }, [disconnect, state.connectedWallet]);
 
   return (
     <WalletContext.Provider
@@ -196,6 +304,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         disconnect,
         isConnecting,
         error,
+        availableWallets,
         burnTokensForCredits,
         useCredits,
       }}
