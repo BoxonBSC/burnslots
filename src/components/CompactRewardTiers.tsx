@@ -102,19 +102,13 @@ export function CompactRewardTiers() {
         </p>
       </div>
 
-      {/* 奖池保护 */}
-      <div className="flex gap-2 mb-2 lg:mb-3">
-        <div className="flex-1 rounded-xl p-2 lg:p-2.5 bg-gradient-to-b from-neon-pink/10 to-transparent border border-neon-pink/20 text-center">
-          <div className="text-neon-yellow font-display text-sm lg:text-base">
-            {(POOL_PROTECTION.maxSinglePayout * 100).toFixed(0)}%
-          </div>
-          <div className="text-xs text-muted-foreground">单次最大</div>
-        </div>
-        <div className="flex-1 rounded-xl p-2 lg:p-2.5 bg-gradient-to-b from-neon-green/10 to-transparent border border-neon-green/20 text-center">
-          <div className="text-neon-green font-display text-sm lg:text-base">
-            {(POOL_PROTECTION.reservePercent * 100).toFixed(0)}%
-          </div>
-          <div className="text-xs text-muted-foreground">储备金</div>
+      {/* 单次派奖上限 */}
+      <div className="rounded-xl p-2.5 lg:p-3 bg-gradient-to-b from-neon-pink/10 to-transparent border border-neon-pink/20 text-center mb-2 lg:mb-3">
+        <div className="flex items-center justify-center gap-2">
+          <span className="text-xs text-muted-foreground">单次最大派奖:</span>
+          <span className="text-neon-yellow font-display text-sm lg:text-base">
+            奖池的 {(POOL_PROTECTION.maxSinglePayout * 100).toFixed(0)}%
+          </span>
         </div>
       </div>
 
