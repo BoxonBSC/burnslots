@@ -12,38 +12,20 @@ interface HistoryItem {
   isWin: boolean;
 }
 
-const mockHistory: HistoryItem[] = [
-  { id: '1', address: '0x1234...5678', result: '7️⃣ 7️⃣ 7️⃣ 7️⃣ 7️⃣', winAmount: 2.1, timestamp: new Date(Date.now() - 60000), isWin: true },
-  { id: '2', address: '0xabcd...ef01', result: '🍒 🍒 🍒 🍋 🍇', winAmount: 0.105, timestamp: new Date(Date.now() - 120000), isWin: true },
-  { id: '3', address: '0x9876...5432', result: '💎 💎 💎 💎 💎', winAmount: 0.525, timestamp: new Date(Date.now() - 180000), isWin: true },
-];
-
-const formatTime = (date: Date) => {
-  const diff = Date.now() - date.getTime();
-  const minutes = Math.floor(diff / 60000);
-  if (minutes < 1) return '刚刚';
-  if (minutes < 60) return `${minutes}分钟前`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}小时前`;
-  return `${Math.floor(hours / 24)}天前`;
-};
-
 export function CompactGameHistory() {
   const { recentWins } = useCyberSlots();
 
-  const displayHistory: HistoryItem[] = recentWins.length > 0
-    ? recentWins
-        .filter(win => win.winAmount > 0n)
-        .slice(0, 5)
-        .map((win, index) => ({
-          id: `${win.requestId}-${index}`,
-          address: shortenAddress(win.player),
-          result: formatSymbols(win.symbols).join(' '),
-          winAmount: parseFloat(formatEther(win.winAmount)),
-          timestamp: new Date(win.timestamp),
-          isWin: true,
-        }))
-    : mockHistory;
+  const displayHistory: HistoryItem[] = recentWins
+    .filter(win => win.winAmount > 0n)
+    .slice(0, 5)
+    .map((win, index) => ({
+      id: `${win.requestId}-${index}`,
+      address: shortenAddress(win.player),
+      result: formatSymbols(win.symbols).join(' '),
+      winAmount: parseFloat(formatEther(win.winAmount)),
+      timestamp: new Date(win.timestamp),
+      isWin: true,
+    }));
 
   return (
     <div className="cyber-card h-full flex flex-col">
@@ -52,7 +34,7 @@ export function CompactGameHistory() {
           <Clock className="w-4 h-4" />
           最近中奖
         </h3>
-        {recentWins.length > 0 && (
+        {displayHistory.length > 0 && (
           <span className="text-xs text-neon-green">🔗 实时</span>
         )}
       </div>
