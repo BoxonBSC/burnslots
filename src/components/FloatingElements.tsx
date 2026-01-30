@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 
-// Fire-themed floating icons
-const FLOATING_ICONS = ['🔥', '💎', '7️⃣', '🔔', '⭐', '🍒', '👑', '💰', '🎰', '✨', '🌟', '💫'];
+const FLOATING_ICONS = ['💎', '7️⃣', '🔔', '⭐', '🍒', '🍋', '👑', '💰', '🎰', '✨'];
 
 interface FloatingElementProps {
   count?: number;
@@ -25,7 +24,7 @@ export function FloatingElements({ count = 8 }: FloatingElementProps) {
       {elements.map((el) => (
         <motion.div
           key={el.id}
-          className="absolute opacity-15"
+          className="absolute opacity-20"
           style={{
             left: el.left,
             fontSize: el.size,

@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { Ticket, Minus, Plus, TrendingUp } from 'lucide-react';
-import { forwardRef } from 'react';
 
 // 最低20000凭证起投
 const BET_AMOUNTS = [20000, 50000, 100000, 200000, 500000];
@@ -21,8 +20,12 @@ interface BetSelectorProps {
   playClickSound?: () => void;
 }
 
-export const BetSelector = forwardRef<HTMLDivElement, BetSelectorProps>(
-  ({ currentBet, onBetChange, disabled = false, playClickSound }, ref) => {
+export function BetSelector({ 
+  currentBet, 
+  onBetChange, 
+  disabled = false,
+  playClickSound 
+}: BetSelectorProps) {
   const currentIndex = BET_AMOUNTS.indexOf(currentBet);
   
   const handleDecrease = () => {
@@ -170,8 +173,6 @@ export const BetSelector = forwardRef<HTMLDivElement, BetSelectorProps>(
       </div>
     </div>
   );
-});
-
-BetSelector.displayName = 'BetSelector';
+}
 
 export { BET_AMOUNTS, BET_MULTIPLIERS };

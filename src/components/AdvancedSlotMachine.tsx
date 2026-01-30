@@ -7,7 +7,7 @@ import { useCyberSlots, formatPrizeType } from '@/hooks/useCyberSlots';
 import { useWallet } from '@/contexts/WalletContext';
 import { useAudioContext } from '@/contexts/AudioContext';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Zap, TrendingUp, Coins, Flame, Trophy, Ticket, AlertCircle, Loader2 } from 'lucide-react';
+import { Zap, TrendingUp, Coins, Sparkles, Trophy, Ticket, AlertCircle, Loader2 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { formatEther } from 'ethers';
 import { type SlotSymbol } from '@/hooks/useAdvancedSlotMachine';
@@ -336,53 +336,34 @@ export function AdvancedSlotMachine() {
 
   return (
     <div className="relative">
-      {/* 深红光晕背景 */}
-      <div className="absolute -inset-6 rounded-3xl overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-fire-crimson/15 via-fire-red/10 to-fire-deep/20 blur-2xl" />
-        <motion.div
-          animate={{ opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          className="absolute inset-0 bg-gradient-to-t from-fire-ember/10 via-transparent to-transparent"
-        />
-      </div>
+      <div className="absolute -inset-4 bg-gradient-to-r from-neon-purple/10 via-neon-blue/10 to-neon-pink/10 blur-3xl rounded-3xl" />
       
       <motion.div
-        initial={{ scale: 0.95, opacity: 0 }}
+        initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="relative cyber-card overflow-visible fire-glow-pulse"
+        className="relative cyber-card overflow-visible"
       >
-        {/* 角落装饰 - 火焰色 */}
-        <div className="absolute -top-2 -left-2 w-10 h-10 border-t-2 border-l-2 border-fire-ember/60 rounded-tl-lg" />
-        <div className="absolute -top-2 -right-2 w-10 h-10 border-t-2 border-r-2 border-fire-ember/60 rounded-tr-lg" />
-        <div className="absolute -bottom-2 -left-2 w-10 h-10 border-b-2 border-l-2 border-fire-crimson/60 rounded-bl-lg" />
-        <div className="absolute -bottom-2 -right-2 w-10 h-10 border-b-2 border-r-2 border-fire-crimson/60 rounded-br-lg" />
+        <div className="absolute -top-2 -left-2 w-12 h-12 border-t-2 border-l-2 border-neon-blue rounded-tl-lg" />
+        <div className="absolute -top-2 -right-2 w-12 h-12 border-t-2 border-r-2 border-neon-blue rounded-tr-lg" />
+        <div className="absolute -bottom-2 -left-2 w-12 h-12 border-b-2 border-l-2 border-neon-purple rounded-bl-lg" />
+        <div className="absolute -bottom-2 -right-2 w-12 h-12 border-b-2 border-r-2 border-neon-purple rounded-br-lg" />
 
-        <div className="text-center mb-5">
+        <div className="text-center mb-6">
           <motion.h2 
-            className="text-2xl md:text-3xl font-display fire-text flex items-center justify-center gap-3"
+            className="text-3xl md:text-4xl font-display neon-text-blue glitch flex items-center justify-center gap-3"
             animate={isSpinning ? { scale: [1, 1.02, 1] } : {}}
             transition={{ duration: 0.3, repeat: isSpinning ? Infinity : 0 }}
           >
-            <motion.div
-              animate={{ scale: [1, 1.1, 1], rotate: [-2, 2, -2] }}
-              transition={{ duration: 0.6, repeat: Infinity }}
-            >
-              <Flame className="w-7 h-7 text-fire-ember flame-flicker" />
-            </motion.div>
-            BURN SLOTS
-            <motion.div
-              animate={{ scale: [1, 1.1, 1], rotate: [2, -2, 2] }}
-              transition={{ duration: 0.6, repeat: Infinity }}
-            >
-              <Flame className="w-7 h-7 text-fire-ember flame-flicker" />
-            </motion.div>
+            <Sparkles className="w-8 h-8 text-neon-yellow animate-pulse" />
+            CYBER SLOTS
+            <Sparkles className="w-8 h-8 text-neon-yellow animate-pulse" />
           </motion.h2>
-          <div className="flex items-center justify-center gap-2 mt-1.5">
+          <div className="flex items-center justify-center gap-2 mt-1">
             <p className="text-sm text-muted-foreground">
-              5轮符号匹配 · 通缩即奖励
+              5轮符号匹配 | 💯 100%返还
             </p>
-            <span className="text-xs px-2 py-0.5 rounded-md bg-neon-green/15 text-neon-green border border-neon-green/25">
-              链上模式
+            <span className="text-xs px-2 py-0.5 rounded bg-neon-green/20 text-neon-green border border-neon-green/30">
+              🔗 链上模式
             </span>
           </div>
         </div>
