@@ -1,18 +1,39 @@
 import { motion } from 'framer-motion';
 import { Navbar } from '@/components/Navbar';
 import { GameHistory } from '@/components/GameHistory';
-import { Trophy, TrendingUp, Users } from 'lucide-react';
-
-// Mock leaderboard data
-const leaderboard = [
-  { rank: 1, address: '0x1234...5678', totalWins: 15.234, winCount: 42 },
-  { rank: 2, address: '0xabcd...ef01', totalWins: 12.891, winCount: 38 },
-  { rank: 3, address: '0x9876...5432', totalWins: 10.567, winCount: 31 },
-  { rank: 4, address: '0xfedc...ba98', totalWins: 8.234, winCount: 27 },
-  { rank: 5, address: '0x2468...1357', totalWins: 6.789, winCount: 22 },
-];
+import { Trophy, TrendingUp, Coins } from 'lucide-react';
+import { useCyberSlots } from '@/hooks/useCyberSlots';
+import { formatEther } from 'ethers';
 
 const History = () => {
+  const { totalSpins, totalPaidOut, recentWins } = useCyberSlots();
+
+  // 从链上事件中计算排行榜数据
+  const leaderboard = (() => {
+    const playerMap = new Map<string, { totalWins: bigint; winCount: number }>();
+    
+    recentWins.forEach(win => {
+      if (win.winAmount > 0n) {
+        const existing = playerMap.get(win.player) || { totalWins: 0n, winCount: 0 };
+        playerMap.set(win.player, {
+          totalWins: existing.totalWins + win.winAmount,
+          winCount: existing.winCount + 1,
+        });
+      }
+    });
+
+    return Array.from(playerMap.entries())
+      .map(([address, data]) => ({
+        address: `${address.slice(0, 6)}...${address.slice(-4)}`,
+        fullAddress: address,
+        totalWins: parseFloat(formatEther(data.totalWins)),
+        winCount: data.winCount,
+      }))
+      .sort((a, b) => b.totalWins - a.totalWins)
+      .slice(0, 5)
+      .map((player, index) => ({ ...player, rank: index + 1 }));
+  })();
+
   return (
     <div className="min-h-screen bg-background cyber-grid relative">
       <div className="fixed inset-0 pointer-events-none scanlines opacity-50" />
@@ -42,45 +63,55 @@ const History = () => {
             <h2 className="text-xl font-display neon-text-yellow flex items-center gap-2 mb-4">
               <Trophy className="w-5 h-5" />
               中奖排行榜
+              <span className="text-xs text-neon-green ml-2">🔗 实时</span>
             </h2>
 
             <div className="space-y-2">
-              {leaderboard.map((player, index) => (
-                <motion.div
-                  key={player.address}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className={`
-                    flex items-center gap-4 p-3 rounded-lg
-                    ${index === 0 ? 'neon-border bg-neon-yellow/10' : 
-                      index === 1 ? 'border border-neon-purple/50 bg-neon-purple/5' :
-                      index === 2 ? 'border border-neon-cyan/50 bg-neon-cyan/5' :
-                      'border border-border bg-muted/20'}
-                  `}
-                >
-                  <div className={`
-                    w-8 h-8 rounded-full flex items-center justify-center font-display
-                    ${index === 0 ? 'bg-neon-yellow/20 text-neon-yellow' :
-                      index === 1 ? 'bg-neon-purple/20 text-neon-purple' :
-                      index === 2 ? 'bg-neon-cyan/20 text-neon-cyan' :
-                      'bg-muted text-muted-foreground'}
-                  `}>
-                    {player.rank}
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-display text-foreground">{player.address}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {player.winCount} 次中奖
+              {leaderboard.length > 0 ? (
+                leaderboard.map((player, index) => (
+                  <motion.a
+                    key={player.fullAddress}
+                    href={`https://bscscan.com/address/${player.fullAddress}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    className={`
+                      flex items-center gap-4 p-3 rounded-lg cursor-pointer hover:opacity-80 transition-opacity
+                      ${index === 0 ? 'neon-border bg-neon-yellow/10' : 
+                        index === 1 ? 'border border-neon-purple/50 bg-neon-purple/5' :
+                        index === 2 ? 'border border-neon-cyan/50 bg-neon-cyan/5' :
+                        'border border-border bg-muted/20'}
+                    `}
+                  >
+                    <div className={`
+                      w-8 h-8 rounded-full flex items-center justify-center font-display
+                      ${index === 0 ? 'bg-neon-yellow/20 text-neon-yellow' :
+                        index === 1 ? 'bg-neon-purple/20 text-neon-purple' :
+                        index === 2 ? 'bg-neon-cyan/20 text-neon-cyan' :
+                        'bg-muted text-muted-foreground'}
+                    `}>
+                      {player.rank}
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-display text-neon-yellow">
-                      {player.totalWins.toFixed(3)} BNB
+                    <div className="flex-1">
+                      <div className="font-display text-foreground">{player.address}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {player.winCount} 次中奖
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                    <div className="text-right">
+                      <div className="font-display text-neon-yellow">
+                        {player.totalWins.toFixed(4)} BNB
+                      </div>
+                    </div>
+                  </motion.a>
+                ))
+              ) : (
+                <div className="text-center text-muted-foreground py-8">
+                  暂无排行榜数据
+                </div>
+              )}
             </div>
           </motion.div>
 
@@ -98,33 +129,28 @@ const History = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4"
+          className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4"
         >
-          <div className="cyber-card flex items-center gap-4">
-            <div className="p-3 rounded-lg bg-neon-blue/20">
-              <Users className="w-6 h-6 text-neon-blue" />
-            </div>
-            <div>
-              <div className="text-2xl font-display text-foreground">1,234</div>
-              <div className="text-sm text-muted-foreground">总玩家数</div>
-            </div>
-          </div>
           <div className="cyber-card flex items-center gap-4">
             <div className="p-3 rounded-lg bg-neon-purple/20">
               <TrendingUp className="w-6 h-6 text-neon-purple" />
             </div>
             <div>
-              <div className="text-2xl font-display text-foreground">45,678</div>
-              <div className="text-sm text-muted-foreground">总游戏次数</div>
+              <div className="text-2xl font-display text-foreground">
+                {totalSpins.toString()}
+              </div>
+              <div className="text-sm text-muted-foreground">总游戏次数 🔗</div>
             </div>
           </div>
           <div className="cyber-card flex items-center gap-4">
             <div className="p-3 rounded-lg bg-neon-yellow/20">
-              <Trophy className="w-6 h-6 text-neon-yellow" />
+              <Coins className="w-6 h-6 text-neon-yellow" />
             </div>
             <div>
-              <div className="text-2xl font-display text-foreground">234.56 BNB</div>
-              <div className="text-sm text-muted-foreground">总派奖金额</div>
+              <div className="text-2xl font-display text-foreground">
+                {parseFloat(totalPaidOut).toFixed(4)} BNB
+              </div>
+              <div className="text-sm text-muted-foreground">总派奖金额 🔗</div>
             </div>
           </div>
         </motion.div>

@@ -1,23 +1,18 @@
 import { motion } from 'framer-motion';
 import { Clock, Trophy, User } from 'lucide-react';
+import { useCyberSlots, formatSymbols, shortenAddress } from '@/hooks/useCyberSlots';
+import { formatEther } from 'ethers';
 
 interface HistoryItem {
   id: string;
   address: string;
+  fullAddress: string;
   result: string;
   winAmount: number;
   timestamp: Date;
   isWin: boolean;
+  txHash?: string;
 }
-
-// Mock data for demo
-const mockHistory: HistoryItem[] = [
-  { id: '1', address: '0x1234...5678', result: '7️⃣ 7️⃣ 7️⃣', winAmount: 2.1, timestamp: new Date(Date.now() - 60000), isWin: true },
-  { id: '2', address: '0xabcd...ef01', result: '🍒 🍒 🍋', winAmount: 0.105, timestamp: new Date(Date.now() - 120000), isWin: true },
-  { id: '3', address: '0x9876...5432', result: '💎 💎 💎', winAmount: 0.525, timestamp: new Date(Date.now() - 180000), isWin: true },
-  { id: '4', address: '0xfedc...ba98', result: '⭐ 🔔 🍀', winAmount: 0, timestamp: new Date(Date.now() - 240000), isWin: false },
-  { id: '5', address: '0x2468...1357', result: '🍋 🍋 🍒', winAmount: 0.105, timestamp: new Date(Date.now() - 300000), isWin: true },
-];
 
 const formatTime = (date: Date) => {
   const diff = Date.now() - date.getTime();
@@ -30,6 +25,25 @@ const formatTime = (date: Date) => {
 };
 
 export function GameHistory() {
+  const { recentWins } = useCyberSlots();
+
+  // 显示所有中奖记录（最多20条）
+  const displayHistory: HistoryItem[] = recentWins
+    .filter(win => win.winAmount > 0n)
+    .slice(0, 20)
+    .map((win, index) => ({
+      id: `${win.requestId}-${index}`,
+      address: shortenAddress(win.player),
+      fullAddress: win.player,
+      result: formatSymbols(win.symbols).join(' '),
+      winAmount: parseFloat(formatEther(win.winAmount)),
+      timestamp: new Date(win.timestamp),
+      isWin: true,
+      txHash: win.txHash,
+    }));
+
+  const getBscScanUrl = (hash: string) => `https://bscscan.com/tx/${hash}`;
+
   return (
     <div className="cyber-card">
       <div className="flex items-center justify-between mb-4">
@@ -37,44 +51,70 @@ export function GameHistory() {
           <Clock className="w-5 h-5" />
           最近中奖记录
         </h3>
+        {displayHistory.length > 0 && (
+          <span className="text-xs text-neon-green">🔗 链上实时</span>
+        )}
       </div>
 
-      <div className="space-y-2">
-        {mockHistory.map((item, index) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className={`
-              flex items-center gap-3 p-3 rounded-lg
-              ${item.isWin ? 'neon-border bg-neon-green/5' : 'border border-border bg-muted/20'}
-            `}
-          >
-            <div className="flex items-center gap-2 flex-1 min-w-0">
-              <User className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-              <span className="text-sm text-muted-foreground truncate">
-                {item.address}
-              </span>
-            </div>
-            <div className="text-lg flex-shrink-0">
-              {item.result}
-            </div>
-            <div className="text-right flex-shrink-0">
-              {item.isWin ? (
-                <div className="flex items-center gap-1 text-neon-yellow">
-                  <Trophy className="w-4 h-4" />
-                  <span className="font-display">+{item.winAmount.toFixed(3)}</span>
+      <div className="space-y-2 max-h-96 overflow-y-auto">
+        {displayHistory.length > 0 ? (
+          displayHistory.map((item, index) => {
+            const content = (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className={`
+                  flex items-center gap-3 p-3 rounded-lg
+                  ${item.isWin ? 'neon-border bg-neon-green/5' : 'border border-border bg-muted/20'}
+                  ${item.txHash ? 'cursor-pointer hover:bg-neon-green/10 transition-colors' : ''}
+                `}
+              >
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <User className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                  <span className="text-sm text-muted-foreground truncate">
+                    {item.address}
+                  </span>
                 </div>
-              ) : (
-                <span className="text-muted-foreground text-sm">未中奖</span>
-              )}
-            </div>
-            <div className="text-xs text-muted-foreground flex-shrink-0 w-16 text-right">
-              {formatTime(item.timestamp)}
-            </div>
-          </motion.div>
-        ))}
+                <div className="text-lg flex-shrink-0">
+                  {item.result}
+                </div>
+                <div className="text-right flex-shrink-0">
+                  {item.isWin ? (
+                    <div className="flex items-center gap-1 text-neon-yellow">
+                      <Trophy className="w-4 h-4" />
+                      <span className="font-display">+{item.winAmount.toFixed(4)}</span>
+                    </div>
+                  ) : (
+                    <span className="text-muted-foreground text-sm">未中奖</span>
+                  )}
+                </div>
+                <div className="text-xs text-muted-foreground flex-shrink-0 w-16 text-right">
+                  {formatTime(item.timestamp)}
+                </div>
+              </motion.div>
+            );
+
+            return item.txHash ? (
+              <a
+                key={item.id}
+                href={getBscScanUrl(item.txHash)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                {content}
+              </a>
+            ) : (
+              content
+            );
+          })
+        ) : (
+          <div className="text-center text-muted-foreground py-8">
+            暂无中奖记录
+          </div>
+        )}
       </div>
     </div>
   );
