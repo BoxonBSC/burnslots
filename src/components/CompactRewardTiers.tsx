@@ -124,14 +124,14 @@ export function CompactRewardTiers() {
         </div>
       </div>
 
-      {/* 6级奖励表 - 移动端精简显示前3个 */}
+      {/* 6级奖励表 - 全部显示 */}
       <div className="rounded-xl p-2.5 lg:p-3 bg-gradient-to-b from-neon-purple/10 to-transparent border border-neon-purple/20 mb-2 lg:mb-3">
         <h4 className="text-xs font-display text-neon-purple mb-2 flex items-center gap-1.5">
           <Award className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
           {t('reward.levels')}
         </h4>
         <div className="space-y-1 lg:space-y-1.5">
-          {PRIZE_TIERS.slice(0, isMobile ? 3 : 6).map((prize, index) => (
+          {PRIZE_TIERS.slice(0, 6).map((prize, index) => (
             <div
               key={prize.type}
               className={`
@@ -160,11 +160,6 @@ export function CompactRewardTiers() {
               </span>
             </div>
           ))}
-          {isMobile && (
-            <div className="text-xs text-center text-muted-foreground pt-1">
-              {t('reward.moreLevel')}
-            </div>
-          )}
         </div>
       </div>
 
