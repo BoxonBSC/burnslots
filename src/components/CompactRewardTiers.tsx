@@ -14,11 +14,11 @@ import { toast } from 'sonner';
 
 // 投注对应的概率加成倍数
 const BET_MULTIPLIERS: Record<number, number> = {
-  20000: 1,
-  50000: 2.5,
-  100000: 5,
-  200000: 10,
-  500000: 20,
+  10000: 1,
+  25000: 2.5,
+  50000: 5,
+  100000: 10,
+  250000: 20,
 };
 const rarityInfo = {
   legendary: { 
