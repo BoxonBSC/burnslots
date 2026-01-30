@@ -27,27 +27,13 @@ export const SYMBOLS: SymbolInfo[] = [
   { id: 'clover', emoji: '🍀', name: 'Clover', rarity: 'common' },           // 9
 ];
 
-// 5轮，每轮3行
+// 5轮，每轮3行，但只有中间行有效
 export const REELS = 5;
 export const ROWS = 3;
 
-// 赔付线定义 (15条线)
+// 赔付线定义 (只有中间行有效)
 export const PAYLINES: number[][] = [
-  [1, 1, 1, 1, 1], // 中间横线
-  [0, 0, 0, 0, 0], // 顶部横线
-  [2, 2, 2, 2, 2], // 底部横线
-  [0, 1, 2, 1, 0], // V形
-  [2, 1, 0, 1, 2], // 倒V形
-  [0, 0, 1, 2, 2], // 下斜
-  [2, 2, 1, 0, 0], // 上斜
-  [1, 0, 0, 0, 1], // 顶部凹
-  [1, 2, 2, 2, 1], // 底部凸
-  [0, 1, 1, 1, 0], // 轻微V
-  [2, 1, 1, 1, 2], // 轻微倒V
-  [1, 0, 1, 2, 1], // 锯齿1
-  [1, 2, 1, 0, 1], // 锯齿2
-  [0, 1, 0, 1, 0], // 波浪顶
-  [2, 1, 2, 1, 2], // 波浪底
+  [1, 1, 1, 1, 1], // 中间横线 - 唯一有效的赔付线
 ];
 
 export interface WinLine {
@@ -84,13 +70,13 @@ export const POOL_PROTECTION = {
 };
 
 export const PRIZE_TIERS: PrizeConfig[] = [
-  { type: 'mega_jackpot', name: '超级头奖', emoji: '🎰', description: '5×7连线', poolPercent: 0.50 },
-  { type: 'jackpot', name: '头奖', emoji: '💎', description: '5×💎 或 4×7', poolPercent: 0.25 },
-  { type: 'first', name: '一等奖', emoji: '👑', description: '5连其他符号', poolPercent: 0.13 },
-  { type: 'second', name: '二等奖', emoji: '🔔', description: '4连高级符号', poolPercent: 0.05 },
-  { type: 'third', name: '三等奖', emoji: '⭐', description: '4连普通符号', poolPercent: 0.017 },
-  { type: 'small', name: '小奖', emoji: '🍀', description: '3连任意符号', poolPercent: 0.005 },
-  { type: 'consolation', name: '安慰奖', emoji: '🎁', description: '2连任意符号', poolPercent: 0.001 },
+  { type: 'mega_jackpot', name: '超级头奖', emoji: '🎰', description: '5×7️⃣', poolPercent: 0.50 },
+  { type: 'jackpot', name: '头奖', emoji: '💎', description: '5×💎 或 4×7️⃣', poolPercent: 0.25 },
+  { type: 'first', name: '一等奖', emoji: '👑', description: '5个相同符号', poolPercent: 0.13 },
+  { type: 'second', name: '二等奖', emoji: '🔔', description: '4个高级符号', poolPercent: 0.05 },
+  { type: 'third', name: '三等奖', emoji: '⭐', description: '4个普通符号', poolPercent: 0.017 },
+  { type: 'small', name: '小奖', emoji: '🍀', description: '3个相同符号', poolPercent: 0.005 },
+  { type: 'consolation', name: '安慰奖', emoji: '🎁', description: '2个相同符号', poolPercent: 0.001 },
 ];
 
 export interface SpinResult {
