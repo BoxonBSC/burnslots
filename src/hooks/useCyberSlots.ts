@@ -415,7 +415,7 @@ export function useCyberSlots(): UseCyberSlotsReturn {
       const isValidBet = await slots.isValidBetAmount(betAmountWei);
       console.log('[CyberSlots] isValidBetAmount:', isValidBet, 'betAmount:', betAmount);
       if (!isValidBet) {
-        const msg = `无效投注金额：${betAmount}，只能选择 20K/50K/100K/200K/500K`;
+        const msg = `无效投注金额：${betAmount}，只能选择 10K/25K/50K/100K/250K`;
         setState(prev => ({ ...prev, error: msg }));
         setIsSpinning(false);
         return null;
