@@ -258,30 +258,30 @@ const Rules = () => {
                 <div>
                   <div className="font-display text-foreground mb-1">3. 选择投注金额</div>
                   <div className="text-sm text-muted-foreground space-y-2">
-                    <p>最低 <span className="text-neon-yellow font-display">20,000 凭证</span> 起投，可选择更高金额：</p>
+                    <p>最低 <span className="text-neon-yellow font-display">10,000 凭证</span> 起投，可选择更高金额：</p>
                     <div className="grid grid-cols-5 gap-1 text-xs">
                       <div className="p-2 rounded bg-muted/30 text-center">
-                        <div className="text-foreground">20K</div>
+                        <div className="text-foreground">10K</div>
                         <div className="text-muted-foreground">1x</div>
                       </div>
                       <div className="p-2 rounded bg-neon-cyan/10 border border-neon-cyan/30 text-center">
-                        <div className="text-neon-cyan">50K</div>
+                        <div className="text-neon-cyan">25K</div>
                         <div className="text-neon-green">2.5x</div>
                       </div>
                       <div className="p-2 rounded bg-neon-purple/10 border border-neon-purple/30 text-center">
-                        <div className="text-neon-purple">100K</div>
+                        <div className="text-neon-purple">50K</div>
                         <div className="text-neon-green">5x</div>
                       </div>
                       <div className="p-2 rounded bg-neon-yellow/10 border border-neon-yellow/30 text-center">
-                        <div className="text-neon-yellow">200K</div>
+                        <div className="text-neon-yellow">100K</div>
                         <div className="text-neon-green">10x</div>
                       </div>
                       <div className="p-2 rounded bg-neon-yellow/20 border border-neon-yellow/50 text-center">
-                        <div className="text-neon-yellow">500K</div>
+                        <div className="text-neon-yellow">250K</div>
                         <div className="text-neon-green">20x</div>
                       </div>
                     </div>
-                    <p className="text-neon-green">💡 投注越高，中奖概率越大！500K投注有20倍概率加成！</p>
+                    <p className="text-neon-green">💡 投注越高，中奖概率越大！250K投注有20倍概率加成！</p>
                   </div>
                 </div>
               </div>

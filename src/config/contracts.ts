@@ -85,9 +85,9 @@ export const PRIZE_TYPE_MAP: Record<string, { name: string; emoji: string }> = {
 };
 
 export const BET_LEVELS = [
-  { value: 20000, label: '20K', multiplier: '1x' },
-  { value: 50000, label: '50K', multiplier: '2.5x' },
-  { value: 100000, label: '100K', multiplier: '5x' },
-  { value: 200000, label: '200K', multiplier: '10x' },
-  { value: 500000, label: '500K', multiplier: '20x' },
+  { value: 10000, label: '10K', multiplier: '1x' },
+  { value: 25000, label: '25K', multiplier: '2.5x' },
+  { value: 50000, label: '50K', multiplier: '5x' },
+  { value: 100000, label: '100K', multiplier: '10x' },
+  { value: 250000, label: '250K', multiplier: '20x' },
 ];
