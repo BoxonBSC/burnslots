@@ -6,7 +6,7 @@ interface WinDisplayProps {
   result: SpinResult;
 }
 
-// 6级奖励显示配置
+// 7级奖励显示配置 - 与合约 prizeType 一致
 const PRIZE_DISPLAY: Record<PrizeType, { 
   title: string; 
   icon: React.ReactNode;
@@ -14,8 +14,8 @@ const PRIZE_DISPLAY: Record<PrizeType, {
   glowClass: string;
   animate: boolean;
 }> = {
-  mega_jackpot: {
-    title: '🎰 MEGA JACKPOT 🎰',
+  super_jackpot: {
+    title: '🎰 SUPER JACKPOT 🎰',
     icon: <Trophy className="w-10 h-10 text-neon-yellow" />,
     colorClass: 'text-neon-yellow',
     glowClass: 'drop-shadow-[0_0_40px_hsl(50_100%_50%/0.9)]',
@@ -74,7 +74,7 @@ const PRIZE_DISPLAY: Record<PrizeType, {
 
 export function WinDisplay({ result }: WinDisplayProps) {
   const displayConfig = PRIZE_DISPLAY[result.prizeType];
-  const isHighTier = ['mega_jackpot', 'jackpot', 'first'].includes(result.prizeType);
+  const isHighTier = ['super_jackpot', 'jackpot', 'first'].includes(result.prizeType);
   
   return (
     <motion.div
