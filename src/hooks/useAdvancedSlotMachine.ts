@@ -43,9 +43,9 @@ export interface WinLine {
   positions: [number, number][]; // [reel, row]
 }
 
-// 7级奖励系统 - 基于奖池百分比（慷慨版）
+// 7级奖励系统 - 基于奖池百分比（与合约一致）
 export type PrizeType = 
-  | 'mega_jackpot'  // 超级头奖: 5个7
+  | 'super_jackpot' // 超级头奖: 5个7
   | 'jackpot'       // 头奖: 5个钻石 或 4个7
   | 'first'         // 一等奖: 5个相同 (其他符号)
   | 'second'        // 二等奖: 4个相同 (高级符号)
@@ -69,8 +69,16 @@ export const POOL_PROTECTION = {
   reservePercent: 0,       // 无储备金
 };
 
+// 与合约常量完全一致：
+// SUPER_JACKPOT_PERCENT = 5000 (50%)
+// JACKPOT_PERCENT = 2500 (25%)
+// FIRST_PRIZE_PERCENT = 1300 (13%)
+// SECOND_PRIZE_PERCENT = 500 (5%)
+// THIRD_PRIZE_PERCENT = 170 (1.7%)
+// SMALL_PRIZE_PERCENT = 50 (0.5%)
+// CONSOLATION_PRIZE_PERCENT = 10 (0.1%)
 export const PRIZE_TIERS: PrizeConfig[] = [
-  { type: 'mega_jackpot', name: '超级头奖', emoji: '🎰', description: '5×7️⃣', poolPercent: 0.50 },
+  { type: 'super_jackpot', name: '超级头奖', emoji: '🎰', description: '5×7️⃣', poolPercent: 0.50 },
   { type: 'jackpot', name: '头奖', emoji: '💎', description: '5×💎 或 4×7️⃣', poolPercent: 0.25 },
   { type: 'first', name: '一等奖', emoji: '👑', description: '5个相同符号', poolPercent: 0.13 },
   { type: 'second', name: '二等奖', emoji: '🔔', description: '4个高级符号', poolPercent: 0.05 },
@@ -235,7 +243,7 @@ const determinePrizeType = (winLines: WinLine[]): PrizeType => {
   );
   const hasFourMatch = winLines.some(line => line.count === 4);
   
-  if (hasFiveSevens) return 'mega_jackpot';
+  if (hasFiveSevens) return 'super_jackpot';
   if (hasFiveDiamonds || hasFourSevens) return 'jackpot';
   if (hasFiveMatch) return 'first';
   if (hasFourLegendary || hasFourEpic) return 'second';
@@ -363,7 +371,7 @@ export function useAdvancedSlotMachine() {
         // 计算奖池派奖
         const { payout, percentUsed } = calculatePoolPayout(prizeType, prizeConfig, prizePool);
         
-        const isJackpotWin = prizeType === 'mega_jackpot' || prizeType === 'jackpot';
+        const isJackpotWin = prizeType === 'super_jackpot' || prizeType === 'jackpot';
         const hitRate = winLines.length / PAYLINES.length;
 
         const result: SpinResult = {
