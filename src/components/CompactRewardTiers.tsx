@@ -124,42 +124,48 @@ export function CompactRewardTiers() {
         </div>
       </div>
 
-      {/* 6级奖励表 - 全部显示 */}
+      {/* 7级奖励表 - 全部显示 */}
       <div className="rounded-xl p-2.5 lg:p-3 bg-gradient-to-b from-neon-purple/10 to-transparent border border-neon-purple/20 mb-2 lg:mb-3">
         <h4 className="text-xs font-display text-neon-purple mb-2 flex items-center gap-1.5">
           <Award className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
           {t('reward.levels')}
         </h4>
         <div className="space-y-1 lg:space-y-1.5">
-          {PRIZE_TIERS.slice(0, 6).map((prize, index) => (
-            <div
-              key={prize.type}
-              className={`
-                flex items-center gap-1.5 lg:gap-2 p-1.5 lg:p-2 rounded-lg text-xs transition-colors
-                ${index === 0 
-                  ? 'bg-gradient-to-r from-neon-yellow/15 to-neon-orange/10 border border-neon-yellow/25' 
-                  : index === 1 
-                  ? 'bg-gradient-to-r from-neon-purple/15 to-neon-pink/10 border border-neon-purple/25' 
-                  : 'bg-muted/20 border border-border/30'}
-              `}
-            >
-              <span className="text-sm">{prize.emoji}</span>
-              <span className={`flex-1 font-medium ${
-                index === 0 ? 'text-neon-yellow' : 
-                index === 1 ? 'text-neon-purple' : 
-                'text-foreground/80'
-              }`}>
-                {prizeNames[prize.type] || prize.name}
-              </span>
-              <span className={`font-display ${
-                index === 0 ? 'text-neon-yellow' :
-                index === 1 ? 'text-neon-purple' :
-                'text-neon-green'
-              }`}>
-                {(prize.poolPercent * 100).toFixed(0)}%
-              </span>
-            </div>
-          ))}
+          {PRIZE_TIERS.map((prize, index) => {
+            // 正确格式化百分比：小于1%显示1位小数，否则显示整数
+            const percent = prize.poolPercent * 100;
+            const percentStr = percent < 1 ? percent.toFixed(1) : percent.toFixed(0);
+            
+            return (
+              <div
+                key={prize.type}
+                className={`
+                  flex items-center gap-1.5 lg:gap-2 p-1.5 lg:p-2 rounded-lg text-xs transition-colors
+                  ${index === 0 
+                    ? 'bg-gradient-to-r from-neon-yellow/15 to-neon-orange/10 border border-neon-yellow/25' 
+                    : index === 1 
+                    ? 'bg-gradient-to-r from-neon-purple/15 to-neon-pink/10 border border-neon-purple/25' 
+                    : 'bg-muted/20 border border-border/30'}
+                `}
+              >
+                <span className="text-sm">{prize.emoji}</span>
+                <span className={`flex-1 font-medium ${
+                  index === 0 ? 'text-neon-yellow' : 
+                  index === 1 ? 'text-neon-purple' : 
+                  'text-foreground/80'
+                }`}>
+                  {prizeNames[prize.type] || prize.name}
+                </span>
+                <span className={`font-display ${
+                  index === 0 ? 'text-neon-yellow' :
+                  index === 1 ? 'text-neon-purple' :
+                  'text-neon-green'
+                }`}>
+                  {percentStr}%
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
 
