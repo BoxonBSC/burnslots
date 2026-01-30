@@ -85,13 +85,13 @@ const Index = () => {
               whileHover={{ scale: 1.1 }}
               className="px-3 py-1 rounded-full text-xs font-display bg-neon-purple/20 text-neon-purple border border-neon-purple/30 flex items-center gap-1"
             >
-              <Zap className="w-3 h-3" /> 5轮 × 3行
+              <Zap className="w-3 h-3" /> 5符号匹配
             </motion.span>
             <motion.span
               whileHover={{ scale: 1.1 }}
               className="px-3 py-1 rounded-full text-xs font-display bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30"
             >
-              15条赔付线
+              中间行赔付
             </motion.span>
             <motion.span
               whileHover={{ scale: 1.1 }}
