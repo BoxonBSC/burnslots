@@ -34,7 +34,7 @@ export function Navbar() {
               🎰
             </motion.span>
             <span className="font-display text-xl neon-text-blue hidden sm:block">
-              BURN SLOTS
+              FOURSLOTS
             </span>
           </Link>
 
