@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Orbitron', 'sans-serif'],
-        sans: ['Rajdhani', 'sans-serif'],
+        display: ['Playfair Display', 'serif'],
+        sans: ['DM Sans', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -107,8 +107,8 @@ export default {
         "flicker": "flicker 3s ease-in-out infinite",
       },
       backgroundImage: {
-        "cyber-gradient": "linear-gradient(135deg, hsl(var(--neon-blue) / 0.2), hsl(var(--neon-purple) / 0.2))",
-        "cyber-gradient-intense": "linear-gradient(135deg, hsl(var(--neon-blue) / 0.4), hsl(var(--neon-purple) / 0.4))",
+        "cyber-gradient": "linear-gradient(135deg, hsl(var(--neon-blue) / 0.2), hsl(var(--neon-purple) / 0.15))",
+        "cyber-gradient-intense": "linear-gradient(135deg, hsl(var(--neon-blue) / 0.4), hsl(var(--neon-purple) / 0.3))",
       },
     },
   },

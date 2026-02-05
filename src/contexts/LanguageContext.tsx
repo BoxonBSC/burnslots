@@ -38,7 +38,7 @@ const translations: Record<Language, Record<string, string>> = {
     'jackpot.waiting': '等待第一位赢家...',
     
     // 老虎机
-    'slot.title': 'BURN SLOTS',
+    'slot.title': 'FOURSLOTS',
     'slot.subtitle': '5轮符号匹配',
     'slot.return': '100%返还',
     'slot.onchain': '链上模式',
@@ -194,7 +194,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // 规则页面
     'rules.title': '游戏规则说明',
-    'rules.subtitle': '一分钟看懂 Burn Slots 怎么玩',
+    'rules.subtitle': '一分钟看懂 FOURSLOTS 怎么玩',
     'rules.whatIsThis': '这是什么游戏？',
     'rules.simpleExplain': '简单来说：用代币换凭证 → 用凭证玩老虎机 → 中奖赢 BNB',
     'rules.highlight': '核心亮点：100% 通缩销毁，零平台抽成！',
@@ -481,7 +481,7 @@ const translations: Record<Language, Record<string, string>> = {
     'jackpot.waiting': 'Waiting for first winner...',
     
     // Slot machine
-    'slot.title': 'BURN SLOTS',
+    'slot.title': 'FOURSLOTS',
     'slot.subtitle': '5-Reel Symbol Match',
     'slot.return': '100% Return',
     'slot.onchain': 'On-Chain',
@@ -637,7 +637,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Rules page
     'rules.title': 'Game Rules',
-    'rules.subtitle': 'Learn how to play Burn Slots in 1 minute',
+    'rules.subtitle': 'Learn how to play FOURSLOTS in 1 minute',
     'rules.whatIsThis': 'What is this game?',
     'rules.simpleExplain': 'Simply: Burn tokens → Get credits → Play slots → Win BNB',
     'rules.highlight': 'Core highlight: 100% deflationary burn, zero platform fees!',

@@ -77,7 +77,7 @@ const Index = () => {
               >
                 <Sparkles className="w-5 h-5 sm:w-8 sm:h-8 text-neon-yellow" />
               </motion.div>
-              BURN SLOTS
+              FOURSLOTS
               <motion.div
                 animate={{ rotate: [0, -10, 10, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}

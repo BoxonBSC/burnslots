@@ -2,66 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Cyberpunk Design System - Neon colors, dark theme */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+/* Vegas Luxury Design System - Gold & Red, premium casino feel */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    /* Cyberpunk Neon Colors */
-    --neon-blue: 195 100% 50%;
-    --neon-purple: 280 100% 60%;
-    --neon-pink: 320 100% 60%;
-    --neon-cyan: 180 100% 50%;
-    --neon-green: 150 100% 50%;
-    --neon-yellow: 50 100% 50%;
-    --neon-orange: 25 100% 55%;
+    /* Vegas Luxury Colors */
+    --neon-blue: 45 90% 50%;
+    --neon-purple: 0 75% 48%;
+    --neon-pink: 345 80% 52%;
+    --neon-cyan: 35 90% 52%;
+    --neon-green: 150 80% 45%;
+    --neon-yellow: 48 100% 52%;
+    --neon-orange: 25 95% 52%;
     
-    /* Dark Background Palette */
-    --background: 240 20% 4%;
-    --foreground: 195 100% 90%;
+    /* Dark Background Palette - warm tones */
+    --background: 20 20% 5%;
+    --foreground: 40 40% 92%;
 
-    --card: 240 15% 8%;
-    --card-foreground: 195 100% 90%;
+    --card: 20 15% 9%;
+    --card-foreground: 40 40% 92%;
 
-    --popover: 240 15% 10%;
-    --popover-foreground: 195 100% 90%;
+    --popover: 20 15% 11%;
+    --popover-foreground: 40 40% 92%;
 
-    --primary: 195 100% 50%;
-    --primary-foreground: 240 20% 4%;
+    --primary: 45 90% 50%;
+    --primary-foreground: 20 20% 5%;
 
-    --secondary: 280 100% 60%;
-    --secondary-foreground: 240 20% 4%;
+    --secondary: 0 75% 48%;
+    --secondary-foreground: 40 40% 92%;
 
-    --muted: 240 15% 15%;
-    --muted-foreground: 195 50% 60%;
+    --muted: 20 12% 16%;
+    --muted-foreground: 35 30% 55%;
 
-    --accent: 320 100% 60%;
-    --accent-foreground: 240 20% 4%;
+    --accent: 345 80% 52%;
+    --accent-foreground: 40 40% 92%;
 
     --destructive: 0 100% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 195 50% 20%;
-    --input: 240 15% 12%;
-    --ring: 195 100% 50%;
+    --border: 40 30% 18%;
+    --input: 20 12% 13%;
+    --ring: 45 90% 50%;
 
     --radius: 0.5rem;
 
-    /* Glow Effects */
-    --glow-blue: 0 0 20px hsl(195 100% 50% / 0.5), 0 0 40px hsl(195 100% 50% / 0.3);
-    --glow-purple: 0 0 20px hsl(280 100% 60% / 0.5), 0 0 40px hsl(280 100% 60% / 0.3);
-    --glow-pink: 0 0 20px hsl(320 100% 60% / 0.5), 0 0 40px hsl(320 100% 60% / 0.3);
-    --glow-cyan: 0 0 20px hsl(180 100% 50% / 0.5), 0 0 40px hsl(180 100% 50% / 0.3);
+    /* Glow Effects - gold & red */
+    --glow-blue: 0 0 20px hsl(45 90% 50% / 0.5), 0 0 40px hsl(45 90% 50% / 0.3);
+    --glow-purple: 0 0 20px hsl(0 75% 48% / 0.5), 0 0 40px hsl(0 75% 48% / 0.3);
+    --glow-pink: 0 0 20px hsl(345 80% 52% / 0.5), 0 0 40px hsl(345 80% 52% / 0.3);
+    --glow-cyan: 0 0 20px hsl(35 90% 52% / 0.5), 0 0 40px hsl(35 90% 52% / 0.3);
 
     /* Sidebar */
-    --sidebar-background: 240 15% 6%;
-    --sidebar-foreground: 195 100% 90%;
-    --sidebar-primary: 195 100% 50%;
-    --sidebar-primary-foreground: 240 20% 4%;
-    --sidebar-accent: 280 100% 60%;
-    --sidebar-accent-foreground: 240 20% 4%;
-    --sidebar-border: 195 50% 20%;
-    --sidebar-ring: 195 100% 50%;
+    --sidebar-background: 20 15% 7%;
+    --sidebar-foreground: 40 40% 92%;
+    --sidebar-primary: 45 90% 50%;
+    --sidebar-primary-foreground: 20 20% 5%;
+    --sidebar-accent: 0 75% 48%;
+    --sidebar-accent-foreground: 40 40% 92%;
+    --sidebar-border: 40 30% 18%;
+    --sidebar-ring: 45 90% 50%;
   }
 }
 
@@ -72,16 +72,16 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'DM Sans', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Playfair Display', serif;
   }
 }
 
 @layer components {
-  /* Neon Text Effects */
+  /* Neon Text Effects - now gold & red tones */
   .neon-text-blue {
     color: hsl(var(--neon-blue));
     text-shadow: var(--glow-blue);
@@ -102,7 +102,7 @@
     text-shadow: var(--glow-cyan);
   }
 
-  /* Neon Border Effects */
+  /* Border Effects */
   .neon-border {
     border: 1px solid hsl(var(--neon-blue));
     box-shadow: var(--glow-blue), inset 0 0 20px hsl(var(--neon-blue) / 0.1);
@@ -133,18 +133,18 @@
     box-shadow: 0 0 20px hsl(var(--neon-green) / 0.5), 0 0 40px hsl(var(--neon-green) / 0.3), inset 0 0 20px hsl(var(--neon-green) / 0.1);
   }
 
-  /* Cyberpunk Button */
+  /* Vegas Button */
   .cyber-button {
     @apply relative overflow-hidden px-8 py-4 font-bold uppercase tracking-wider;
-    font-family: 'Orbitron', sans-serif;
-    background: linear-gradient(135deg, hsl(var(--neon-blue) / 0.2), hsl(var(--neon-purple) / 0.2));
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(135deg, hsl(var(--neon-blue) / 0.3), hsl(var(--neon-purple) / 0.2));
     border: 2px solid hsl(var(--neon-blue));
     box-shadow: var(--glow-blue);
     transition: all 0.3s ease;
   }
 
   .cyber-button:hover {
-    background: linear-gradient(135deg, hsl(var(--neon-blue) / 0.4), hsl(var(--neon-purple) / 0.4));
+    background: linear-gradient(135deg, hsl(var(--neon-blue) / 0.5), hsl(var(--neon-purple) / 0.4));
     box-shadow: 0 0 30px hsl(var(--neon-blue) / 0.8), 0 0 60px hsl(var(--neon-blue) / 0.4);
     transform: translateY(-2px);
   }
@@ -155,45 +155,39 @@
     transform: none;
   }
 
-  /* Cyberpunk Card */
+  /* Vegas Card */
   .cyber-card {
     @apply relative p-6 rounded-lg;
-    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(240 15% 12%) 100%);
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(20 15% 12%) 100%);
     border: 1px solid hsl(var(--neon-blue) / 0.3);
     box-shadow: 
       0 0 20px hsl(var(--neon-blue) / 0.1),
       inset 0 1px 0 hsl(var(--neon-blue) / 0.2);
   }
 
-  /* Glitch Effect */
+  /* Glitch Effect - subtle for Vegas */
   .glitch {
     position: relative;
-    animation: glitch 2s infinite;
+    animation: glitch 4s infinite;
   }
 
   @keyframes glitch {
-    0%, 90%, 100% {
+    0%, 95%, 100% {
       transform: translate(0);
     }
-    92% {
-      transform: translate(-2px, 2px);
-    }
-    94% {
-      transform: translate(2px, -2px);
-    }
     96% {
-      transform: translate(-2px, -2px);
+      transform: translate(-1px, 1px);
     }
     98% {
-      transform: translate(2px, 2px);
+      transform: translate(1px, -1px);
     }
   }
 
-  /* Grid Background */
+  /* Grid Background - subtle diamond pattern */
   .cyber-grid {
     background-image: 
-      linear-gradient(hsl(var(--neon-blue) / 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--neon-blue) / 0.1) 1px, transparent 1px);
+      linear-gradient(hsl(var(--neon-blue) / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--neon-blue) / 0.06) 1px, transparent 1px);
     background-size: 50px 50px;
   }
 
@@ -206,21 +200,21 @@
       0deg,
       transparent,
       transparent 2px,
-      hsl(0 0% 0% / 0.1) 2px,
-      hsl(0 0% 0% / 0.1) 4px
+      hsl(0 0% 0% / 0.05) 2px,
+      hsl(0 0% 0% / 0.05) 4px
     );
     pointer-events: none;
   }
 
-  /* Neon Pulse Animation */
+  /* Pulse Animation */
   @keyframes neon-pulse {
     0%, 100% {
       opacity: 1;
       filter: brightness(1);
     }
     50% {
-      opacity: 0.8;
-      filter: brightness(1.2);
+      opacity: 0.85;
+      filter: brightness(1.15);
     }
   }
 
@@ -228,19 +222,19 @@
     animation: neon-pulse 2s ease-in-out infinite;
   }
 
-  /* Slot Reel Styles */
+  /* Slot Reel Styles - warm dark tones */
   .slot-reel {
     background: linear-gradient(180deg, 
-      hsl(240 20% 2%) 0%, 
-      hsl(240 15% 8%) 10%, 
-      hsl(240 15% 12%) 50%, 
-      hsl(240 15% 8%) 90%, 
-      hsl(240 20% 2%) 100%
+      hsl(20 20% 3%) 0%, 
+      hsl(20 15% 8%) 10%, 
+      hsl(20 12% 12%) 50%, 
+      hsl(20 15% 8%) 90%, 
+      hsl(20 20% 3%) 100%
     );
-    border: 2px solid hsl(var(--neon-purple) / 0.5);
+    border: 2px solid hsl(var(--neon-blue) / 0.5);
     box-shadow: 
-      inset 0 0 30px hsl(var(--neon-purple) / 0.2),
-      0 0 20px hsl(var(--neon-purple) / 0.3);
+      inset 0 0 30px hsl(var(--neon-blue) / 0.15),
+      0 0 20px hsl(var(--neon-blue) / 0.2);
   }
 
   /* Win Animation */
@@ -259,21 +253,11 @@
 
   /* Jackpot Celebration */
   @keyframes jackpot {
-    0% {
-      transform: scale(1) rotate(0deg);
-    }
-    25% {
-      transform: scale(1.1) rotate(-5deg);
-    }
-    50% {
-      transform: scale(1.2) rotate(5deg);
-    }
-    75% {
-      transform: scale(1.1) rotate(-5deg);
-    }
-    100% {
-      transform: scale(1) rotate(0deg);
-    }
+    0% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.1) rotate(-5deg); }
+    50% { transform: scale(1.2) rotate(5deg); }
+    75% { transform: scale(1.1) rotate(-5deg); }
+    100% { transform: scale(1) rotate(0deg); }
   }
 
   .jackpot {
@@ -282,12 +266,8 @@
 
   /* Floating Animation */
   @keyframes float {
-    0%, 100% {
-      transform: translateY(0) rotate(0deg);
-    }
-    50% {
-      transform: translateY(-10px) rotate(3deg);
-    }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(3deg); }
   }
 
   .animate-float {
@@ -296,25 +276,19 @@
 
   /* Sparkle Effect */
   @keyframes sparkle {
-    0%, 100% {
-      opacity: 0;
-      transform: scale(0) rotate(0deg);
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1) rotate(180deg);
-    }
+    0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1) rotate(180deg); }
   }
 
   .sparkle {
     animation: sparkle 2s ease-in-out infinite;
   }
 
-  /* Rainbow Glow */
+  /* Gold Glow Cycle */
   @keyframes rainbow-glow {
     0% { box-shadow: 0 0 20px hsl(var(--neon-blue) / 0.5), 0 0 40px hsl(var(--neon-blue) / 0.3); }
     25% { box-shadow: 0 0 20px hsl(var(--neon-purple) / 0.5), 0 0 40px hsl(var(--neon-purple) / 0.3); }
-    50% { box-shadow: 0 0 20px hsl(var(--neon-pink) / 0.5), 0 0 40px hsl(var(--neon-pink) / 0.3); }
+    50% { box-shadow: 0 0 20px hsl(var(--neon-yellow) / 0.5), 0 0 40px hsl(var(--neon-yellow) / 0.3); }
     75% { box-shadow: 0 0 20px hsl(var(--neon-cyan) / 0.5), 0 0 40px hsl(var(--neon-cyan) / 0.3); }
     100% { box-shadow: 0 0 20px hsl(var(--neon-blue) / 0.5), 0 0 40px hsl(var(--neon-blue) / 0.3); }
   }
@@ -325,12 +299,8 @@
 
   /* Shine Effect */
   @keyframes shine {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
 
   .shine-effect {
@@ -346,14 +316,8 @@
 
   /* Coin Rain */
   @keyframes coin-fall {
-    0% {
-      transform: translateY(-100%) rotate(0deg);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(100vh) rotate(720deg);
-      opacity: 0;
-    }
+    0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
   }
 
   .coin-rain {
@@ -362,21 +326,15 @@
 
   /* Pulse Ring */
   @keyframes pulse-ring {
-    0% {
-      transform: scale(0.8);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(2);
-      opacity: 0;
-    }
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
   }
 
   .pulse-ring {
     animation: pulse-ring 1.5s ease-out infinite;
   }
 
-  /* Electric Border */
+  /* Electric Border - gold/red cycle */
   @keyframes electric-border {
     0%, 100% {
       border-color: hsl(var(--neon-blue));
@@ -391,8 +349,8 @@
       box-shadow: 0 0 30px hsl(var(--neon-purple) / 0.7);
     }
     75% {
-      border-color: hsl(var(--neon-pink));
-      box-shadow: 0 0 20px hsl(var(--neon-pink) / 0.7);
+      border-color: hsl(var(--neon-yellow));
+      box-shadow: 0 0 20px hsl(var(--neon-yellow) / 0.7);
     }
   }
 
@@ -402,40 +360,28 @@
 
   /* Bounce In */
   @keyframes bounce-in {
-    0% {
-      transform: scale(0);
-      opacity: 0;
-    }
-    50% {
-      transform: scale(1.2);
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
   }
 
   .bounce-in {
     animation: bounce-in 0.5s ease-out;
   }
 
-  /* Text Shimmer */
+  /* Text Shimmer - gold/red metallic */
   @keyframes text-shimmer {
-    0% {
-      background-position: -200% center;
-    }
-    100% {
-      background-position: 200% center;
-    }
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
   }
 
   .text-shimmer {
     background: linear-gradient(
       90deg,
       hsl(var(--neon-yellow)) 0%,
-      hsl(var(--neon-orange)) 25%,
-      hsl(var(--neon-pink)) 50%,
-      hsl(var(--neon-purple)) 75%,
+      hsl(var(--neon-blue)) 25%,
+      hsl(var(--neon-purple)) 50%,
+      hsl(var(--neon-orange)) 75%,
       hsl(var(--neon-yellow)) 100%
     );
     background-size: 200% auto;
@@ -460,17 +406,9 @@
 
   /* Slot Reel Animations - GPU accelerated */
   @keyframes scan-line {
-    0% {
-      transform: translateY(-100%);
-      opacity: 0.3;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(200%);
-      opacity: 0.3;
-    }
+    0% { transform: translateY(-100%); opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { transform: translateY(200%); opacity: 0.3; }
   }
 
   .animate-scan-line {
@@ -479,18 +417,9 @@
   }
 
   @keyframes flash {
-    0% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.5;
-      transform: scale(1.02);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(1);
-    }
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.02); }
+    100% { opacity: 0; transform: scale(1); }
   }
 
   .animate-flash {
@@ -499,12 +428,8 @@
 
   /* Slot symbol bounce */
   @keyframes symbol-bounce {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.15);
-    }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
   }
 
   .animate-symbol-bounce {
@@ -513,18 +438,10 @@
 
   /* Landing bounce animation */
   @keyframes landing-bounce {
-    0% {
-      transform: scale(1.05);
-    }
-    30% {
-      transform: scale(0.98);
-    }
-    60% {
-      transform: scale(1.02);
-    }
-    100% {
-      transform: scale(1);
-    }
+    0% { transform: scale(1.05); }
+    30% { transform: scale(0.98); }
+    60% { transform: scale(1.02); }
+    100% { transform: scale(1); }
   }
 
   .animate-landing {
@@ -533,12 +450,8 @@
 
   /* Reel glow pulse */
   @keyframes reel-glow {
-    0%, 100% {
-      box-shadow: 0 0 20px hsl(195 100% 50% / 0.3);
-    }
-    50% {
-      box-shadow: 0 0 35px hsl(195 100% 50% / 0.5);
-    }
+    0%, 100% { box-shadow: 0 0 20px hsl(45 90% 50% / 0.3); }
+    50% { box-shadow: 0 0 35px hsl(45 90% 50% / 0.5); }
   }
 
   .animate-reel-glow {
