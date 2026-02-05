@@ -132,26 +132,29 @@ export interface GameState {
  */
 
 // 投注金额对应的概率倍数 (最低10000起)
+// 降低倍率影响，避免高投注时中奖率过高
 const BET_MULTIPLIERS: Record<number, number> = {
   10000: 1,     // 基础概率
-  25000: 2.5,   // 2.5倍
-  50000: 5,     // 5倍
-  100000: 10,   // 10倍
-  250000: 20,   // 20倍
+  25000: 1.3,   // 1.3倍（原2.5）
+  50000: 1.8,   // 1.8倍（原5）
+  100000: 2.5,  // 2.5倍（原10）
+  250000: 3.5,  // 3.5倍（原20）
 };
 
 // 根据投注金额获取加成后的符号概率
-const getRandomSymbol = (rng: () => number, betAmount: number = 5000): SlotSymbol => {
+// 10个符号分散概率，降低单一符号集中度，从而降低中奖率
+// 目标整体中奖率约 15-20%（原约60%）
+const getRandomSymbol = (rng: () => number, betAmount: number = 10000): SlotSymbol => {
   const multiplier = BET_MULTIPLIERS[betAmount] || 1;
   const roll = rng() * 100;
   
-  // 高级符号的概率随投注增加而提升
-  // 投注越高，高级符号概率越大
-  const sevenChance = Math.min(2 * multiplier, 15);     // 7最高15%
-  const diamondChance = Math.min(3 * multiplier, 18);   // 钻石最高18%
-  const crownChance = Math.min(5 * multiplier, 20);     // 皇冠最高20%
-  const bellChance = 8 + (multiplier - 1) * 2;          // 铃铛逐步增加
-  const starChance = 10 + (multiplier - 1) * 1;         // 星星逐步增加
+  // 基础概率更分散，每个符号差距缩小
+  // 高级符号概率极低，倍率提升也有严格上限
+  const sevenChance = Math.min(1.5 * multiplier, 5);      // 7：基础1.5%，最高5%
+  const diamondChance = Math.min(2 * multiplier, 7);       // 钻石：基础2%，最高7%
+  const crownChance = Math.min(3 * multiplier, 9);         // 皇冠：基础3%，最高9%
+  const bellChance = Math.min(5 + (multiplier - 1) * 0.8, 8);   // 铃铛：基础5%，最高8%
+  const starChance = Math.min(7 + (multiplier - 1) * 0.5, 9);   // 星星：基础7%，最高9%
   
   // 累积概率阈值
   const threshold1 = sevenChance;
@@ -160,7 +163,8 @@ const getRandomSymbol = (rng: () => number, betAmount: number = 5000): SlotSymbo
   const threshold4 = threshold3 + bellChance;
   const threshold5 = threshold4 + starChance;
   
-  // 剩余概率分配给普通符号
+  // 剩余概率均匀分配给5个普通符号
+  // 普通符号概率更均匀（每个约14-16%），降低连续匹配几率
   const remaining = 100 - threshold5;
   const commonEach = remaining / 5;
   
@@ -170,9 +174,9 @@ const getRandomSymbol = (rng: () => number, betAmount: number = 5000): SlotSymbo
   if (roll < threshold4) return SYMBOLS[3].id;  // bell
   if (roll < threshold5) return SYMBOLS[4].id;  // star
   if (roll < threshold5 + commonEach) return SYMBOLS[5].id;      // cherry
-  if (roll < threshold5 + commonEach * 2) return SYMBOLS[6].id;  // grape
-  if (roll < threshold5 + commonEach * 3) return SYMBOLS[7].id;  // watermelon
-  if (roll < threshold5 + commonEach * 4) return SYMBOLS[8].id;  // lemon
+  if (roll < threshold5 + commonEach * 2) return SYMBOLS[6].id;  // lemon
+  if (roll < threshold5 + commonEach * 3) return SYMBOLS[7].id;  // orange
+  if (roll < threshold5 + commonEach * 4) return SYMBOLS[8].id;  // grape
   return SYMBOLS[9].id;  // clover
 };
 
