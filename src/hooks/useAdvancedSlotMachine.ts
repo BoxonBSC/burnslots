@@ -131,41 +131,44 @@ export interface GameState {
  * - 100K: 20x
  */
 
-// 投注金额对应的概率倍数 (最低10000起)
-// 高投注提升稀有符号概率（中大奖概率↑），但不显著改变总中奖率
+// 投注金额对应的概率倍数
 const BET_MULTIPLIERS: Record<number, number> = {
-  10000: 1,     // 基础概率
-  25000: 1.5,   // 1.5倍
-  50000: 2,     // 2倍
-  100000: 3,    // 3倍
-  250000: 4,    // 4倍
+  10000: 1,
+  25000: 1.5,
+  50000: 2,
+  100000: 3,
+  250000: 4,
 };
 
-// 根据投注金额获取加成后的符号概率
-// 设计目标：总中奖率约 5-10%
-// 策略：普通符号采用不均匀分布（少数符号占主导），创造适度的3连机会
-// 高投注时稀有符号概率提升，但从普通符号中按比例扣除，保持总中奖率稳定
+// 高投注的"幸运加成"：额外的中奖概率补偿
+// 解决稀有符号概率提升导致总中奖率下降的问题
+const LUCK_BONUS: Record<number, number> = {
+  10000: 0,       // 无加成
+  25000: 0.02,    // +2% 幸运加成
+  50000: 0.04,    // +4%
+  100000: 0.07,   // +7%
+  250000: 0.10,   // +10%
+};
+
+// 根据投注金额获取符号概率
 const getRandomSymbol = (rng: () => number, betAmount: number = 10000): SlotSymbol => {
   const multiplier = BET_MULTIPLIERS[betAmount] || 1;
   const roll = rng() * 100;
   
-  // 稀有符号 - 低基础概率，投注倍率可适度提升
-  const sevenChance = Math.min(1 * multiplier, 4);       // 7：基础1%，最高4%
-  const diamondChance = Math.min(1.5 * multiplier, 5);   // 钻石：基础1.5%，最高5%
-  const crownChance = Math.min(2.5 * multiplier, 7);     // 皇冠：基础2.5%，最高7%
-  const bellChance = Math.min(4 * multiplier, 10);        // 铃铛：基础4%，最高10%
-  const starChance = Math.min(5 * multiplier, 12);        // 星星：基础5%，最高12%
+  const sevenChance = Math.min(1 * multiplier, 4);
+  const diamondChance = Math.min(1.5 * multiplier, 5);
+  const crownChance = Math.min(2.5 * multiplier, 7);
+  const bellChance = Math.min(4 * multiplier, 10);
+  const starChance = Math.min(5 * multiplier, 12);
   
   const rareTotal = sevenChance + diamondChance + crownChance + bellChance + starChance;
-  
-  // 普通符号采用不均匀分布 - 🍒和🍋占主导，创造更多匹配机会
-  // 分配比例: 🍒30%, 🍋28%, 🍊22%, 🍇12%, 🍀8%（占剩余空间的比例）
   const remaining = 100 - rareTotal;
+  
+  // 普通符号不均匀分布：🍒🍋占主导
   const cherryChance = remaining * 0.30;
   const lemonChance = remaining * 0.28;
   const orangeChance = remaining * 0.22;
   const grapeChance = remaining * 0.12;
-  // clover gets the rest (8%)
   
   const t1 = sevenChance;
   const t2 = t1 + diamondChance;
@@ -177,19 +180,43 @@ const getRandomSymbol = (rng: () => number, betAmount: number = 10000): SlotSymb
   const t8 = t7 + orangeChance;
   const t9 = t8 + grapeChance;
   
-  if (roll < t1) return SYMBOLS[0].id;  // seven
-  if (roll < t2) return SYMBOLS[1].id;  // diamond
-  if (roll < t3) return SYMBOLS[2].id;  // crown
-  if (roll < t4) return SYMBOLS[3].id;  // bell
-  if (roll < t5) return SYMBOLS[4].id;  // star
-  if (roll < t6) return SYMBOLS[5].id;  // cherry
-  if (roll < t7) return SYMBOLS[6].id;  // lemon
-  if (roll < t8) return SYMBOLS[7].id;  // orange
-  if (roll < t9) return SYMBOLS[8].id;  // grape
-  return SYMBOLS[9].id;  // clover
+  if (roll < t1) return SYMBOLS[0].id;
+  if (roll < t2) return SYMBOLS[1].id;
+  if (roll < t3) return SYMBOLS[2].id;
+  if (roll < t4) return SYMBOLS[3].id;
+  if (roll < t5) return SYMBOLS[4].id;
+  if (roll < t6) return SYMBOLS[5].id;
+  if (roll < t7) return SYMBOLS[6].id;
+  if (roll < t8) return SYMBOLS[7].id;
+  if (roll < t9) return SYMBOLS[8].id;
+  return SYMBOLS[9].id;
 };
 
-const generateGrid = (rng: () => number, betAmount: number = 5000): SlotSymbol[][] => {
+// 生成网格 - 高投注时有幸运加成（强制中奖机会）
+const generateGrid = (rng: () => number, betAmount: number = 10000): SlotSymbol[][] => {
+  const luckBonus = LUCK_BONUS[betAmount] || 0;
+  
+  // 幸运加成触发：中间行前3个reel强制使用相同符号
+  if (luckBonus > 0 && rng() < luckBonus) {
+    const grid: SlotSymbol[][] = [];
+    const luckySymbol = getRandomSymbol(rng, betAmount);
+    
+    for (let reel = 0; reel < REELS; reel++) {
+      const column: SlotSymbol[] = [];
+      for (let row = 0; row < ROWS; row++) {
+        if (row === 1 && reel < 3) {
+          // 中间行前3轮强制相同符号
+          column.push(luckySymbol);
+        } else {
+          column.push(getRandomSymbol(rng, betAmount));
+        }
+      }
+      grid.push(column);
+    }
+    return grid;
+  }
+  
+  // 正常随机生成
   const grid: SlotSymbol[][] = [];
   for (let reel = 0; reel < REELS; reel++) {
     const column: SlotSymbol[] = [];
