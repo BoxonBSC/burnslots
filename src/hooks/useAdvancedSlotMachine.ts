@@ -132,51 +132,60 @@ export interface GameState {
  */
 
 // 投注金额对应的概率倍数 (最低10000起)
-// 降低倍率影响，避免高投注时中奖率过高
+// 高投注提升稀有符号概率（中大奖概率↑），但不显著改变总中奖率
 const BET_MULTIPLIERS: Record<number, number> = {
   10000: 1,     // 基础概率
-  25000: 1.3,   // 1.3倍（原2.5）
-  50000: 1.8,   // 1.8倍（原5）
-  100000: 2.5,  // 2.5倍（原10）
-  250000: 3.5,  // 3.5倍（原20）
+  25000: 1.5,   // 1.5倍
+  50000: 2,     // 2倍
+  100000: 3,    // 3倍
+  250000: 4,    // 4倍
 };
 
 // 根据投注金额获取加成后的符号概率
-// 10个符号分散概率，降低单一符号集中度，从而降低中奖率
-// 目标整体中奖率约 15-20%（原约60%）
+// 设计目标：总中奖率约 5-10%
+// 策略：普通符号采用不均匀分布（少数符号占主导），创造适度的3连机会
+// 高投注时稀有符号概率提升，但从普通符号中按比例扣除，保持总中奖率稳定
 const getRandomSymbol = (rng: () => number, betAmount: number = 10000): SlotSymbol => {
   const multiplier = BET_MULTIPLIERS[betAmount] || 1;
   const roll = rng() * 100;
   
-  // 基础概率更分散，每个符号差距缩小
-  // 高级符号概率极低，倍率提升也有严格上限
-  const sevenChance = Math.min(1.5 * multiplier, 5);      // 7：基础1.5%，最高5%
-  const diamondChance = Math.min(2 * multiplier, 7);       // 钻石：基础2%，最高7%
-  const crownChance = Math.min(3 * multiplier, 9);         // 皇冠：基础3%，最高9%
-  const bellChance = Math.min(5 + (multiplier - 1) * 0.8, 8);   // 铃铛：基础5%，最高8%
-  const starChance = Math.min(7 + (multiplier - 1) * 0.5, 9);   // 星星：基础7%，最高9%
+  // 稀有符号 - 低基础概率，投注倍率可适度提升
+  const sevenChance = Math.min(1 * multiplier, 4);       // 7：基础1%，最高4%
+  const diamondChance = Math.min(1.5 * multiplier, 5);   // 钻石：基础1.5%，最高5%
+  const crownChance = Math.min(2.5 * multiplier, 7);     // 皇冠：基础2.5%，最高7%
+  const bellChance = Math.min(4 * multiplier, 10);        // 铃铛：基础4%，最高10%
+  const starChance = Math.min(5 * multiplier, 12);        // 星星：基础5%，最高12%
   
-  // 累积概率阈值
-  const threshold1 = sevenChance;
-  const threshold2 = threshold1 + diamondChance;
-  const threshold3 = threshold2 + crownChance;
-  const threshold4 = threshold3 + bellChance;
-  const threshold5 = threshold4 + starChance;
+  const rareTotal = sevenChance + diamondChance + crownChance + bellChance + starChance;
   
-  // 剩余概率均匀分配给5个普通符号
-  // 普通符号概率更均匀（每个约14-16%），降低连续匹配几率
-  const remaining = 100 - threshold5;
-  const commonEach = remaining / 5;
+  // 普通符号采用不均匀分布 - 🍒和🍋占主导，创造更多匹配机会
+  // 分配比例: 🍒30%, 🍋28%, 🍊22%, 🍇12%, 🍀8%（占剩余空间的比例）
+  const remaining = 100 - rareTotal;
+  const cherryChance = remaining * 0.30;
+  const lemonChance = remaining * 0.28;
+  const orangeChance = remaining * 0.22;
+  const grapeChance = remaining * 0.12;
+  // clover gets the rest (8%)
   
-  if (roll < threshold1) return SYMBOLS[0].id;  // seven
-  if (roll < threshold2) return SYMBOLS[1].id;  // diamond
-  if (roll < threshold3) return SYMBOLS[2].id;  // crown
-  if (roll < threshold4) return SYMBOLS[3].id;  // bell
-  if (roll < threshold5) return SYMBOLS[4].id;  // star
-  if (roll < threshold5 + commonEach) return SYMBOLS[5].id;      // cherry
-  if (roll < threshold5 + commonEach * 2) return SYMBOLS[6].id;  // lemon
-  if (roll < threshold5 + commonEach * 3) return SYMBOLS[7].id;  // orange
-  if (roll < threshold5 + commonEach * 4) return SYMBOLS[8].id;  // grape
+  const t1 = sevenChance;
+  const t2 = t1 + diamondChance;
+  const t3 = t2 + crownChance;
+  const t4 = t3 + bellChance;
+  const t5 = t4 + starChance;
+  const t6 = t5 + cherryChance;
+  const t7 = t6 + lemonChance;
+  const t8 = t7 + orangeChance;
+  const t9 = t8 + grapeChance;
+  
+  if (roll < t1) return SYMBOLS[0].id;  // seven
+  if (roll < t2) return SYMBOLS[1].id;  // diamond
+  if (roll < t3) return SYMBOLS[2].id;  // crown
+  if (roll < t4) return SYMBOLS[3].id;  // bell
+  if (roll < t5) return SYMBOLS[4].id;  // star
+  if (roll < t6) return SYMBOLS[5].id;  // cherry
+  if (roll < t7) return SYMBOLS[6].id;  // lemon
+  if (roll < t8) return SYMBOLS[7].id;  // orange
+  if (roll < t9) return SYMBOLS[8].id;  // grape
   return SYMBOLS[9].id;  // clover
 };
 
