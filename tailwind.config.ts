@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Playfair Display', 'serif'],
-        sans: ['DM Sans', 'sans-serif'],
+        display: ['Space Grotesk', 'sans-serif'],
+        sans: ['Outfit', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -91,24 +91,23 @@ export default {
         },
         "float": {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" },
+          "50%": { transform: "translateY(-8px)" },
         },
         "flicker": {
           "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.8" },
-          "25%, 75%": { opacity: "0.9" },
+          "50%": { opacity: "0.85" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "spin-slow": "spin-slow 0.1s linear infinite",
-        "float": "float 3s ease-in-out infinite",
+        "float": "float 4s ease-in-out infinite",
         "flicker": "flicker 3s ease-in-out infinite",
       },
       backgroundImage: {
-        "cyber-gradient": "linear-gradient(135deg, hsl(var(--neon-blue) / 0.2), hsl(var(--neon-purple) / 0.15))",
-        "cyber-gradient-intense": "linear-gradient(135deg, hsl(var(--neon-blue) / 0.4), hsl(var(--neon-purple) / 0.3))",
+        "cyber-gradient": "linear-gradient(135deg, hsl(var(--neon-blue) / 0.15), hsl(var(--neon-purple) / 0.1))",
+        "cyber-gradient-intense": "linear-gradient(135deg, hsl(var(--neon-blue) / 0.3), hsl(var(--neon-purple) / 0.2))",
       },
     },
   },

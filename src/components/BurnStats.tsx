@@ -10,12 +10,8 @@ export function BurnStats() {
   const formatNumber = (value: string | bigint) => {
     const n = typeof value === 'bigint' ? Number(value) : Number(value);
     if (!Number.isFinite(n) || n <= 0) return '0';
-    
-    if (n >= 1_000_000) {
-      return (n / 1_000_000).toFixed(2) + 'M';
-    } else if (n >= 1_000) {
-      return (n / 1_000).toFixed(1) + 'K';
-    }
+    if (n >= 1_000_000) return (n / 1_000_000).toFixed(2) + 'M';
+    if (n >= 1_000) return (n / 1_000).toFixed(1) + 'K';
     return n.toLocaleString();
   };
 
@@ -26,85 +22,68 @@ export function BurnStats() {
     return n.toFixed(decimals).replace(/\.0+$/, '').replace(/(\.\d*?)0+$/, '$1');
   };
 
+  const stats = [
+    {
+      icon: Flame,
+      label: t('stats.totalBurned'),
+      value: formatNumber(totalBurned),
+      suffix: 'TOKENS',
+      color: 'text-neon-pink',
+      borderColor: 'border-neon-pink/20',
+      bgColor: 'from-neon-pink/10 to-transparent',
+      iconPulse: true,
+    },
+    {
+      icon: TrendingUp,
+      label: t('jackpot.pool'),
+      value: formatBnb(prizePool),
+      suffix: 'BNB',
+      color: 'text-neon-yellow',
+      borderColor: 'border-neon-yellow/20',
+      bgColor: 'from-neon-yellow/10 to-transparent',
+      iconPulse: false,
+    },
+    {
+      icon: Zap,
+      label: t('stats.totalSpins'),
+      value: formatNumber(totalSpins),
+      suffix: 'SPINS',
+      color: 'text-neon-blue',
+      borderColor: 'border-neon-blue/20',
+      bgColor: 'from-neon-blue/10 to-transparent',
+      iconPulse: false,
+    },
+  ];
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: -10 }}
+      initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-4xl mx-auto mb-3 sm:mb-4"
+      className="w-full max-w-3xl mx-auto mb-4 sm:mb-5"
     >
-      <div className="grid grid-cols-3 gap-2 sm:gap-4">
-        {/* 总销毁 - 主要突出 */}
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          className="relative overflow-hidden rounded-xl bg-gradient-to-br from-neon-pink/20 via-neon-orange/10 to-transparent border border-neon-pink/40 p-2.5 sm:p-4"
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/5 to-transparent" />
-          <div className="absolute top-0 right-0 w-16 h-16 bg-neon-pink/10 rounded-full blur-2xl" />
-          
-          <div className="relative flex flex-col items-center text-center">
-            <div className="flex items-center gap-1 mb-1">
-              <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neon-pink animate-pulse" />
-              <span className="text-[10px] sm:text-xs text-muted-foreground">{t('stats.totalBurned')}</span>
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
+        {stats.map((stat) => (
+          <div
+            key={stat.label}
+            className={`relative overflow-hidden rounded-xl bg-gradient-to-b ${stat.bgColor} border ${stat.borderColor} p-2.5 sm:p-3.5`}
+          >
+            <div className="relative flex flex-col items-center text-center gap-0.5">
+              <div className="flex items-center gap-1">
+                <stat.icon className={`w-3.5 h-3.5 ${stat.color} ${stat.iconPulse ? 'animate-pulse' : ''}`} />
+                <span className="text-[10px] sm:text-xs text-muted-foreground">{stat.label}</span>
+              </div>
+              <motion.span
+                key={stat.value}
+                initial={{ scale: 1.05 }}
+                animate={{ scale: 1 }}
+                className={`text-lg sm:text-2xl font-display font-bold ${stat.color}`}
+              >
+                {stat.value}
+              </motion.span>
+              <span className={`text-[9px] sm:text-[10px] ${stat.color} opacity-50`}>{stat.suffix}</span>
             </div>
-            <motion.span
-              key={totalBurned}
-              initial={{ scale: 1.1 }}
-              animate={{ scale: 1 }}
-              className="text-lg sm:text-2xl font-display text-neon-pink font-bold"
-            >
-              {formatNumber(totalBurned)}
-            </motion.span>
-            <span className="text-[10px] text-neon-pink/60">🔥 TOKENS</span>
           </div>
-        </motion.div>
-
-        {/* 奖池 */}
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          className="relative overflow-hidden rounded-xl bg-gradient-to-br from-neon-yellow/20 via-neon-orange/10 to-transparent border border-neon-yellow/40 p-2.5 sm:p-4"
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-neon-yellow/5 to-transparent" />
-          
-          <div className="relative flex flex-col items-center text-center">
-            <div className="flex items-center gap-1 mb-1">
-              <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neon-yellow" />
-              <span className="text-[10px] sm:text-xs text-muted-foreground">{t('jackpot.pool')}</span>
-            </div>
-            <motion.span
-              key={prizePool}
-              initial={{ scale: 1.1 }}
-              animate={{ scale: 1 }}
-              className="text-lg sm:text-2xl font-display text-neon-yellow font-bold"
-            >
-              {formatBnb(prizePool)}
-            </motion.span>
-            <span className="text-[10px] text-neon-yellow/60">BNB</span>
-          </div>
-        </motion.div>
-
-        {/* 总旋转 */}
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          className="relative overflow-hidden rounded-xl bg-gradient-to-br from-neon-cyan/20 via-neon-blue/10 to-transparent border border-neon-cyan/40 p-2.5 sm:p-4"
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-neon-cyan/5 to-transparent" />
-          
-          <div className="relative flex flex-col items-center text-center">
-            <div className="flex items-center gap-1 mb-1">
-              <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neon-cyan" />
-              <span className="text-[10px] sm:text-xs text-muted-foreground">{t('stats.totalSpins')}</span>
-            </div>
-            <motion.span
-              key={totalSpins.toString()}
-              initial={{ scale: 1.1 }}
-              animate={{ scale: 1 }}
-              className="text-lg sm:text-2xl font-display text-neon-cyan font-bold"
-            >
-              {formatNumber(totalSpins)}
-            </motion.span>
-            <span className="text-[10px] text-neon-cyan/60">SPINS</span>
-          </div>
-        </motion.div>
+        ))}
       </div>
     </motion.div>
   );

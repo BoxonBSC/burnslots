@@ -2,66 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Vegas Luxury Design System - Gold & Red, premium casino feel */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+/* Midnight Neon Arcade - Deep dark with electric accents */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    /* Vegas Luxury Colors */
-    --neon-blue: 45 90% 50%;
-    --neon-purple: 0 75% 48%;
-    --neon-pink: 345 80% 52%;
-    --neon-cyan: 35 90% 52%;
-    --neon-green: 150 80% 45%;
-    --neon-yellow: 48 100% 52%;
-    --neon-orange: 25 95% 52%;
+    /* Neon Accent Palette */
+    --neon-blue: 190 100% 50%;
+    --neon-purple: 270 85% 60%;
+    --neon-pink: 340 90% 55%;
+    --neon-cyan: 175 90% 48%;
+    --neon-green: 155 100% 45%;
+    --neon-yellow: 45 100% 55%;
+    --neon-orange: 20 95% 55%;
     
-    /* Dark Background Palette - warm tones */
-    --background: 20 20% 5%;
-    --foreground: 40 40% 92%;
+    /* Deep Midnight Background */
+    --background: 225 35% 6%;
+    --foreground: 210 20% 92%;
 
-    --card: 20 15% 9%;
-    --card-foreground: 40 40% 92%;
+    --card: 225 30% 9%;
+    --card-foreground: 210 20% 92%;
 
-    --popover: 20 15% 11%;
-    --popover-foreground: 40 40% 92%;
+    --popover: 225 30% 11%;
+    --popover-foreground: 210 20% 92%;
 
-    --primary: 45 90% 50%;
-    --primary-foreground: 20 20% 5%;
+    --primary: 190 100% 50%;
+    --primary-foreground: 225 35% 6%;
 
-    --secondary: 0 75% 48%;
-    --secondary-foreground: 40 40% 92%;
+    --secondary: 270 85% 60%;
+    --secondary-foreground: 210 20% 92%;
 
-    --muted: 20 12% 16%;
-    --muted-foreground: 35 30% 55%;
+    --muted: 225 20% 14%;
+    --muted-foreground: 215 15% 50%;
 
-    --accent: 345 80% 52%;
-    --accent-foreground: 40 40% 92%;
+    --accent: 340 90% 55%;
+    --accent-foreground: 210 20% 92%;
 
-    --destructive: 0 100% 50%;
+    --destructive: 0 85% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 30% 18%;
-    --input: 20 12% 13%;
-    --ring: 45 90% 50%;
+    --border: 225 20% 16%;
+    --input: 225 25% 12%;
+    --ring: 190 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    /* Glow Effects - gold & red */
-    --glow-blue: 0 0 20px hsl(45 90% 50% / 0.5), 0 0 40px hsl(45 90% 50% / 0.3);
-    --glow-purple: 0 0 20px hsl(0 75% 48% / 0.5), 0 0 40px hsl(0 75% 48% / 0.3);
-    --glow-pink: 0 0 20px hsl(345 80% 52% / 0.5), 0 0 40px hsl(345 80% 52% / 0.3);
-    --glow-cyan: 0 0 20px hsl(35 90% 52% / 0.5), 0 0 40px hsl(35 90% 52% / 0.3);
+    /* Glow Effects */
+    --glow-blue: 0 0 15px hsl(190 100% 50% / 0.4), 0 0 30px hsl(190 100% 50% / 0.2);
+    --glow-purple: 0 0 15px hsl(270 85% 60% / 0.4), 0 0 30px hsl(270 85% 60% / 0.2);
+    --glow-pink: 0 0 15px hsl(340 90% 55% / 0.4), 0 0 30px hsl(340 90% 55% / 0.2);
+    --glow-cyan: 0 0 15px hsl(175 90% 48% / 0.4), 0 0 30px hsl(175 90% 48% / 0.2);
 
     /* Sidebar */
-    --sidebar-background: 20 15% 7%;
-    --sidebar-foreground: 40 40% 92%;
-    --sidebar-primary: 45 90% 50%;
-    --sidebar-primary-foreground: 20 20% 5%;
-    --sidebar-accent: 0 75% 48%;
-    --sidebar-accent-foreground: 40 40% 92%;
-    --sidebar-border: 40 30% 18%;
-    --sidebar-ring: 45 90% 50%;
+    --sidebar-background: 225 30% 7%;
+    --sidebar-foreground: 210 20% 92%;
+    --sidebar-primary: 190 100% 50%;
+    --sidebar-primary-foreground: 225 35% 6%;
+    --sidebar-accent: 270 85% 60%;
+    --sidebar-accent-foreground: 210 20% 92%;
+    --sidebar-border: 225 20% 16%;
+    --sidebar-ring: 190 100% 50%;
   }
 }
 
@@ -72,126 +72,111 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Space Grotesk', sans-serif;
   }
 }
 
 @layer components {
-  /* Neon Text Effects - now gold & red tones */
+  /* Neon Text Effects */
   .neon-text-blue {
     color: hsl(var(--neon-blue));
-    text-shadow: var(--glow-blue);
+    text-shadow: 0 0 10px hsl(var(--neon-blue) / 0.5);
   }
 
   .neon-text-purple {
     color: hsl(var(--neon-purple));
-    text-shadow: var(--glow-purple);
+    text-shadow: 0 0 10px hsl(var(--neon-purple) / 0.5);
   }
 
   .neon-text-pink {
     color: hsl(var(--neon-pink));
-    text-shadow: var(--glow-pink);
+    text-shadow: 0 0 10px hsl(var(--neon-pink) / 0.5);
   }
 
   .neon-text-cyan {
     color: hsl(var(--neon-cyan));
-    text-shadow: var(--glow-cyan);
+    text-shadow: 0 0 10px hsl(var(--neon-cyan) / 0.5);
   }
 
-  /* Border Effects */
+  /* Glass Border Effects */
   .neon-border {
-    border: 1px solid hsl(var(--neon-blue));
-    box-shadow: var(--glow-blue), inset 0 0 20px hsl(var(--neon-blue) / 0.1);
+    border: 1px solid hsl(var(--neon-blue) / 0.3);
+    box-shadow: 0 0 12px hsl(var(--neon-blue) / 0.15), inset 0 0 12px hsl(var(--neon-blue) / 0.05);
   }
 
   .neon-border-purple {
-    border: 1px solid hsl(var(--neon-purple));
-    box-shadow: var(--glow-purple), inset 0 0 20px hsl(var(--neon-purple) / 0.1);
+    border: 1px solid hsl(var(--neon-purple) / 0.3);
+    box-shadow: 0 0 12px hsl(var(--neon-purple) / 0.15), inset 0 0 12px hsl(var(--neon-purple) / 0.05);
   }
 
   .neon-border-pink {
-    border: 1px solid hsl(var(--neon-pink));
-    box-shadow: var(--glow-pink), inset 0 0 20px hsl(var(--neon-pink) / 0.1);
+    border: 1px solid hsl(var(--neon-pink) / 0.3);
+    box-shadow: 0 0 12px hsl(var(--neon-pink) / 0.15), inset 0 0 12px hsl(var(--neon-pink) / 0.05);
   }
 
   .neon-border-cyan {
-    border: 1px solid hsl(var(--neon-cyan));
-    box-shadow: var(--glow-cyan), inset 0 0 20px hsl(var(--neon-cyan) / 0.1);
+    border: 1px solid hsl(var(--neon-cyan) / 0.3);
+    box-shadow: 0 0 12px hsl(var(--neon-cyan) / 0.15), inset 0 0 12px hsl(var(--neon-cyan) / 0.05);
   }
 
   .neon-border-yellow {
-    border: 1px solid hsl(var(--neon-yellow));
-    box-shadow: 0 0 20px hsl(var(--neon-yellow) / 0.5), 0 0 40px hsl(var(--neon-yellow) / 0.3), inset 0 0 20px hsl(var(--neon-yellow) / 0.1);
+    border: 1px solid hsl(var(--neon-yellow) / 0.3);
+    box-shadow: 0 0 12px hsl(var(--neon-yellow) / 0.15), inset 0 0 12px hsl(var(--neon-yellow) / 0.05);
   }
 
   .neon-border-green {
-    border: 1px solid hsl(var(--neon-green));
-    box-shadow: 0 0 20px hsl(var(--neon-green) / 0.5), 0 0 40px hsl(var(--neon-green) / 0.3), inset 0 0 20px hsl(var(--neon-green) / 0.1);
+    border: 1px solid hsl(var(--neon-green) / 0.3);
+    box-shadow: 0 0 12px hsl(var(--neon-green) / 0.15), inset 0 0 12px hsl(var(--neon-green) / 0.05);
   }
 
-  /* Vegas Button */
+  /* Glass Card */
+  .cyber-card {
+    @apply relative p-5 rounded-2xl;
+    background: hsl(var(--card) / 0.6);
+    backdrop-filter: blur(16px);
+    border: 1px solid hsl(var(--border) / 0.6);
+    box-shadow: 0 4px 24px hsl(225 35% 6% / 0.4);
+  }
+
+  /* Primary Button */
   .cyber-button {
-    @apply relative overflow-hidden px-8 py-4 font-bold uppercase tracking-wider;
-    font-family: 'Playfair Display', serif;
-    background: linear-gradient(135deg, hsl(var(--neon-blue) / 0.3), hsl(var(--neon-purple) / 0.2));
-    border: 2px solid hsl(var(--neon-blue));
-    box-shadow: var(--glow-blue);
+    @apply relative overflow-hidden px-6 py-3 font-semibold uppercase tracking-wider;
+    font-family: 'Space Grotesk', sans-serif;
+    background: linear-gradient(135deg, hsl(var(--neon-blue) / 0.2), hsl(var(--neon-purple) / 0.15));
+    border: 1px solid hsl(var(--neon-blue) / 0.4);
+    box-shadow: 0 0 15px hsl(var(--neon-blue) / 0.2);
     transition: all 0.3s ease;
   }
 
   .cyber-button:hover {
-    background: linear-gradient(135deg, hsl(var(--neon-blue) / 0.5), hsl(var(--neon-purple) / 0.4));
-    box-shadow: 0 0 30px hsl(var(--neon-blue) / 0.8), 0 0 60px hsl(var(--neon-blue) / 0.4);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, hsl(var(--neon-blue) / 0.35), hsl(var(--neon-purple) / 0.25));
+    box-shadow: 0 0 25px hsl(var(--neon-blue) / 0.4), 0 0 50px hsl(var(--neon-blue) / 0.15);
+    transform: translateY(-1px);
   }
 
   .cyber-button:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
     transform: none;
   }
 
-  /* Vegas Card */
-  .cyber-card {
-    @apply relative p-6 rounded-lg;
-    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(20 15% 12%) 100%);
-    border: 1px solid hsl(var(--neon-blue) / 0.3);
-    box-shadow: 
-      0 0 20px hsl(var(--neon-blue) / 0.1),
-      inset 0 1px 0 hsl(var(--neon-blue) / 0.2);
+  /* Subtle grid background */
+  .cyber-grid {
+    background-image:
+      radial-gradient(ellipse at 50% 0%, hsl(var(--neon-blue) / 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, hsl(var(--neon-purple) / 0.03) 0%, transparent 50%);
   }
 
-  /* Glitch Effect - subtle for Vegas */
+  /* Subtle Glitch Effect */
   .glitch {
     position: relative;
-    animation: glitch 4s infinite;
   }
 
-  @keyframes glitch {
-    0%, 95%, 100% {
-      transform: translate(0);
-    }
-    96% {
-      transform: translate(-1px, 1px);
-    }
-    98% {
-      transform: translate(1px, -1px);
-    }
-  }
-
-  /* Grid Background - subtle diamond pattern */
-  .cyber-grid {
-    background-image: 
-      linear-gradient(hsl(var(--neon-blue) / 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--neon-blue) / 0.06) 1px, transparent 1px);
-    background-size: 50px 50px;
-  }
-
-  /* Scanline Effect */
+  /* Scanline overlay - very subtle */
   .scanlines::after {
     content: '';
     position: absolute;
@@ -199,102 +184,89 @@
     background: repeating-linear-gradient(
       0deg,
       transparent,
-      transparent 2px,
-      hsl(0 0% 0% / 0.05) 2px,
-      hsl(0 0% 0% / 0.05) 4px
+      transparent 3px,
+      hsl(0 0% 0% / 0.03) 3px,
+      hsl(0 0% 0% / 0.03) 6px
     );
     pointer-events: none;
   }
 
   /* Pulse Animation */
   @keyframes neon-pulse {
-    0%, 100% {
-      opacity: 1;
-      filter: brightness(1);
-    }
-    50% {
-      opacity: 0.85;
-      filter: brightness(1.15);
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
   }
 
   .neon-pulse {
-    animation: neon-pulse 2s ease-in-out infinite;
+    animation: neon-pulse 2.5s ease-in-out infinite;
   }
 
-  /* Slot Reel Styles - warm dark tones */
+  /* Slot Reel Styles */
   .slot-reel {
     background: linear-gradient(180deg, 
-      hsl(20 20% 3%) 0%, 
-      hsl(20 15% 8%) 10%, 
-      hsl(20 12% 12%) 50%, 
-      hsl(20 15% 8%) 90%, 
-      hsl(20 20% 3%) 100%
+      hsl(225 35% 4%) 0%, 
+      hsl(225 30% 8%) 15%, 
+      hsl(225 25% 11%) 50%, 
+      hsl(225 30% 8%) 85%, 
+      hsl(225 35% 4%) 100%
     );
-    border: 2px solid hsl(var(--neon-blue) / 0.5);
-    box-shadow: 
-      inset 0 0 30px hsl(var(--neon-blue) / 0.15),
-      0 0 20px hsl(var(--neon-blue) / 0.2);
+    border: 1px solid hsl(var(--neon-blue) / 0.3);
+    box-shadow: inset 0 0 20px hsl(var(--neon-blue) / 0.08);
   }
 
-  /* Win Animation */
+  /* Win Flash */
   @keyframes win-flash {
-    0%, 100% {
-      box-shadow: 0 0 20px hsl(var(--neon-yellow) / 0.5);
-    }
-    50% {
-      box-shadow: 0 0 60px hsl(var(--neon-yellow) / 1), 0 0 100px hsl(var(--neon-yellow) / 0.5);
-    }
+    0%, 100% { box-shadow: 0 0 15px hsl(var(--neon-yellow) / 0.4); }
+    50% { box-shadow: 0 0 40px hsl(var(--neon-yellow) / 0.8), 0 0 80px hsl(var(--neon-yellow) / 0.3); }
   }
 
   .win-animation {
-    animation: win-flash 0.5s ease-in-out infinite;
+    animation: win-flash 0.6s ease-in-out infinite;
   }
 
   /* Jackpot Celebration */
   @keyframes jackpot {
     0% { transform: scale(1) rotate(0deg); }
-    25% { transform: scale(1.1) rotate(-5deg); }
-    50% { transform: scale(1.2) rotate(5deg); }
-    75% { transform: scale(1.1) rotate(-5deg); }
+    25% { transform: scale(1.08) rotate(-3deg); }
+    50% { transform: scale(1.15) rotate(3deg); }
+    75% { transform: scale(1.08) rotate(-3deg); }
     100% { transform: scale(1) rotate(0deg); }
   }
 
   .jackpot {
-    animation: jackpot 0.5s ease-in-out infinite;
+    animation: jackpot 0.6s ease-in-out infinite;
   }
 
-  /* Floating Animation */
+  /* Float */
   @keyframes float {
     0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(3deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
   }
 
   .animate-float {
-    animation: float 3s ease-in-out infinite;
+    animation: float 4s ease-in-out infinite;
   }
 
-  /* Sparkle Effect */
+  /* Sparkle */
   @keyframes sparkle {
     0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
     50% { opacity: 1; transform: scale(1) rotate(180deg); }
   }
 
   .sparkle {
-    animation: sparkle 2s ease-in-out infinite;
+    animation: sparkle 2.5s ease-in-out infinite;
   }
 
-  /* Gold Glow Cycle */
+  /* Glow Cycle */
   @keyframes rainbow-glow {
-    0% { box-shadow: 0 0 20px hsl(var(--neon-blue) / 0.5), 0 0 40px hsl(var(--neon-blue) / 0.3); }
-    25% { box-shadow: 0 0 20px hsl(var(--neon-purple) / 0.5), 0 0 40px hsl(var(--neon-purple) / 0.3); }
-    50% { box-shadow: 0 0 20px hsl(var(--neon-yellow) / 0.5), 0 0 40px hsl(var(--neon-yellow) / 0.3); }
-    75% { box-shadow: 0 0 20px hsl(var(--neon-cyan) / 0.5), 0 0 40px hsl(var(--neon-cyan) / 0.3); }
-    100% { box-shadow: 0 0 20px hsl(var(--neon-blue) / 0.5), 0 0 40px hsl(var(--neon-blue) / 0.3); }
+    0% { box-shadow: 0 0 15px hsl(var(--neon-blue) / 0.4); }
+    33% { box-shadow: 0 0 15px hsl(var(--neon-purple) / 0.4); }
+    66% { box-shadow: 0 0 15px hsl(var(--neon-pink) / 0.4); }
+    100% { box-shadow: 0 0 15px hsl(var(--neon-blue) / 0.4); }
   }
 
   .rainbow-glow {
-    animation: rainbow-glow 4s linear infinite;
+    animation: rainbow-glow 5s linear infinite;
   }
 
   /* Shine Effect */
@@ -307,11 +279,11 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      hsl(var(--neon-yellow) / 0.3) 50%,
+      hsl(var(--neon-blue) / 0.15) 50%,
       transparent 100%
     );
     background-size: 200% 100%;
-    animation: shine 3s ease-in-out infinite;
+    animation: shine 4s ease-in-out infinite;
   }
 
   /* Coin Rain */
@@ -334,42 +306,34 @@
     animation: pulse-ring 1.5s ease-out infinite;
   }
 
-  /* Electric Border - gold/red cycle */
+  /* Electric Border */
   @keyframes electric-border {
     0%, 100% {
-      border-color: hsl(var(--neon-blue));
-      box-shadow: 0 0 10px hsl(var(--neon-blue) / 0.5);
-    }
-    25% {
-      border-color: hsl(var(--neon-cyan));
-      box-shadow: 0 0 20px hsl(var(--neon-cyan) / 0.7);
+      border-color: hsl(var(--neon-blue) / 0.5);
+      box-shadow: 0 0 8px hsl(var(--neon-blue) / 0.3);
     }
     50% {
-      border-color: hsl(var(--neon-purple));
-      box-shadow: 0 0 30px hsl(var(--neon-purple) / 0.7);
-    }
-    75% {
-      border-color: hsl(var(--neon-yellow));
-      box-shadow: 0 0 20px hsl(var(--neon-yellow) / 0.7);
+      border-color: hsl(var(--neon-purple) / 0.5);
+      box-shadow: 0 0 15px hsl(var(--neon-purple) / 0.4);
     }
   }
 
   .electric-border {
-    animation: electric-border 2s linear infinite;
+    animation: electric-border 3s linear infinite;
   }
 
   /* Bounce In */
   @keyframes bounce-in {
     0% { transform: scale(0); opacity: 0; }
-    50% { transform: scale(1.2); }
+    50% { transform: scale(1.1); }
     100% { transform: scale(1); opacity: 1; }
   }
 
   .bounce-in {
-    animation: bounce-in 0.5s ease-out;
+    animation: bounce-in 0.4s ease-out;
   }
 
-  /* Text Shimmer - gold/red metallic */
+  /* Text Shimmer */
   @keyframes text-shimmer {
     0% { background-position: -200% center; }
     100% { background-position: 200% center; }
@@ -378,36 +342,33 @@
   .text-shimmer {
     background: linear-gradient(
       90deg,
-      hsl(var(--neon-yellow)) 0%,
-      hsl(var(--neon-blue)) 25%,
+      hsl(var(--neon-blue)) 0%,
+      hsl(var(--neon-cyan)) 25%,
       hsl(var(--neon-purple)) 50%,
-      hsl(var(--neon-orange)) 75%,
-      hsl(var(--neon-yellow)) 100%
+      hsl(var(--neon-pink)) 75%,
+      hsl(var(--neon-blue)) 100%
     );
     background-size: 200% auto;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: text-shimmer 3s linear infinite;
+    animation: text-shimmer 4s linear infinite;
   }
 
-  /* Glow Button Hover */
+  /* Glow Hover */
   .glow-hover {
     transition: all 0.3s ease;
   }
 
   .glow-hover:hover {
-    transform: translateY(-3px);
-    box-shadow: 
-      0 0 20px hsl(var(--neon-blue) / 0.6),
-      0 0 40px hsl(var(--neon-blue) / 0.4),
-      0 0 60px hsl(var(--neon-blue) / 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px hsl(var(--neon-blue) / 0.3);
   }
 
-  /* Slot Reel Animations - GPU accelerated */
+  /* Scan Line */
   @keyframes scan-line {
     0% { transform: translateY(-100%); opacity: 0.3; }
-    50% { opacity: 1; }
+    50% { opacity: 0.8; }
     100% { transform: translateY(200%); opacity: 0.3; }
   }
 
@@ -417,8 +378,8 @@
   }
 
   @keyframes flash {
-    0% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.02); }
+    0% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(1.01); }
     100% { opacity: 0; transform: scale(1); }
   }
 
@@ -426,21 +387,21 @@
     animation: flash 0.3s ease-out forwards;
   }
 
-  /* Slot symbol bounce */
+  /* Symbol bounce */
   @keyframes symbol-bounce {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
+    50% { transform: scale(1.12); }
   }
 
   .animate-symbol-bounce {
     animation: symbol-bounce 0.6s ease-in-out infinite;
   }
 
-  /* Landing bounce animation */
+  /* Landing bounce */
   @keyframes landing-bounce {
-    0% { transform: scale(1.05); }
+    0% { transform: scale(1.04); }
     30% { transform: scale(0.98); }
-    60% { transform: scale(1.02); }
+    60% { transform: scale(1.01); }
     100% { transform: scale(1); }
   }
 
@@ -448,25 +409,25 @@
     animation: landing-bounce 0.4s ease-out;
   }
 
-  /* Reel glow pulse */
+  /* Reel glow */
   @keyframes reel-glow {
-    0%, 100% { box-shadow: 0 0 20px hsl(45 90% 50% / 0.3); }
-    50% { box-shadow: 0 0 35px hsl(45 90% 50% / 0.5); }
+    0%, 100% { box-shadow: 0 0 15px hsl(190 100% 50% / 0.2); }
+    50% { box-shadow: 0 0 25px hsl(190 100% 50% / 0.4); }
   }
 
   .animate-reel-glow {
-    animation: reel-glow 1s ease-in-out infinite;
+    animation: reel-glow 1.2s ease-in-out infinite;
   }
 
   /* Win celebration */
   @keyframes win-pulse {
     0%, 100% {
-      box-shadow: 0 0 20px hsl(50 100% 50% / 0.4);
-      border-color: hsl(50 100% 50% / 0.6);
+      box-shadow: 0 0 15px hsl(45 100% 55% / 0.3);
+      border-color: hsl(45 100% 55% / 0.5);
     }
     50% {
-      box-shadow: 0 0 40px hsl(50 100% 50% / 0.7);
-      border-color: hsl(50 100% 50% / 1);
+      box-shadow: 0 0 30px hsl(45 100% 55% / 0.6);
+      border-color: hsl(45 100% 55% / 0.9);
     }
   }
 

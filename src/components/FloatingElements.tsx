@@ -1,21 +1,21 @@
 import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 
-const FLOATING_ICONS = ['💎', '7️⃣', '🔔', '⭐', '🍒', '🍋', '👑', '💰', '🎰', '✨'];
+const FLOATING_ICONS = ['💎', '7️⃣', '🔔', '⭐', '🍒', '👑', '💰', '✨'];
 
 interface FloatingElementProps {
   count?: number;
 }
 
-export function FloatingElements({ count = 8 }: FloatingElementProps) {
+export function FloatingElements({ count = 6 }: FloatingElementProps) {
   const elements = useMemo(() => {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       icon: FLOATING_ICONS[Math.floor(Math.random() * FLOATING_ICONS.length)],
-      left: `${Math.random() * 100}%`,
-      delay: Math.random() * 5,
-      duration: 15 + Math.random() * 10,
-      size: 16 + Math.random() * 16,
+      left: `${10 + Math.random() * 80}%`,
+      delay: Math.random() * 8,
+      duration: 18 + Math.random() * 12,
+      size: 14 + Math.random() * 10,
     }));
   }, [count]);
 
@@ -24,7 +24,7 @@ export function FloatingElements({ count = 8 }: FloatingElementProps) {
       {elements.map((el) => (
         <motion.div
           key={el.id}
-          className="absolute opacity-20"
+          className="absolute opacity-[0.08]"
           style={{
             left: el.left,
             fontSize: el.size,

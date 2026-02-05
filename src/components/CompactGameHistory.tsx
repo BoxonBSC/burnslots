@@ -116,9 +116,9 @@ export function CompactGameHistory() {
 
   return (
     <div className="cyber-card h-full flex flex-col">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-display neon-text-cyan flex items-center gap-2">
-          <Clock className="w-4 h-4" />
+      <div className="flex items-center justify-between mb-2.5">
+        <h3 className="text-sm font-display font-semibold text-neon-cyan flex items-center gap-1.5">
+          <Clock className="w-3.5 h-3.5" />
           {t('compactHistory.title')}
         </h3>
         <div className="flex items-center gap-2">

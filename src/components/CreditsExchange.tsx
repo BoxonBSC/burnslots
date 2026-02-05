@@ -76,31 +76,29 @@ export function CreditsExchange() {
   };
 
   return (
-    <div className="rounded-2xl bg-gradient-to-b from-muted/40 to-muted/20 border border-border/50 p-4 backdrop-blur-sm">
-      <h3 className="text-base font-display text-neon-orange mb-3 flex items-center gap-2">
+    <div className="cyber-card">
+      <h3 className="text-sm font-display font-semibold text-neon-orange mb-3 flex items-center gap-2">
         <Flame className="w-4 h-4" />
         {t('exchange.title')}
       </h3>
 
       {/* 说明 */}
-      <div className="text-xs text-muted-foreground mb-4 p-2 rounded-lg bg-muted/20 border border-border/30">
-        <p className="flex items-start gap-2">
+      <div className="text-[11px] text-muted-foreground mb-3 p-2 rounded-lg bg-muted/10 border border-border/20">
+        <p className="flex items-start gap-1.5">
           <AlertCircle className="w-3 h-3 mt-0.5 text-neon-yellow flex-shrink-0" />
           <span>{t('exchange.notice')}</span>
         </p>
       </div>
 
       {/* 当前余额 */}
-      <div className="grid grid-cols-2 gap-2 mb-4">
-        <div className="p-2.5 rounded-xl bg-gradient-to-b from-neon-purple/10 to-transparent border border-neon-purple/20 text-center">
-          <div className="text-xs text-muted-foreground mb-1">{t('exchange.tokenBalance')}</div>
-          <div className="text-neon-purple font-display">
-            {formatNumber(tokenBalanceNum)}
-          </div>
+      <div className="grid grid-cols-2 gap-2 mb-3">
+        <div className="p-2 rounded-xl bg-muted/15 border border-border/20 text-center">
+          <div className="text-[10px] text-muted-foreground mb-0.5">{t('exchange.tokenBalance')}</div>
+          <div className="text-neon-purple font-display text-sm">{formatNumber(tokenBalanceNum)}</div>
         </div>
-        <div className="p-2.5 rounded-xl bg-gradient-to-b from-neon-cyan/10 to-transparent border border-neon-cyan/20 text-center">
-          <div className="text-xs text-muted-foreground mb-1">{t('exchange.gameCredits')}</div>
-          <div className="text-neon-cyan font-display flex items-center justify-center gap-1">
+        <div className="p-2 rounded-xl bg-muted/15 border border-border/20 text-center">
+          <div className="text-[10px] text-muted-foreground mb-0.5">{t('exchange.gameCredits')}</div>
+          <div className="text-neon-cyan font-display text-sm flex items-center justify-center gap-1">
             <Ticket className="w-3 h-3" />
             {formatNumber(gameCreditsNum)}
           </div>
@@ -108,7 +106,7 @@ export function CreditsExchange() {
       </div>
 
       {/* 兑换金额选择 */}
-      <div className="grid grid-cols-4 gap-1.5 mb-4">
+      <div className="grid grid-cols-4 gap-1.5 mb-3">
         {EXCHANGE_AMOUNTS.map((amount) => (
           <motion.button
             key={amount}
@@ -132,29 +130,20 @@ export function CreditsExchange() {
       </div>
 
       {/* 兑换预览 */}
-      <div className="flex items-center justify-center gap-2 mb-4 p-3 rounded-xl bg-muted/20 border border-border/30">
+      <div className="flex items-center justify-center gap-3 mb-3 p-2.5 rounded-xl bg-muted/10 border border-border/20">
         <div className="text-center">
-          <div className="text-xs text-muted-foreground">{t('exchange.burn')}</div>
-          <div className="text-neon-red font-display text-lg">
-            -{formatNumber(selectedAmount)}
-          </div>
-          <div className="text-xs text-muted-foreground">{t('exchange.token')}</div>
+          <div className="text-[10px] text-muted-foreground">{t('exchange.burn')}</div>
+          <div className="text-neon-pink font-display text-base">-{formatNumber(selectedAmount)}</div>
         </div>
         
-        <motion.div
-          animate={{ x: [0, 5, 0] }}
-          transition={{ duration: 1, repeat: Infinity }}
-        >
-          <ArrowRight className="w-6 h-6 text-neon-yellow" />
-        </motion.div>
+        <ArrowRight className="w-4 h-4 text-muted-foreground" />
         
         <div className="text-center">
-          <div className="text-xs text-muted-foreground">{t('exchange.get')}</div>
-          <div className="text-neon-green font-display text-lg flex items-center gap-1">
-            <Ticket className="w-4 h-4" />
+          <div className="text-[10px] text-muted-foreground">{t('exchange.get')}</div>
+          <div className="text-neon-green font-display text-base flex items-center gap-1">
+            <Ticket className="w-3.5 h-3.5" />
             +{formatNumber(selectedAmount)}
           </div>
-          <div className="text-xs text-muted-foreground">{t('exchange.credit')}</div>
         </div>
       </div>
 

@@ -338,35 +338,22 @@ export function AdvancedSlotMachine() {
 
   return (
     <div className="relative">
-      <div className="absolute -inset-4 bg-gradient-to-r from-neon-purple/10 via-neon-blue/10 to-neon-pink/10 blur-3xl rounded-3xl hidden sm:block" />
-      
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
+        initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="relative cyber-card overflow-visible p-3 sm:p-6"
+        className="relative cyber-card overflow-visible p-3 sm:p-5"
       >
-        <div className="absolute -top-1.5 sm:-top-2 -left-1.5 sm:-left-2 w-8 sm:w-12 h-8 sm:h-12 border-t-2 border-l-2 border-neon-blue rounded-tl-lg" />
-        <div className="absolute -top-1.5 sm:-top-2 -right-1.5 sm:-right-2 w-8 sm:w-12 h-8 sm:h-12 border-t-2 border-r-2 border-neon-blue rounded-tr-lg" />
-        <div className="absolute -bottom-1.5 sm:-bottom-2 -left-1.5 sm:-left-2 w-8 sm:w-12 h-8 sm:h-12 border-b-2 border-l-2 border-neon-purple rounded-bl-lg" />
-        <div className="absolute -bottom-1.5 sm:-bottom-2 -right-1.5 sm:-right-2 w-8 sm:w-12 h-8 sm:h-12 border-b-2 border-r-2 border-neon-purple rounded-br-lg" />
-
-        {/* 标题 - 手机端隐藏（Index页面已有） */}
-        <div className="text-center mb-3 sm:mb-6 hidden sm:block">
-          <motion.h2 
-            className="text-2xl sm:text-3xl md:text-4xl font-display neon-text-blue glitch flex items-center justify-center gap-2 sm:gap-3"
-            animate={isSpinning ? { scale: [1, 1.02, 1] } : {}}
-            transition={{ duration: 0.3, repeat: isSpinning ? Infinity : 0 }}
-          >
-            <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-neon-yellow animate-pulse" />
+        {/* Title - hidden on mobile */}
+        <div className="text-center mb-3 sm:mb-5 hidden sm:block">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-shimmer">
             {t('slot.title')}
-            <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-neon-yellow animate-pulse" />
-          </motion.h2>
+          </h2>
           <div className="flex items-center justify-center gap-2 mt-1">
-            <p className="text-xs sm:text-sm text-muted-foreground">
-              {t('slot.subtitle')} | 💯 {t('slot.return')}
+            <p className="text-xs text-muted-foreground">
+              {t('slot.subtitle')} · {t('slot.return')}
             </p>
-            <span className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded bg-neon-green/20 text-neon-green border border-neon-green/30">
-              🔗 {t('slot.onchain')}
+            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-neon-green/10 text-neon-green border border-neon-green/20">
+              {t('slot.onchain')}
             </span>
           </div>
         </div>
@@ -417,33 +404,30 @@ export function AdvancedSlotMachine() {
           </motion.div>
         )}
 
-        {/* 信息栏 - 手机端紧凑 */}
-        <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-          <div className="neon-border-pink rounded-lg px-2 sm:px-4 py-1.5 sm:py-2 bg-muted/50 flex items-center gap-1 sm:gap-2">
-            <Coins className="w-3 h-3 sm:w-4 sm:h-4 text-neon-yellow" />
-            <span className="text-[10px] sm:text-xs text-muted-foreground hidden sm:inline">{t('slot.pool')}</span>
-            <span className="text-sm sm:text-lg font-display neon-text-pink">
+        {/* Info bar */}
+        <div className="flex flex-wrap justify-center items-center gap-2 mb-3 sm:mb-4">
+          <div className="rounded-lg px-2.5 sm:px-3.5 py-1.5 bg-muted/30 border border-border/40 flex items-center gap-1.5">
+            <Coins className="w-3 h-3 text-neon-yellow" />
+            <span className="text-sm sm:text-base font-display text-neon-yellow">
               {prizePool >= 1 ? prizePool.toFixed(2) : prizePool >= 0.01 ? prizePool.toFixed(4) : prizePool.toFixed(6)}
             </span>
-            <span className="text-[10px] sm:text-xs text-neon-pink">BNB</span>
+            <span className="text-[10px] text-muted-foreground">BNB</span>
           </div>
           
-          <div className="neon-border rounded-lg px-2 sm:px-4 py-1.5 sm:py-2 bg-muted/50 flex items-center gap-1 sm:gap-2">
-            <Ticket className="w-3 h-3 sm:w-4 sm:h-4 text-neon-cyan" />
-            <span className="text-[10px] sm:text-xs text-muted-foreground hidden sm:inline">{t('slot.credits')}</span>
-            <span className="text-sm sm:text-lg font-display text-neon-cyan">{creditsDisplay.toLocaleString()}</span>
+          <div className="rounded-lg px-2.5 sm:px-3.5 py-1.5 bg-muted/30 border border-border/40 flex items-center gap-1.5">
+            <Ticket className="w-3 h-3 text-neon-cyan" />
+            <span className="text-sm sm:text-base font-display text-neon-cyan">{creditsDisplay.toLocaleString()}</span>
           </div>
           
-          <div className="neon-border-cyan rounded-lg px-2 sm:px-4 py-1.5 sm:py-2 bg-muted/50 flex items-center gap-1 sm:gap-2">
-            <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-neon-green" />
-            <span className="text-[10px] sm:text-xs text-muted-foreground hidden sm:inline">{t('slot.winRate')}</span>
-            <span className="text-sm sm:text-lg font-display text-neon-green">
+          <div className="rounded-lg px-2.5 sm:px-3.5 py-1.5 bg-muted/30 border border-border/40 flex items-center gap-1.5">
+            <TrendingUp className="w-3 h-3 text-neon-green" />
+            <span className="text-sm sm:text-base font-display text-neon-green">
               {totalSpinsDisplay > 0 ? ((totalWinsDisplay / totalSpinsDisplay) * 100).toFixed(1) : '0.0'}%
             </span>
           </div>
         </div>
 
-        <div className="relative p-4 rounded-2xl bg-gradient-to-b from-muted/30 to-muted/10 border border-border/50">
+        <div className="relative p-3 sm:p-4 rounded-2xl bg-gradient-to-b from-muted/20 to-transparent border border-border/30">
           <div className="relative">
             <div className="flex justify-center items-center gap-2 relative z-10">
               {displayGrid.map((column, reelIndex) => (
@@ -465,7 +449,7 @@ export function AdvancedSlotMachine() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="absolute -bottom-2 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full bg-background/95 border border-neon-cyan/50 shadow-[0_0_20px_hsl(195_100%_50%/0.3)]"
+              className="absolute -bottom-2 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full bg-background/95 border border-neon-blue/30 shadow-lg"
             >
               <Loader2 className="w-4 h-4 text-neon-cyan animate-spin" />
               <span className="text-sm text-neon-cyan font-display whitespace-nowrap">
@@ -475,12 +459,11 @@ export function AdvancedSlotMachine() {
           )}
         </div>
 
-        {/* 投注选择 - 手机端更紧凑 */}
-        <div className="mt-3 sm:mt-4 neon-border rounded-xl p-2 sm:p-4 bg-muted/20">
-          <div className="text-center text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3 flex items-center justify-center gap-1 sm:gap-2">
-            <Ticket className="w-3 h-3 sm:w-4 sm:h-4 text-neon-cyan" />
+        {/* Bet Selector */}
+        <div className="mt-3 sm:mt-4 rounded-xl p-2 sm:p-3 bg-muted/15 border border-border/30">
+          <div className="text-center text-xs text-muted-foreground mb-2 flex items-center justify-center gap-1.5">
+            <Ticket className="w-3 h-3 text-neon-cyan" />
             <span className="text-neon-cyan">{t('bet.credits') || t('slot.credits')}</span>
-            <span className="text-[10px] sm:text-xs text-muted-foreground hidden sm:inline">({t('bet.moreCredits') || 'More credits = higher odds'})</span>
           </div>
           <BetSelector
             currentBet={currentBetCredits}
@@ -490,83 +473,59 @@ export function AdvancedSlotMachine() {
           />
         </div>
 
-        {/* 统计信息 - 手机端隐藏（信息栏已显示） */}
-        <div className="hidden sm:grid grid-cols-3 gap-3 mt-4">
-          <div className="neon-border rounded-lg p-3 bg-muted/30 text-center">
-            <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground mb-1">
-              <Zap className="w-3 h-3 text-neon-cyan" />
-              {t('stats.totalSpins') || 'Total Spins'}
-            </div>
-            <div className="text-xl font-display text-neon-cyan">
-              {totalSpinsDisplay}
-            </div>
+        {/* Stats - desktop only */}
+        <div className="hidden sm:grid grid-cols-3 gap-2 mt-3">
+          <div className="rounded-xl p-2.5 bg-muted/15 border border-border/30 text-center">
+            <div className="text-[10px] text-muted-foreground mb-0.5">{t('stats.totalSpins') || 'Spins'}</div>
+            <div className="text-lg font-display text-neon-blue">{totalSpinsDisplay}</div>
           </div>
-          <div className="neon-border rounded-lg p-3 bg-muted/30 text-center">
-            <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground mb-1">
-              <TrendingUp className="w-3 h-3 text-neon-green" />
-              {t('stats.totalWins') || 'Total Wins'}
-            </div>
-            <div className="text-xl font-display text-neon-green">
-              {totalWinsDisplay}
-            </div>
+          <div className="rounded-xl p-2.5 bg-muted/15 border border-border/30 text-center">
+            <div className="text-[10px] text-muted-foreground mb-0.5">{t('stats.totalWins') || 'Wins'}</div>
+            <div className="text-lg font-display text-neon-green">{totalWinsDisplay}</div>
           </div>
-          <div className="neon-border rounded-lg p-3 bg-muted/30 text-center">
-            <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground mb-1">
-              <Trophy className="w-3 h-3 text-neon-yellow" />
-              {t('slot.winRate')}
-            </div>
-            <div className="text-xl font-display text-neon-yellow">
-              {totalSpinsDisplay > 0 
-                ? ((totalWinsDisplay / totalSpinsDisplay) * 100).toFixed(1) 
-                : '0'}%
+          <div className="rounded-xl p-2.5 bg-muted/15 border border-border/30 text-center">
+            <div className="text-[10px] text-muted-foreground mb-0.5">{t('slot.winRate')}</div>
+            <div className="text-lg font-display text-neon-yellow">
+              {totalSpinsDisplay > 0 ? ((totalWinsDisplay / totalSpinsDisplay) * 100).toFixed(1) : '0'}%
             </div>
           </div>
         </div>
 
-        {/* 游戏按钮 */}
-        <div className="mt-4 sm:mt-6 space-y-2 sm:space-y-3">
+        {/* Game Buttons */}
+        <div className="mt-3 sm:mt-5 space-y-2 sm:space-y-3">
           {isConnected ? (
             <>
-              <div className="flex gap-2 sm:gap-3">
-                <motion.button
-                  onClick={handleSpin}
-                  disabled={isSpinning || isAutoSpinning || isRevealing || isWaitingForResult}
-                  whileHover={{ scale: (isSpinning || isAutoSpinning || isRevealing || isWaitingForResult) ? 1 : 1.02 }}
-                  whileTap={{ scale: (isSpinning || isAutoSpinning || isRevealing || isWaitingForResult) ? 1 : 0.98 }}
-                  className={`
-                    cyber-button flex-1 text-base sm:text-lg rounded-xl py-3 sm:py-5
-                    ${(isSpinning || isAutoSpinning || isRevealing || isWaitingForResult)
-                      ? 'opacity-50 cursor-not-allowed' 
-                      : 'hover:shadow-[0_0_40px_hsl(195_100%_50%/0.5)]'}
-                  `}
-                >
-                  {(isSpinning || isWaitingForResult || isRevealing) ? (
-                    <span className="flex items-center justify-center gap-2 sm:gap-3">
-                      <motion.span
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 0.5, repeat: Infinity, ease: 'linear' }}
-                        className="text-xl sm:text-2xl"
-                      >
-                        🎰
-                      </motion.span>
-                      <span className="text-sm sm:text-base">{isRevealing ? (t('slot.revealing') || 'Revealing...') : t('slot.spinning')}</span>
-                      <motion.span
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 0.5, repeat: Infinity, ease: 'linear' }}
-                        className="text-xl sm:text-2xl"
-                      >
-                        🎰
-                      </motion.span>
-                    </span>
-                  ) : (
-                    <span className="flex items-center justify-center gap-1.5 sm:gap-2">
-                      <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
-                      {t('slot.spin')}
-                      <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
-                    </span>
-                  )}
-                </motion.button>
-              </div>
+              <motion.button
+                onClick={handleSpin}
+                disabled={isSpinning || isAutoSpinning || isRevealing || isWaitingForResult}
+                whileHover={{ scale: (isSpinning || isAutoSpinning || isRevealing || isWaitingForResult) ? 1 : 1.01 }}
+                whileTap={{ scale: (isSpinning || isAutoSpinning || isRevealing || isWaitingForResult) ? 1 : 0.98 }}
+                className={`
+                  w-full py-3 sm:py-4 rounded-xl font-display font-bold text-base sm:text-lg uppercase tracking-wider
+                  transition-all duration-300
+                  ${(isSpinning || isAutoSpinning || isRevealing || isWaitingForResult)
+                    ? 'bg-muted/30 text-muted-foreground cursor-not-allowed' 
+                    : 'bg-gradient-to-r from-neon-blue/20 via-neon-purple/15 to-neon-blue/20 border border-neon-blue/40 text-neon-blue hover:border-neon-blue/60 hover:shadow-[0_0_30px_hsl(190_100%_50%/0.2)]'}
+                `}
+              >
+                {(isSpinning || isWaitingForResult || isRevealing) ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <motion.span
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 0.6, repeat: Infinity, ease: 'linear' }}
+                      className="text-lg"
+                    >
+                      🎰
+                    </motion.span>
+                    <span className="text-sm sm:text-base">{isRevealing ? (t('slot.revealing') || 'Revealing...') : t('slot.spinning')}</span>
+                  </span>
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    <Zap className="w-5 h-5" />
+                    {t('slot.spin')}
+                  </span>
+                )}
+              </motion.button>
               
               <div className="flex justify-center">
                 <AutoSpinControls
@@ -591,11 +550,11 @@ export function AdvancedSlotMachine() {
           )}
         </div>
 
-        {/* 底部统计 - 手机端隐藏 */}
-        <div className="mt-3 sm:mt-4 text-center text-xs sm:text-sm text-muted-foreground hidden sm:block">
-          <span>{t('stats.totalSpins') || 'Total Spins'}: {totalSpinsDisplay}</span>
-          <span className="mx-3">|</span>
-          <span>{t('stats.totalWins') || 'Total Wins'}: {totalWinsDisplay}</span>
+        {/* Bottom stats - hidden on mobile */}
+        <div className="mt-2 sm:mt-3 text-center text-[10px] sm:text-xs text-muted-foreground hidden sm:block">
+          <span>{t('stats.totalSpins') || 'Spins'}: {totalSpinsDisplay}</span>
+          <span className="mx-2 text-border">·</span>
+          <span>{t('stats.totalWins') || 'Wins'}: {totalWinsDisplay}</span>
         </div>
         
         {contractError && (

@@ -242,17 +242,17 @@ function AdvancedSlotReelInner({
   return (
     <div className="relative">
       {/* 轮子外框 */}
-      <div 
-        ref={containerRef}
-        className={`
-          relative rounded-xl overflow-hidden
-          bg-gradient-to-b from-background via-card to-background
-          border-2 
-          ${isAnimating ? 'border-neon-cyan/70 shadow-[0_0_25px_hsl(195_100%_50%/0.4)]' : ''}
-          ${showLandingEffect ? 'border-neon-yellow shadow-[0_0_35px_hsl(50_100%_50%/0.6)] scale-[1.03]' : ''}
-          ${!isAnimating && !showLandingEffect ? 'border-neon-purple/30 shadow-[inset_0_0_20px_hsl(280_100%_60%/0.1)]' : ''}
-          transition-all duration-200 ease-out
-        `}
+        <div 
+          ref={containerRef}
+          className={`
+            relative rounded-xl overflow-hidden
+            bg-gradient-to-b from-background via-card to-background
+            border
+            ${isAnimating ? 'border-neon-blue/50 shadow-[0_0_20px_hsl(190_100%_50%/0.2)]' : ''}
+            ${showLandingEffect ? 'border-neon-yellow/60 shadow-[0_0_25px_hsl(45_100%_55%/0.3)] scale-[1.02]' : ''}
+            ${!isAnimating && !showLandingEffect ? 'border-border/40' : ''}
+            transition-all duration-200 ease-out
+          `}
         style={{ 
           willChange: isAnimating ? 'transform' : 'auto',
           transform: showLandingEffect ? 'scale(1.03)' : 'scale(1)',
