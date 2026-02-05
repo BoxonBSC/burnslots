@@ -18,7 +18,6 @@ export function JackpotTicker() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [displayWins, setDisplayWins] = useState<WinDisplay[]>([]);
 
-
   useEffect(() => {
     if (recentWins.length > 0) {
       const realWins: WinDisplay[] = recentWins
@@ -38,7 +37,6 @@ export function JackpotTicker() {
 
   useEffect(() => {
     if (displayWins.length === 0) return;
-    
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % displayWins.length);
     }, 4000);
@@ -49,35 +47,34 @@ export function JackpotTicker() {
   const winner = hasWins ? displayWins[currentIndex] : null;
 
   return (
-    <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-neon-purple/10 via-neon-pink/10 to-neon-orange/10 border border-neon-purple/30 px-4 py-2">
-      <div className="absolute inset-0 shine-effect opacity-50" />
+    <div className="relative overflow-hidden rounded-xl bg-muted/20 border border-border/40 px-4 py-2">
+      <div className="absolute inset-0 shine-effect opacity-30" />
       
       <div className="relative">
         {hasWins ? (
-          <div className="flex items-center justify-center gap-3">
-            <Trophy className="w-4 h-4 text-neon-yellow animate-pulse" />
+          <div className="flex items-center justify-center gap-2.5">
+            <Trophy className="w-3.5 h-3.5 text-neon-yellow animate-pulse" />
             
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="flex items-center gap-2 text-sm"
+                exit={{ opacity: 0, y: -15 }}
+                className="flex items-center gap-2 text-xs sm:text-sm"
               >
-                <span className="text-neon-yellow font-display">{winner?.prize}!</span>
+                <span className="text-neon-yellow font-display font-semibold">{winner?.prize}!</span>
                 <span className="text-muted-foreground">{winner?.address}</span>
                 <span className="text-neon-green font-display">+{parseFloat(winner?.amount || '0').toFixed(4)} BNB</span>
               </motion.div>
             </AnimatePresence>
             
-            <Sparkles className="w-4 h-4 text-neon-pink animate-pulse" />
+            <Sparkles className="w-3.5 h-3.5 text-neon-purple animate-pulse" />
           </div>
         ) : (
-          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <Trophy className="w-4 h-4 text-neon-yellow/50" />
+          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-muted-foreground">
+            <Trophy className="w-3.5 h-3.5 text-neon-yellow/40" />
             <span>{t('jackpot.waiting')}</span>
-            <Sparkles className="w-4 h-4 text-neon-pink/50" />
           </div>
         )}
       </div>

@@ -78,15 +78,15 @@ export function CompactRewardTiers() {
   };
 
   return (
-    <div className="h-full flex flex-col rounded-2xl bg-gradient-to-b from-muted/40 to-muted/20 border border-border/50 p-3 lg:p-4 backdrop-blur-sm">
-      {/* 标题 */}
-      <h3 className="text-base lg:text-lg font-display text-neon-cyan mb-3 flex items-center gap-2">
-        <Trophy className="w-4 h-4 lg:w-5 lg:h-5" />
+    <div className="h-full flex flex-col cyber-card">
+      {/* Title */}
+      <h3 className="text-sm lg:text-base font-display font-semibold text-neon-cyan mb-3 flex items-center gap-2">
+        <Trophy className="w-4 h-4" />
         {t('reward.title')}
       </h3>
       
       {/* 资金分配说明 */}
-      <div className="rounded-xl p-2.5 lg:p-3 bg-gradient-to-r from-neon-green/10 to-neon-cyan/5 border border-neon-green/20 mb-2 lg:mb-3">
+      <div className="rounded-xl p-2.5 bg-muted/10 border border-neon-green/15 mb-2 lg:mb-3">
         <div className="flex items-center gap-2 mb-1.5">
           <Shield className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-neon-green flex-shrink-0" />
           <span className="text-neon-green font-display text-xs lg:text-sm">{t('reward.deflation')}</span>
@@ -115,7 +115,7 @@ export function CompactRewardTiers() {
       </div>
 
       {/* 单次派奖上限 */}
-      <div className="rounded-xl p-2.5 lg:p-3 bg-gradient-to-b from-neon-pink/10 to-transparent border border-neon-pink/20 text-center mb-2 lg:mb-3">
+      <div className="rounded-xl p-2 bg-muted/10 border border-border/20 text-center mb-2 lg:mb-3">
         <div className="flex items-center justify-center gap-2">
           <span className="text-xs text-muted-foreground">{t('reward.maxPayout')}:</span>
           <span className="text-neon-yellow font-display text-sm lg:text-base">
@@ -125,7 +125,7 @@ export function CompactRewardTiers() {
       </div>
 
       {/* 7级奖励表 - 全部显示 */}
-      <div className="rounded-xl p-2.5 lg:p-3 bg-gradient-to-b from-neon-purple/10 to-transparent border border-neon-purple/20 mb-2 lg:mb-3">
+      <div className="rounded-xl p-2.5 bg-muted/10 border border-border/20 mb-2 lg:mb-3">
         <h4 className="text-xs font-display text-neon-purple mb-2 flex items-center gap-1.5">
           <Award className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
           {t('reward.levels')}
@@ -170,7 +170,7 @@ export function CompactRewardTiers() {
       </div>
 
       {/* 投注概率加成 - 移动端精简为2列网格 */}
-      <div className="rounded-xl p-2.5 lg:p-3 bg-gradient-to-b from-neon-cyan/10 to-transparent border border-neon-cyan/20 mb-2 lg:mb-3">
+      <div className="rounded-xl p-2.5 bg-muted/10 border border-border/20 mb-2 lg:mb-3">
         <h4 className="text-xs font-display text-neon-cyan mb-2 flex items-center gap-1.5">
           <TrendingUp className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
           {t('reward.betBoost')}

@@ -86,21 +86,21 @@ export function WalletConnect() {
           onClick={() => setShowWalletSelector(false)}
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            className="cyber-card w-full max-w-sm relative"
+            exit={{ scale: 0.95, opacity: 0 }}
+            className="w-full max-w-sm relative rounded-2xl bg-card/90 backdrop-blur-xl border border-border/60 p-5 shadow-2xl"
             onClick={e => e.stopPropagation()}
           >
             <button
               onClick={() => setShowWalletSelector(false)}
-              className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-muted/50 transition-colors"
+              className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-muted/30 transition-colors"
             >
-              <X className="w-5 h-5 text-muted-foreground" />
+              <X className="w-4 h-4 text-muted-foreground" />
             </button>
             
-            <h3 className="text-lg font-display neon-text-cyan mb-4 flex items-center gap-2">
-              <Wallet className="w-5 h-5" />
+            <h3 className="text-base font-display font-semibold text-neon-cyan mb-4 flex items-center gap-2">
+              <Wallet className="w-4 h-4" />
               {t('walletUI.selectWallet')}
             </h3>
             
@@ -207,7 +207,7 @@ export function WalletConnect() {
     
     return (
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
+        initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         className="cyber-card"
       >
